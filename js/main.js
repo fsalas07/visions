@@ -214,7 +214,7 @@ async function renderArticlePage() {
   const slug = params.get('slug');
   if (!section || !slug) return;
 
-  const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${BRANCH}/_articles/${section}/${slug}.md`;
+console.log('Fetching:', url);
   const res = await fetch(url);
   if (!res.ok) return;
   const text = await res.text();
@@ -236,7 +236,7 @@ async function renderArticlePage() {
       <img src="${data.image}" alt="${data.title}" />
     </div>
     <div id="article-body">
-      ${marked(body)}
+${marked.parse(body)}
     </div>
     <div id="author-bio">
       <p id="author-name">${data.author.toUpperCase()}</p>
