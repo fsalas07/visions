@@ -4,11 +4,13 @@ const GITHUB_REPO = 'visions';
 const BRANCH = 'main';
 
 // ── FETCH ARTICLES FROM GITHUB ──
+const GITHUB_TOKEN = '';
+
 async function fetchArticles(section) {
-  const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/_articles/${section}?ref=${BRANCH}`;
-  const res = await fetch(url);
+  const res = await fetch(`/.netlify/functions/github-proxy?section=${section}`);
   if (!res.ok) return [];
   const files = await res.json();
+  if (!Array.isArray(files)) return [];
   const articles = await Promise.all(
     files
       .filter(f => f.name.endsWith('.md'))
