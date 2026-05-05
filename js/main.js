@@ -8,8 +8,7 @@ const GITHUB_TOKEN = '';
 
 async function fetchArticles(section) {
   const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/_articles/${section}?ref=${BRANCH}`;
-const res = await fetch(`/functions/github-proxy?section=${section}`);  if (!res.ok) return [];
-  const files = await res.json();
+const res = await fetch(`https://visions-api.fabiansalas1233.workers.dev/?section=${section}`);  const files = await res.json();
   if (!Array.isArray(files)) return [];
   const articles = await Promise.all(
     files
