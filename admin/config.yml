@@ -2,6 +2,8 @@ backend:
   name: github
   repo: fsalas07/visions
   branch: main
+  base_url: https://visions-cms-proxy.fabiansalas1233.workers.dev
+  auth_endpoint: /auth
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
