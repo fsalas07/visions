@@ -148,8 +148,8 @@ a {
 
 #hero-img {
   width: 100%;
-  object-fit: cover;
-  margin: 8px 0;
+  max-height: 500px;
+  object-fit: contain;
 }
 
 #hero-excerpt {
