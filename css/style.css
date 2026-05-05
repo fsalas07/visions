@@ -957,3 +957,40 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 .staff-socials a:hover {
   text-decoration: underline;
 }
+
+/* ── HEADER SOCIALS ── */
+#header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 40px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#header-socials {
+  display: flex;
+  gap: 14px;
+}
+
+#header-socials a {
+  font-size: 30px;
+  color: #555;
+}
+
+#header-socials a:hover {
+  color: #000;
+}
+
+/* ── HEADER META (date, location, weather) ── */
+#header-meta {
+  font-family: "Barlow" , sans-serif;
+    font-size: 18px;
+    color: #555;
+    margin-top: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#header-meta .meta-divider {
+  color: #ccc;
+}

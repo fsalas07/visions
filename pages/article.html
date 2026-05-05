@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Article | Visions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
@@ -15,19 +16,29 @@
     <header id="site-header">
 
       <div id="header-top">
-        <nav id="utility-nav">
-  <a href="about.html">About</a>
-  <a href="staff.html">Staff</a>
-  <a href="#">Submit a Tip</a>
-</nav>
-      </div>
+  <div id="header-socials">
+    <a href="https://instagram.com/YOUR_INSTAGRAM" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://linkedin.com/company/thepanthervision" target="_blank"><i class="fab fa-linkedin"></i></a>
+  </div>
+  <nav id="utility-nav">
+    <a href="about.html">About</a>
+    <a href="staff.html">Staff</a>
+    <a href="#">Submit a Tip</a>
+  </nav>
+</div>
 
       <div id="header-main">
-        <a href="../index.html" id="site-logo">
-          <img src="../assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
-        </a>
-        <p id="current-date"></p>
-      </div>
+  <a href="index.html" id="site-logo">
+    <img src="assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
+  </a>
+  <div id="header-meta">
+    <span id="current-date"></span>
+    <span class="meta-divider">|</span>
+    <span id="header-location">Paterson, NJ</span>
+    <span class="meta-divider">|</span>
+    <span id="header-weather">Loading...</span>
+  </div>
+</div>
 
       <div id="header-bottom">
         <nav id="main-nav">
@@ -49,31 +60,45 @@
 
     <!-- ARTICLE -->
     <main id="article-main">
-      <div id="article-container">
+  <div id="article-container">
 
-        <span class="section-tag">News</span>
-        <h1 id="article-headline">Your Article Headline Goes Here</h1>
-        <p id="article-subheadline">A short summary of the article goes here. This is what the reader sees before clicking in.</p>
-        <p class="author-meta">By Author Name <span class="meta-divider">|</span> <span class="section-tag">NEWS</span> <span class="meta-divider">|</span> May 4, 2026</p>
+    <span class="section-tag">FEATURES</span>
+    <h1 id="article-headline">A Piece on Women's History Month</h1>
+    <p id="article-subheadline">Exploring the definition of feminism in a time of oppression.</p>
+    <p class="author-meta">By Camila Rosales <span class="meta-divider">|</span> <span class="section-tag">FEATURES</span> <span class="meta-divider">|</span> April 9, 2026</p>
 
-        <div id="article-hero-img">
-          <img src="../assets/images/placeholder.jpg" alt="Article Image" />
-          <p id="img-caption">Image caption goes here. Credit: Photographer Name</p>
-        </div>
+    <div id="article-hero-img">
+      <img src="../assets/images/womenshistory.png" alt="Women's History Month" />
+    </div>
 
-        <div id="article-body">
-          <p>Your article content goes here. This is the first paragraph.</p>
-          <p>This is the second paragraph. Each paragraph gets its own p tag.</p>
-          <p>This is the third paragraph.</p>
-        </div>
+    <div id="article-body">
+      <p><em>"There must be those among whom we can sit down and weep and still be counted as warriors." — Adrienne Rich</em></p>
+      <p>As a little girl, I was used to seeing my mother work all the time and my dad stay at home and take care of things. I was used to seeing my mother as the breadwinner and the one with the last word in the house.</p>
+      <p>Something that seems to be rare in Hispanic households where "Machismo" prevails even to this day. I seemed to have my bubble burst every time I attended family gatherings and heard my mom get scrutinized by the other women around me for not being a "good wife" and for staying home to attend to my dad, even though our whole household would depend on her.</p>
+      <p>My mother made it her life mission not to fit the perfect stereotype of the housewife. Completely dependent, not educated, and stripped of any sense of self, like all the women in our family that came before us.</p>
+      <p>But the more I exposed myself to the outside world and saw how things were normalized in society beyond my bubble-wrapped reality, the more I realized my family dynamics weren't the norm.</p>
+      <p>The truth is, women can be exceptional at anything and still be seen as inferior. For a society that expects nothing from women, we sure do hold them to unrealistic standards.</p>
+      <p>Recently, at the Milano Cortina Winter Olympics, the USA men's hockey team was under fire for laughing at a joke President Trump had made about the Women's Hockey team. After the winning goal, the men's team hopped on a call with President Trump in which he joked, "I must tell you, we're going to have to bring the women's team, you do know that," adding while laughing that if he didn't also invite the women's team, "I do believe I probably would be impeached."</p>
+      <p>The women's team had won gold, but they had also gone undefeated the entire Olympics, dominating every game.</p>
+      <p>Being a woman means being an elite player in your sport and still being second-guessed on your achievements. Being a woman means being publicly scrutinized for excelling, yet still expected to respond gracefully to all negative comments. To be a woman means being picked apart by the same society that expects nothing other than perfection, with a system that is designed to devalue you due to your gender.</p>
+      <p>The systems that have always tried to define women's worth are not relics of the past; they are alive, evolving, and deeply embedded in our present. The overturning of Roe v. Wade was not just a political decision; it was a message. It reminded women that even autonomy over their own bodies is conditional, debated, and subject to reversal.</p>
+      <p>Now more than ever, after years of battling for equal treatment, misogyny is still rampant in our current administration. And when you peel back the layers of power, looking at things like the Epstein files, it becomes impossible to ignore how women are still being trafficked, still being murdered, still being taken advantage of, and still being seen as objects in a world that claims progress while quietly perpetuating harm.</p>
+      <p>Women can't win. Just like the women's hockey team, you can be a gold medalist, an exceptionally hardworking mom, an award-winning scientist, or an overly qualified politician, and people will still second-guess your achievements.</p>
+      <p>I have felt that in my own life. As a student leader, I have worked to be a voice for the student population, to represent, to advocate, and to lead with intention. Even then, people will look past the work and focus instead on whether you fit the image they expect of you. Your personal life becomes louder than your accomplishments. Your effort becomes secondary to perception. It is exhausting to constantly prove your worth in spaces that were never built to recognize it in the first place.</p>
+      <p>Women have always been downplayed. Their achievements minimized, their voices softened, their presence questioned. You are expected to be highly qualified and exceptional in your field, but not overly so. You must lead, but gently. Speak, but not too loudly. Feel, but never show it. Because to dominate your field, you are taught to think and act like a man, to suppress anything deemed "fragile" or emotional as if emotion itself is a weakness rather than a form of strength.</p>
+      <p>Boys grow up hearing "don't act like a girl," and girls grow up learning that parts of themselves must be hidden to be taken seriously.</p>
+      <p>That is why creating spaces where women are heard matters now more than ever.</p>
+      <p>At our Women's History Month event, we came together to uplift those voices, to validate those emotions, and to reflect on the experiences that shape us. Through discussions of <em>I Am Not Your Perfect Mexican Daughter</em> by Erika L. Sánchez, led by director Ana Maria Jomolca, in the theater at our Paterson main campus on March 12, we explored themes of identity, cultural expectations, grief, and the suffocating pressure to be "perfect." The novel captures what so many women, especially first-generation daughters, experience.</p>
+      <p>So celebrate the women in your life. Not just for what they achieve, but for what they endure. For the battles they fight quietly, for the expectations they shatter daily, and for the strength it takes to exist in a world that constantly asks them to be less. Because despite everything, they continue to rise, and that, in itself, is revolutionary. Happy Women's History Month.</p>
+    </div>
 
-        <div id="author-bio">
-  <p id="author-name">AUTHOR NAME</p>
-  <p id="author-description">Write a short bio about the author here. Where they're from, what they cover, their year at PCCC, and their major. Keep it to two or three sentences.</p>
-</div>
+    <div id="author-bio">
+      <p id="author-name">CAMILA ROSALES</p>
+      <p id="author-description">Staff writer for Visions at Passaic County Community College.</p>
+    </div>
 
-      </div>
-    </main>
+  </div>
+</main>
 
     <!-- FOOTER -->
     <footer id="site-footer">

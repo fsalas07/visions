@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Features | Visions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
@@ -15,19 +16,29 @@
     <header id="site-header">
 
       <div id="header-top">
-        <nav id="utility-nav">
-  <a href="about.html">About</a>
-  <a href="staff.html">Staff</a>
-  <a href="#">Submit a Tip</a>
-</nav>
-      </div>
+  <div id="header-socials">
+    <a href="https://instagram.com/YOUR_INSTAGRAM" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://linkedin.com/company/thepanthervision" target="_blank"><i class="fab fa-linkedin"></i></a>
+  </div>
+  <nav id="utility-nav">
+    <a href="about.html">About</a>
+    <a href="staff.html">Staff</a>
+    <a href="#">Submit a Tip</a>
+  </nav>
+</div>
 
       <div id="header-main">
-        <a href="../index.html" id="site-logo">
-          <img src="../assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
-        </a>
-        <p id="current-date"></p>
-      </div>
+  <a href="index.html" id="site-logo">
+    <img src="assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
+  </a>
+  <div id="header-meta">
+    <span id="current-date"></span>
+    <span class="meta-divider">|</span>
+    <span id="header-location">Paterson, NJ</span>
+    <span class="meta-divider">|</span>
+    <span id="header-weather">Loading...</span>
+  </div>
+</div>
 
       <div id="header-bottom">
         <nav id="main-nav">

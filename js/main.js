@@ -50,6 +50,20 @@ function setDate() {
   el.textContent = now.toLocaleDateString('en-US', options);
 }
 
+async function setWeather() {
+  const el = document.getElementById('header-weather');
+  if (!el) return;
+  try {
+    const res = await fetch('https://wttr.in/Paterson,NJ?format=j1');
+    const data = await res.json();
+    const temp = data.current_condition[0].temp_F;
+    const desc = data.current_condition[0].weatherDesc[0].value;
+    el.textContent = `${desc} ${temp}°F`;
+  } catch {
+    el.textContent = '';
+  }
+}
+
 // ── RENDER HOMEPAGE HERO ──
 async function renderHero() {
   const el = document.getElementById('hero-left');
@@ -251,6 +265,7 @@ async function renderArticlePage() {
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
   setDate();
+  setWeather();
 
   if (document.getElementById('hero-left')) {
     renderHero();
