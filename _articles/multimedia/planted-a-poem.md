@@ -3,7 +3,7 @@ title: "Planted: A Poem"
 author: Jayden Mitchell
 date: 2026-05-05T11:26:00.000-04:00
 summary: Explore the wilderness with a sensual poem.
-image: /assets/images/55caa8_a1b1ad66de4046b080907d173edb980d~mv2.avif
+image: /assets/images/55caa8_4d8512872b634afb8f41c0155eff720f~mv2.avif
 ---
 From the tropics
 
