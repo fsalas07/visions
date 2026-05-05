@@ -7,8 +7,7 @@ const BRANCH = 'main';
 const GITHUB_TOKEN = '';
 
 async function fetchArticles(section) {
-    const res = await fetch(`/functions/github-proxy?section=${section}`);  if (!res.ok) return [];
-  const files = await res.json();
+    const res = await fetch(`/functions/github-proxy?section=${section}`);  const files = await res.json();
   if (!Array.isArray(files)) return [];
   const articles = await Promise.all(
     files
