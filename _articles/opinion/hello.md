@@ -1,18 +1,16 @@
 ---
-title: hello
-author: fabian
-date: 2026-05-04T21:10:00.000-04:00
-summary: hdhdhdhdhhhdd
-image: /assets/images/The Daily Vision (BLACK).png
+title: Something happend at pccc
+author: Fabian Salas
+date: 2026-05-04T21:30:00.000-04:00
+summary: Basically, something happened at PCCC today.
+image: /assets/images/Test.png
 ---
-hdhdhdhhdhdhdh
+*Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.*
 
 
 
-hdhdhhdhdhdhhdhdhd
+Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.
 
-hdhdhhdhdhdhhdhd
 
-h
 
-hdhdhhdhdhdhdhdhdhhdhd
+**Essentially something happened.Essentially something happened.Essentially something happened.Essentially something happened.**
