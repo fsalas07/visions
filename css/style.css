@@ -302,16 +302,18 @@ a {
   min-width: 0;
 }
 
-.recent-img {
+.recent-img:not(.tall-img) {
   width: 100%;
-  max-height: 700px;
-  object-fit: contain;
+  aspect-ratio: 4/3;
+  object-fit: cover;
 }
 
 .tall-img {
   width: auto;
   max-width: 100%;
+  height: auto;
   object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .recent-headline {
