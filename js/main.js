@@ -77,6 +77,24 @@ async function renderHero() {
     <img src="${a.image}" alt="${a.title}" id="hero-img" />
     <p id="hero-excerpt">${a.summary}</p>
   `;
+
+  const mid = document.getElementById('hero-middle');
+  if (mid && articles[1] && articles[2]) {
+    mid.innerHTML = `
+      <div class="mid-article">
+        <h2 class="mid-headline"><a href="${articles[1].url}">${articles[1].title}</a></h2>
+        <p class="author-meta">${articles[1].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
+        <p class="mid-excerpt">${articles[1].summary}</p>
+      </div>
+      <hr class="article-divider">
+      <div class="mid-article">
+        <h2 class="mid-headline"><a href="${articles[2].url}">${articles[2].title}</a></h2>
+        <p class="author-meta">${articles[2].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
+        <p class="mid-excerpt">${articles[2].summary}</p>
+      </div>
+    `;
+  }
+}
 async function renderHeroBottom() {
   const left = document.querySelector('#hero-bottom .bottom-article:first-child');
   const right = document.querySelector('#hero-bottom .bottom-article:last-child');
@@ -102,23 +120,6 @@ async function renderHeroBottom() {
       <a href="pages/article.html?section=news&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
       <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
       <img src="${a.image}" alt="${a.title}" class="bottom-img" />
-    `;
-  }
-}
-  const mid = document.getElementById('hero-middle');
-  if (mid && articles[1] && articles[2]) {
-    mid.innerHTML = `
-      <div class="mid-article">
-        <h2 class="mid-headline"><a href="${articles[1].url}">${articles[1].title}</a></h2>
-        <p class="author-meta">${articles[1].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-        <p class="mid-excerpt">${articles[1].summary}</p>
-      </div>
-      <hr class="article-divider">
-      <div class="mid-article">
-        <h2 class="mid-headline"><a href="${articles[2].url}">${articles[2].title}</a></h2>
-        <p class="author-meta">${articles[2].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-        <p class="mid-excerpt">${articles[2].summary}</p>
-      </div>
     `;
   }
 }
