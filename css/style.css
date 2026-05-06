@@ -301,6 +301,12 @@ a {
   grid-row: span 2;
   min-width: 0;
 }
+.span-2 .recent-img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  aspect-ratio: unset;
+}
 
 .recent-img:not(.tall-img) {
   width: 100%;
