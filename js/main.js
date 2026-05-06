@@ -77,7 +77,34 @@ async function renderHero() {
     <img src="${a.image}" alt="${a.title}" id="hero-img" />
     <p id="hero-excerpt">${a.summary}</p>
   `;
+async function renderHeroBottom() {
+  const left = document.querySelector('#hero-bottom .bottom-article:first-child');
+  const right = document.querySelector('#hero-bottom .bottom-article:last-child');
+  if (!left || !right) return;
 
+  const features = await fetchArticles('features');
+  const news = await fetchArticles('news');
+
+  if (features[0]) {
+    const a = features[0];
+    left.innerHTML = `
+      <span class="section-tag">FEATURES</span>
+      <a href="pages/article.html?section=features&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
+      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">FEATURES</span></p>
+      <img src="${a.image}" alt="${a.title}" class="bottom-img" />
+    `;
+  }
+
+  if (news[0]) {
+    const a = news[0];
+    right.innerHTML = `
+      <span class="section-tag">NEWS</span>
+      <a href="pages/article.html?section=news&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
+      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
+      <img src="${a.image}" alt="${a.title}" class="bottom-img" />
+    `;
+  }
+}
   const mid = document.getElementById('hero-middle');
   if (mid && articles[1] && articles[2]) {
     mid.innerHTML = `
@@ -268,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('hero-left')) {
     renderHero();
+    renderHeroBottom(); 
     renderOpinionSidebar();
     renderRecentGrid();
     renderLargeStrip('news', 'news-strip');
