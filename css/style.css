@@ -299,6 +299,7 @@ a {
 
 .span-tall {
   grid-row: span 2;
+  min-width: 0;
 }
 
 .recent-img {
@@ -308,7 +309,9 @@ a {
 }
 
 .tall-img {
-  aspect-ratio: 3/4;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .recent-headline {
