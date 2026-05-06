@@ -388,9 +388,9 @@ a {
 
 .strip-img {
   width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  margin-bottom: 10px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .strip-featured-headline {
@@ -458,8 +458,9 @@ a {
 
 .small-img {
   width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .small-headline {
@@ -665,9 +666,9 @@ a {
 
 .section-featured-img {
   width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  margin-bottom: 10px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .section-featured-headline {
@@ -690,9 +691,9 @@ a {
 
 .section-mid-img {
   width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  margin-bottom: 8px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .section-mid-headline {
@@ -745,9 +746,9 @@ a {
 
 .row2-img {
   width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  margin-bottom: 6px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .row2-headline {
@@ -774,9 +775,10 @@ a {
 }
 
 .list-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: unset;
 }
 
 .list-article-text {
