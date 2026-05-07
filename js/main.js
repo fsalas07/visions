@@ -3,12 +3,21 @@ const GITHUB_USER = 'fsalas07';
 const GITHUB_REPO = 'visions';
 const BRANCH = 'main';
 
-// ── FETCH ARTICLES FROM GITHUB ──
-const GITHUB_TOKEN = '';
+// ── ARTICLE TRACKER ──
+const usedArticles = new Set();
 
+function getUnused(articles) {
+  return articles.filter(a => !usedArticles.has(`${a.section}-${a.slug}`));
+}
+
+function markUsed(articles) {
+  articles.forEach(a => usedArticles.add(`${a.section}-${a.slug}`));
+}
+
+// ── FETCH ARTICLES FROM GITHUB ──
 async function fetchArticles(section) {
-  const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/_articles/${section}?ref=${BRANCH}`;
-const res = await fetch(`https://visions-api.fabiansalas1233.workers.dev/?section=${section}`);  const files = await res.json();
+  const res = await fetch(`https://visions-api.fabiansalas1233.workers.dev/?section=${section}`);
+  const files = await res.json();
   if (!Array.isArray(files)) return [];
   const articles = await Promise.all(
     files
@@ -68,8 +77,10 @@ async function renderHero() {
   const el = document.getElementById('hero-left');
   if (!el) return;
   const articles = await fetchArticles('news');
-  if (!articles.length) return;
-  const a = articles[0];
+  const unused = getUnused(articles);
+  if (!unused.length) return;
+  const a = unused[0];
+  markUsed([a]);
   el.innerHTML = `
     <span class="section-tag">${a.section.toUpperCase()}</span>
     <a href="${a.url}"><h1 id="hero-headline">${a.title}</h1></a>
@@ -79,22 +90,30 @@ async function renderHero() {
   `;
 
   const mid = document.getElementById('hero-middle');
-  if (mid && articles[1] && articles[2]) {
-    mid.innerHTML = `
-      <div class="mid-article">
-        <h2 class="mid-headline"><a href="${articles[1].url}">${articles[1].title}</a></h2>
-        <p class="author-meta">${articles[1].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-        <p class="mid-excerpt">${articles[1].summary}</p>
-      </div>
-      <hr class="article-divider">
-      <div class="mid-article">
-        <h2 class="mid-headline"><a href="${articles[2].url}">${articles[2].title}</a></h2>
-        <p class="author-meta">${articles[2].author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-        <p class="mid-excerpt">${articles[2].summary}</p>
-      </div>
-    `;
+  if (mid) {
+    const midUnused = getUnused(articles);
+    const mid1 = midUnused[0];
+    const mid2 = midUnused[1];
+    if (mid1 && mid2) {
+      markUsed([mid1, mid2]);
+      mid.innerHTML = `
+        <div class="mid-article">
+          <h2 class="mid-headline"><a href="${mid1.url}">${mid1.title}</a></h2>
+          <p class="author-meta">${mid1.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
+          <p class="mid-excerpt">${mid1.summary}</p>
+        </div>
+        <hr class="article-divider">
+        <div class="mid-article">
+          <h2 class="mid-headline"><a href="${mid2.url}">${mid2.title}</a></h2>
+          <p class="author-meta">${mid2.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
+          <p class="mid-excerpt">${mid2.summary}</p>
+        </div>
+      `;
+    }
   }
 }
+
+// ── RENDER HERO BOTTOM ──
 async function renderHeroBottom() {
   const left = document.querySelector('#hero-bottom .bottom-article:first-child');
   const right = document.querySelector('#hero-bottom .bottom-article:last-child');
@@ -103,8 +122,12 @@ async function renderHeroBottom() {
   const features = await fetchArticles('features');
   const news = await fetchArticles('news');
 
-  if (features[0]) {
-    const a = features[0];
+  const unusedFeatures = getUnused(features);
+  const unusedNews = getUnused(news);
+
+  if (unusedFeatures[0]) {
+    const a = unusedFeatures[0];
+    markUsed([a]);
     left.innerHTML = `
       <span class="section-tag">FEATURES</span>
       <a href="pages/article.html?section=features&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
@@ -113,8 +136,9 @@ async function renderHeroBottom() {
     `;
   }
 
-  if (news[0]) {
-    const a = news[0];
+  if (unusedNews[0]) {
+    const a = unusedNews[0];
+    markUsed([a]);
     right.innerHTML = `
       <span class="section-tag">NEWS</span>
       <a href="pages/article.html?section=news&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
@@ -129,8 +153,11 @@ async function renderOpinionSidebar() {
   const el = document.getElementById('hero-right');
   if (!el) return;
   const articles = await fetchArticles('opinion');
-  if (!articles.length) return;
-  const items = articles.slice(0, 5).map(a => `
+  const unused = getUnused(articles);
+  if (!unused.length) return;
+  const picked = unused.slice(0, 5);
+  markUsed(picked);
+  const items = picked.map(a => `
     <div class="opinion-article">
       <h4 class="opinion-headline"><a href="${a.url}">${a.title}</a></h4>
       <p class="opinion-author">${a.author}</p>
@@ -146,11 +173,13 @@ async function renderRecentGrid() {
   const sections = ['news', 'sports', 'features', 'data', 'arts-culture', 'multimedia'];
   const all = (await Promise.all(sections.map(s => fetchArticles(s)))).flat();
   all.sort((a, b) => new Date(b.date) - new Date(a.date));
-  const recent = all.slice(0, 6);
+  const unused = getUnused(all);
+  const recent = unused.slice(0, 6);
   if (!recent.length) return;
+  markUsed(recent);
   el.innerHTML = recent.map((a, i) => `
     <div class="recent-article ${i === 0 ? 'span-2' : ''}">
-      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="recent-img" />` : ''}
+      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="recent-img ${i === 0 ? '' : ''}" />` : ''}
       <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
       <a href="${a.url}"><h3 class="recent-headline">${a.title}</h3></a>
       <p class="recent-excerpt">${a.summary}</p>
@@ -163,9 +192,11 @@ async function renderLargeStrip(section, containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
   const articles = await fetchArticles(section);
-  if (!articles.length) return;
-  const featured = articles[0];
-  const rest = articles.slice(1, 5);
+  const unused = getUnused(articles);
+  if (!unused.length) return;
+  const featured = unused[0];
+  const rest = getUnused(articles).slice(1, 5);
+  markUsed([featured, ...rest]);
   const inner = el.querySelector('.strip-inner');
   if (!inner) return;
   inner.querySelector('.strip-featured').innerHTML = `
@@ -187,10 +218,13 @@ async function renderSmallStrip(section, containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
   const articles = await fetchArticles(section);
-  if (!articles.length) return;
+  const unused = getUnused(articles);
+  if (!unused.length) return;
+  const picked = unused.slice(0, 2);
+  markUsed(picked);
   const grid = el.querySelector('.small-strip-grid');
   if (!grid) return;
-  grid.innerHTML = articles.slice(0, 2).map(a => `
+  grid.innerHTML = picked.map(a => `
     <div class="small-article">
       ${a.image ? `<img src="${a.image}" alt="${a.title}" class="small-img" />` : ''}
       <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span></p>
@@ -258,7 +292,6 @@ async function renderArticlePage() {
   if (!section || !slug) return;
 
   const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${BRANCH}/_articles/${section}/${slug}.md`;
-  console.log('Fetching:', url);
   const res = await fetch(url);
   if (!res.ok) return;
   const text = await res.text();
