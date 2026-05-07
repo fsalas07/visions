@@ -16,6 +16,10 @@ function markUsed(articles) {
 
 // ── FETCH ARTICLES FROM GITHUB ──
 async function fetchArticles(section) {
+  const cacheKey = `articles-${section}`;
+  const cached = sessionStorage.getItem(cacheKey);
+  if (cached) return JSON.parse(cached);
+
   const res = await fetch(`https://visions-api.fabiansalas1233.workers.dev/?section=${section}`);
   const files = await res.json();
   if (!Array.isArray(files)) return [];
@@ -28,7 +32,9 @@ async function fetchArticles(section) {
         return parseFrontmatter(text, section, f.name);
       })
   );
-  return articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sorted = articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+  sessionStorage.setItem(cacheKey, JSON.stringify(sorted));
+  return sorted;
 }
 
 // ── PARSE FRONTMATTER ──
