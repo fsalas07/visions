@@ -1010,3 +1010,16 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 #header-meta .meta-divider {
   color: #ccc;
 }
+
+#hero-left, #hero-middle, #hero-right, #recent-grid, 
+.strip-inner, .small-strip-grid, #hero-bottom {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.content-loaded #hero-left, .content-loaded #hero-middle, 
+.content-loaded #hero-right, .content-loaded #recent-grid,
+.content-loaded .strip-inner, .content-loaded .small-strip-grid,
+.content-loaded #hero-bottom {
+  opacity: 1;
+}

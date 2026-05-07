@@ -295,16 +295,20 @@ document.addEventListener('DOMContentLoaded', () => {
   setWeather();
 
   if (document.getElementById('hero-left')) {
-    renderHero();
-    renderHeroBottom(); 
-    renderOpinionSidebar();
-    renderRecentGrid();
-    renderLargeStrip('news', 'news-strip');
-    renderLargeStrip('opinion', 'opinion-strip');
-    renderSmallStrip('sports', 'sports-strip');
-    renderSmallStrip('features', 'features-strip');
-    renderSmallStrip('data', 'data-strip');
-    renderSmallStrip('multimedia', 'multimedia-strip');
+    Promise.all([
+      renderHero(),
+      renderHeroBottom(),
+      renderOpinionSidebar(),
+      renderRecentGrid(),
+      renderLargeStrip('news', 'news-strip'),
+      renderLargeStrip('opinion', 'opinion-strip'),
+      renderSmallStrip('sports', 'sports-strip'),
+      renderSmallStrip('features', 'features-strip'),
+      renderSmallStrip('data', 'data-strip'),
+      renderSmallStrip('multimedia', 'multimedia-strip'),
+    ]).then(() => {
+      document.body.classList.add('content-loaded');
+    });
   }
 
   if (document.getElementById('section-main')) {
