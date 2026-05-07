@@ -36,6 +36,10 @@ async function fetchArticles(section) {
   sessionStorage.setItem(cacheKey, JSON.stringify(sorted));
   return sorted;
 }
+async function prefetchAll() {
+  const sections = ['news', 'sports', 'features', 'data', 'arts-culture', 'multimedia', 'opinion'];
+  await Promise.all(sections.map(s => fetchArticles(s)));
+}
 
 // ── PARSE FRONTMATTER ──
 function parseFrontmatter(text, section, filename) {
@@ -334,21 +338,21 @@ document.addEventListener('DOMContentLoaded', () => {
   setWeather();
 
 if (document.getElementById('hero-left')) {
-    Promise.all([
-      renderHero(),
-      renderHeroBottom(),
-      renderOpinionSidebar(),
-      renderRecentGrid(),
-      renderLargeStrip('news', 'news-strip'),
-      renderLargeStrip('opinion', 'opinion-strip'),
-      renderSmallStrip('sports', 'sports-strip'),
-      renderSmallStrip('features', 'features-strip'),
-      renderSmallStrip('data', 'data-strip'),
-      renderSmallStrip('multimedia', 'multimedia-strip'),
-    ]).then(() => {
-      document.body.classList.add('content-loaded');
-    });
-  }
+  (async () => {
+    await prefetchAll();
+    await renderHero();
+    await renderHeroBottom();
+    await renderOpinionSidebar();
+    await renderRecentGrid();
+    await renderLargeStrip('news', 'news-strip');
+    await renderLargeStrip('opinion', 'opinion-strip');
+    await renderSmallStrip('sports', 'sports-strip');
+    await renderSmallStrip('features', 'features-strip');
+    await renderSmallStrip('data', 'data-strip');
+    await renderSmallStrip('multimedia', 'multimedia-strip');
+    document.body.classList.add('content-loaded');
+  })();
+}
 
   if (document.getElementById('section-main')) {
     renderSectionPage();
