@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setDate();
   setWeather();
 
-  if (document.getElementById('hero-left')) {
+if (document.getElementById('hero-left')) {
     Promise.all([
       renderHero(),
       renderHeroBottom(),
