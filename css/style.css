@@ -579,7 +579,6 @@ a {
 #footer-logo-img {
     height: 50px;
     width: auto;
-    filter: brightness(0) invert(1);
 }
 
 /* ── ARTICLE PAGE ── */
