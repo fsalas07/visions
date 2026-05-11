@@ -262,11 +262,36 @@ async function renderSectionPage() {
       <p class="section-article-excerpt">${articles[0].summary}</p>
       <p class="author-meta">${articles[0].author} <span class="meta-divider">|</span> ${new Date(articles[0].date).toLocaleDateString()}</p>
     `;
+
+    const middle = top.querySelector('#section-middle');
+    if (middle) {
+      middle.innerHTML = articles.slice(1, 3).map(a => `
+        <div class="section-mid-article">
+          ${a.image ? `<img src="${a.image}" alt="${a.title}" class="section-mid-img" />` : ''}
+          <span class="section-tag">${section.toUpperCase()}</span>
+          <a href="article.html?section=${section}&slug=${a.slug}"><h3 class="section-mid-headline">${a.title}</h3></a>
+          <p class="section-article-excerpt">${a.summary}</p>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+        </div>
+      `).join('');
+    }
+
+    const right = top.querySelector('#section-right');
+    if (right) {
+      right.innerHTML = articles.slice(3, 7).map(a => `
+        <div class="section-text-article">
+          <span class="section-tag">${section.toUpperCase()}</span>
+          <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="section-text-headline">${a.title}</h4></a>
+          <p class="section-article-excerpt">${a.summary}</p>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+        </div>
+      `).join('');
+    }
   }
 
   const row2 = document.getElementById('section-row2');
   if (row2) {
-    row2.innerHTML = articles.slice(1, 6).map(a => `
+    row2.innerHTML = articles.slice(7, 12).map(a => `
       <div class="row2-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="row2-img" />` : ''}
         <span class="section-tag">${section.toUpperCase()}</span>
@@ -278,7 +303,7 @@ async function renderSectionPage() {
 
   const list = document.getElementById('section-list');
   if (list) {
-    list.innerHTML = articles.slice(6).map(a => `
+    list.innerHTML = articles.slice(12).map(a => `
       <div class="list-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
         <div class="list-article-text">
