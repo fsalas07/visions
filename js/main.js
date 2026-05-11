@@ -345,7 +345,7 @@ async function renderSectionPage() {
       </div>
     `).join('');
   }
-}
+
 
 // ── RENDER ARTICLE PAGE ──
 async function renderArticlePage() {
