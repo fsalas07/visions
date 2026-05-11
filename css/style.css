@@ -1039,3 +1039,21 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 .content-loaded #hero-bottom {
     opacity: 1;
 }
+
+#section-top, #section-row2, #section-list {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.content-loaded #section-top, .content-loaded #section-row2, .content-loaded #section-list {
+  opacity: 1;
+}
+
+#article-container {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.content-loaded #article-container {
+  opacity: 1;
+}

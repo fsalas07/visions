@@ -315,6 +315,36 @@ async function renderSectionPage() {
       </div>
     `).join('');
   }
+
+  document.body.classList.add('content-loaded');
+}
+
+  const row2 = document.getElementById('section-row2');
+  if (row2) {
+    row2.innerHTML = articles.slice(7, 12).map(a => `
+      <div class="row2-article">
+        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="row2-img" />` : ''}
+        <span class="section-tag">${section.toUpperCase()}</span>
+        <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="row2-headline">${a.title}</h4></a>
+        <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+      </div>
+    `).join('');
+  }
+
+  const list = document.getElementById('section-list');
+  if (list) {
+    list.innerHTML = articles.slice(12).map(a => `
+      <div class="list-article">
+        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
+        <div class="list-article-text">
+          <span class="section-tag">${section.toUpperCase()}</span>
+          <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="list-headline">${a.title}</h4></a>
+          <p class="section-article-excerpt">${a.summary}</p>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+        </div>
+      </div>
+    `).join('');
+  }
 }
 
 // ── RENDER ARTICLE PAGE ──
@@ -355,6 +385,7 @@ async function renderArticlePage() {
       <p id="author-description">Staff writer for Visions.</p>
     </div>
   `;
+  document.body.classList.add('content-loaded');
 }
 
 // ── INIT ──
