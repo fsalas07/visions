@@ -36,6 +36,7 @@ async function fetchArticles(section) {
   sessionStorage.setItem(cacheKey, JSON.stringify(sorted));
   return sorted;
 }
+
 async function prefetchAll() {
   const sections = ['news', 'sports', 'features', 'data', 'arts-culture', 'multimedia', 'opinion'];
   await Promise.all(sections.map(s => fetchArticles(s)));
@@ -189,7 +190,7 @@ async function renderRecentGrid() {
   markUsed(recent);
   el.innerHTML = recent.map((a, i) => `
     <div class="recent-article ${i === 0 ? 'span-2' : ''}">
-      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="recent-img ${i === 0 ? '' : ''}" />` : ''}
+      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="recent-img" />` : ''}
       <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
       <a href="${a.url}"><h3 class="recent-headline">${a.title}</h3></a>
       <p class="recent-excerpt">${a.summary}</p>
@@ -319,34 +320,6 @@ async function renderSectionPage() {
   document.body.classList.add('content-loaded');
 }
 
-  const row2 = document.getElementById('section-row2');
-  if (row2) {
-    row2.innerHTML = articles.slice(7, 12).map(a => `
-      <div class="row2-article">
-        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="row2-img" />` : ''}
-        <span class="section-tag">${section.toUpperCase()}</span>
-        <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="row2-headline">${a.title}</h4></a>
-        <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-      </div>
-    `).join('');
-  }
-
-  const list = document.getElementById('section-list');
-  if (list) {
-    list.innerHTML = articles.slice(12).map(a => `
-      <div class="list-article">
-        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
-        <div class="list-article-text">
-          <span class="section-tag">${section.toUpperCase()}</span>
-          <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="list-headline">${a.title}</h4></a>
-          <p class="section-article-excerpt">${a.summary}</p>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-        </div>
-      </div>
-    `).join('');
-  }
-
-
 // ── RENDER ARTICLE PAGE ──
 async function renderArticlePage() {
   const el = document.getElementById('article-container');
@@ -393,22 +366,22 @@ document.addEventListener('DOMContentLoaded', () => {
   setDate();
   setWeather();
 
-if (document.getElementById('hero-left')) {
-  (async () => {
-    await prefetchAll();
-    await renderHero();
-    await renderHeroBottom();
-    await renderOpinionSidebar();
-    await renderRecentGrid();
-    await renderLargeStrip('news', 'news-strip');
-    await renderLargeStrip('opinion', 'opinion-strip');
-    await renderSmallStrip('sports', 'sports-strip');
-    await renderSmallStrip('features', 'features-strip');
-    await renderSmallStrip('data', 'data-strip');
-    await renderSmallStrip('multimedia', 'multimedia-strip');
-    document.body.classList.add('content-loaded');
-  })();
-}
+  if (document.getElementById('hero-left')) {
+    (async () => {
+      await prefetchAll();
+      await renderHero();
+      await renderHeroBottom();
+      await renderOpinionSidebar();
+      await renderRecentGrid();
+      await renderLargeStrip('news', 'news-strip');
+      await renderLargeStrip('opinion', 'opinion-strip');
+      await renderSmallStrip('sports', 'sports-strip');
+      await renderSmallStrip('features', 'features-strip');
+      await renderSmallStrip('data', 'data-strip');
+      await renderSmallStrip('multimedia', 'multimedia-strip');
+      document.body.classList.add('content-loaded');
+    })();
+  }
 
   if (document.getElementById('section-main')) {
     renderSectionPage();
