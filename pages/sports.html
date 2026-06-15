@@ -6,7 +6,6 @@
     <title>Sports | Visions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
   </head>
@@ -49,6 +48,8 @@
   <a href="multimedia.html">Multimedia</a>
   <a href="data.html">Data</a>
   <a href="arts-culture.html">Arts & Culture</a>
+  <a href="obituary.html">Obituary</a>
+
 </nav>
         <div id="search-bar">
           <input type="text" placeholder="Search..." />
@@ -231,15 +232,7 @@
 
     <script src="../js/main.js"></script>
     <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
+  
 </script>
   </body>
 </html>
