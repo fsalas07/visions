@@ -360,6 +360,42 @@ async function renderArticlePage() {
   `;
   document.body.classList.add('content-loaded');
 }
+// ── RENDER OBITUARY PAGE ──
+async function renderObituaryPage() {
+  const container = document.getElementById('obituary-tributes');
+  if (!container) return;
+
+  const articles = await fetchArticles('memorial');
+  const emptyState = document.getElementById('obituary-empty');
+
+  if (!articles.length) {
+    if (emptyState) emptyState.style.display = 'flex';
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = 'none';
+
+  container.innerHTML = articles.map(a => `
+    <div class="tribute-card">
+      ${a.image
+        ? `<img src="${a.image}" alt="${a.title}" class="tribute-img" />`
+        : `<div class="tribute-img" style="background:#f0f0f0;display:flex;align-items:center;justify-content:center;">
+             <span style="font-size:11px;color:#aaa;font-family:Georgia,serif;">No Image</span>
+           </div>`
+      }
+      <div class="tribute-text">
+        <span class="tribute-tag">Tribute</span>
+        <a href="article.html?section=memorial&slug=${a.slug}">
+          <h3 class="tribute-headline">${a.title}</h3>
+        </a>
+        <p class="tribute-excerpt">${a.summary}</p>
+        <p class="tribute-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+      </div>
+    </div>
+  `).join('');
+
+  document.body.classList.add('content-loaded');
+}
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
@@ -382,7 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('content-loaded');
     })();
   }
-
+  if (document.getElementById('obituary-tributes')) {
+    renderObituaryPage();
+  }
   if (document.getElementById('section-main')) {
     renderSectionPage();
   }

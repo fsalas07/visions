@@ -1057,3 +1057,226 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 .content-loaded #article-container {
   opacity: 1;
 }
+
+/* ── OBITUARY PAGE ── */
+
+/* Nav accent */
+.nav-obituary {
+    color: #800000 !important;
+    font-weight: bold;
+}
+
+#obituary-main {
+    max-width: 860px;
+    margin: 56px auto 80px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+}
+
+/* ── HERO SECTION ── */
+#obituary-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+#obituary-banner {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #800000;
+    font-weight: bold;
+    border-top: 2px solid #800000;
+    border-bottom: 2px solid #800000;
+    padding: 6px 20px;
+    margin-bottom: 8px;
+}
+
+#obituary-portrait-wrap {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #1a1a1a;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+    margin: 8px auto;
+}
+
+#obituary-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    filter: grayscale(100%);
+}
+
+#obituary-name {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 36px;
+    font-weight: bold;
+    color: #1a1a1a;
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+}
+
+#obituary-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    color: #555;
+    font-style: italic;
+    letter-spacing: 0.03em;
+}
+
+#obituary-bio {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #333;
+    max-width: 620px;
+    margin: 8px auto 0;
+}
+
+#obituary-form-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 12px 28px;
+    background-color: #800000;
+    color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#obituary-form-btn:hover {
+    background-color: #5a0000;
+    color: #fff;
+}
+
+/* ── DIVIDER ── */
+#obituary-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#obituary-divider::before,
+#obituary-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #1a1a1a;
+}
+
+#obituary-divider-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #1a1a1a;
+    white-space: nowrap;
+}
+
+/* ── TRIBUTES LIST ── */
+#obituary-tributes {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tribute-card {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tribute-card:first-child {
+    border-top: 1px solid #e0e0e0;
+}
+
+.tribute-img {
+    width: 160px;
+    height: 110px;
+    object-fit: cover;
+}
+
+.tribute-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tribute-tag {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #800000;
+    font-weight: bold;
+}
+
+.tribute-headline {
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: #1a1a1a;
+}
+
+.tribute-excerpt {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.tribute-meta {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12px;
+    color: #555;
+}
+
+/* ── EMPTY STATE ── */
+#obituary-empty {
+    text-align: center;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+#obituary-empty p {
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    color: #555;
+}
+
+.obituary-empty-link {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #800000;
+    text-decoration: none;
+}
+
+.obituary-empty-link:hover {
+    text-decoration: underline;
+}
+
+/* ── LOADING STATE ── */
+#obituary-tributes:empty + #obituary-empty {
+    display: flex;
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obituary | Visions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header id="site-header">
+
+      <div id="header-top">
+        <div id="header-socials">
+          <a href="https://www.instagram.com/visions_pccc/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/thepanthervision" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <nav id="utility-nav">
+          <a href="about.html">About</a>
+          <a href="staff.html">Staff</a>
+          <a href="#">Submit a Tip</a>
+        </nav>
+      </div>
+
+      <div id="header-main">
+        <a href="../index.html" id="site-logo">
+          <img src="../assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
+        </a>
+        <div id="header-meta">
+          <span id="current-date"></span>
+          <span class="meta-divider">|</span>
+          <span id="header-location">Paterson, NJ</span>
+          <span class="meta-divider">|</span>
+          <span id="header-weather">Loading...</span>
+        </div>
+      </div>
+
+      <div id="header-bottom">
+        <nav id="main-nav">
+          <a href="news.html">News</a>
+          <a href="sports.html">Sports</a>
+          <a href="opinion.html">Opinion</a>
+          <a href="features.html">Features</a>
+          <a href="multimedia.html">Multimedia</a>
+          <a href="data.html">Data</a>
+          <a href="arts-culture.html">Arts & Culture</a>
+          <a href="obituary.html" class="nav-obituary">Obituary</a>
+        </nav>
+        <div id="search-bar">
+          <input type="text" placeholder="Search..." />
+          <button>Search</button>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- OBITUARY PAGE -->
+    <main id="obituary-main">
+
+      <!-- HERO: DR. ROSE TRIBUTE -->
+      <div id="obituary-hero">
+        <div id="obituary-banner">In Memoriam</div>
+        <div id="obituary-portrait-wrap">
+          <img
+            src="../assets/images/placeholder.jpg"
+            alt="Dr. Steven Rose"
+            id="obituary-portrait"
+          />
+        </div>
+        <h1 id="obituary-name">Dr. Steven Rose</h1>
+        <p id="obituary-title">President, Passaic County Community College</p>
+        <p id="obituary-bio">
+          Dr. Steven Rose served as President of Passaic County Community College,
+          dedicating his career to expanding access to education and supporting the
+          students and faculty of PCCC. His leadership shaped the institution and
+          left a lasting mark on everyone who had the privilege of knowing him.
+        </p>
+        <a
+          href="https://forms.office.com/r/88fHGC0PF4"
+          target="_blank"
+          rel="noopener noreferrer"
+          id="obituary-form-btn"
+        >
+          Submit a Tribute
+        </a>
+      </div>
+
+      <!-- DIVIDER -->
+      <div id="obituary-divider">
+        <span id="obituary-divider-label">Tributes &amp; Remembrances</span>
+      </div>
+
+      <!-- TRIBUTES LIST -->
+      <div id="obituary-tributes">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- EMPTY STATE (shown if no tributes yet) -->
+      <div id="obituary-empty" style="display:none;">
+        <p>No tributes have been published yet. Be the first to share a remembrance.</p>
+        <a
+          href="https://forms.office.com/r/88fHGC0PF4"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="obituary-empty-link"
+        >
+          Submit a Tribute →
+        </a>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="site-footer">
+      <div id="footer-inner">
+        <div id="footer-logo-col">
+          <a href="../index.html" id="footer-logo">
+            <img src="../assets/images/The Daily Vision (BLACK).png" alt="Visions" id="footer-logo-img" />
+          </a>
+          <p id="footer-tagline">The Student Publication of Passaic County Community College</p>
+          <div id="footer-socials">
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Facebook</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-label">Sections</h4>
+          <a href="news.html">News</a>
+          <a href="sports.html">Sports</a>
+          <a href="opinion.html">Opinion</a>
+          <a href="features.html">Features</a>
+          <a href="multimedia.html">Multimedia</a>
+          <a href="data.html">Data</a>
+          <a href="arts-culture.html">Arts & Culture</a>
+          <a href="obituary.html">Obituary</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-label">About</h4>
+          <a href="about.html">About</a>
+          <a href="staff.html">Staff</a>
+          <a href="#">Masthead</a>
+          <a href="#">Contact</a>
+          <a href="#">Submit a Tip</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-label">More</h4>
+          <a href="#">Advertise</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+        </div>
+      </div>
+
+      <div id="footer-bottom">
+        <p>© 2026 Visions. All rights reserved. Published by students of Passaic County Community College.</p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+  </body>
+</html>
