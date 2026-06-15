@@ -1105,11 +1105,14 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     border: 4px solid #1a1a1a;
     box-shadow: 0 4px 24px rgba(0,0,0,0.13);
     margin: 8px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #obituary-portrait {
-    width: 100%;
-    height: 100%;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     object-position: top;
     filter: grayscale(100%);
