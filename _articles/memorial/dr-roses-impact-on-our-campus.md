@@ -1,6 +1,7 @@
 ---
 title: Dr. Rose's Impact on Our Campus
-author: Financial Aid Officer Tamiesha Gilzene
+author: Tamiesha Gilzene
+author_role: Financial Aid Officer
 date: 2026-06-15T14:32:00.000-04:00
 summary: Words from our financial aid officer at PCCC, Tamiesha Gilzene, about
   Dr. Steven Rose.

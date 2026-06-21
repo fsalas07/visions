@@ -2,6 +2,7 @@
 title: "A Fireside Chat on Legacy: From Immigrant Roots to the Retirement of
   Maria Mazziotti Gillan"
 author: Arianne Bakelmun
+author_role: Staff Writer
 date: 2026-03-10T15:45:00.000-04:00
 summary: Interviewing a polarizing member within the literary community.
 image: /assets/images/55caa8_f01b0cf0dfb74f7c99c9fbf9a1997752~mv2.avif
