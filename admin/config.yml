@@ -17,8 +17,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -31,8 +30,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -45,8 +43,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -59,8 +56,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -73,8 +69,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -87,8 +82,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -101,8 +95,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -115,8 +108,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Author", name: "author", widget: "string" }
-      - { label: "Author Role", name: "author_role", widget: "string", default: "Staff Writer", hint: "e.g. Editor-in-Chief, Sports Editor, Staff Writer. Shown as “[Role] for Visions.” on the article page." }
-      - { label: "Date", name: "date", widget: "datetime" }
+- { label: "Author Bio Line", name: "author_role", widget: "string", default: "Staff Writer for Visions.", hint: "Type the EXACT full text to show under the author’s name. Examples: ‘Staff Writer for Visions.’ or ‘Professor of Biology’ or ‘Financial Aid Officer’. Whatever you type appears exactly as-is — nothing is added automatically." }      - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
