@@ -1,6 +1,7 @@
 ---
 title: In Memory of Dr. Steven Rose
-author: Professor Adeleye Clement Bamkole
+author: Adeleye Clement Bamkole
+author_role: Professor
 date: 2026-06-15T14:20:00.000-04:00
 summary: Remembering Dr. Rose from the lens of Professor Adeleye Clement Bamkole.
 image: /assets/images/hamilton-hall-reopening-2016img_0991_adeleye-bamkole.jpeg
