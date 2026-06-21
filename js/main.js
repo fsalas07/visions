@@ -355,8 +355,7 @@ async function renderArticlePage() {
     </div>
     <div id="author-bio">
       <p id="author-name">${data.author.toUpperCase()}</p>
-      <p id="author-description">Staff writer for Visions.</p>
-    </div>
+      <p id="author-description">${data.author_role || 'Staff Writer'} for Visions.</p>    </div>
   `;
   document.body.classList.add('content-loaded');
 }
