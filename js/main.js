@@ -52,11 +52,13 @@ async function fetchAllArticlesFlat() {
 // when only found in the body. Results with zero matches are excluded.
 function scoreArticleForSearch(article, queryWords) {
   const title = (article.title || '').toLowerCase();
+  const author = (article.author || '').toLowerCase();
   const summary = (article.summary || '').toLowerCase();
   const body = (article.body || '').toLowerCase();
   let score = 0;
   for (const w of queryWords) {
     if (title.includes(w)) score += 3;
+    if (author.includes(w)) score += 3;
     if (summary.includes(w)) score += 2;
     if (body.includes(w)) score += 1;
   }
