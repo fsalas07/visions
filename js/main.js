@@ -1,7 +1,5 @@
 // ── CONFIG ──
-const GITHUB_USER = 'fsalas07';
-const GITHUB_REPO = 'visions';
-const BRANCH = 'main';
+const WORKER_URL = 'https://visions-api.fabiansalas1233.workers.dev/';
 
 // ── ARTICLE TRACKER ──
 const usedArticles = new Set();
@@ -14,50 +12,25 @@ function markUsed(articles) {
   articles.forEach(a => usedArticles.add(`${a.section}-${a.slug}`));
 }
 
-// ── FETCH ARTICLES FROM GITHUB ──
+// ── FETCH ARTICLES FROM WORKER ──
+// The Worker fetches from GitHub and parses frontmatter server-side, so this
+// just consumes clean, pre-parsed article JSON. No raw YAML reaches the client.
 async function fetchArticles(section) {
   const cacheKey = `articles-${section}`;
   const cached = sessionStorage.getItem(cacheKey);
   if (cached) return JSON.parse(cached);
 
-  const res = await fetch(`https://visions-api.fabiansalas1233.workers.dev/?section=${section}`);
-  const files = await res.json();
-  if (!Array.isArray(files)) return [];
-  const articles = await Promise.all(
-    files
-      .filter(f => f.name.endsWith('.md'))
-      .map(async f => {
-        const fileRes = await fetch(f.download_url);
-        const text = await fileRes.text();
-        return parseFrontmatter(text, section, f.name);
-      })
-  );
-  const sorted = articles.sort((a, b) => new Date(b.date) - new Date(a.date));
-  sessionStorage.setItem(cacheKey, JSON.stringify(sorted));
-  return sorted;
+  const res = await fetch(`${WORKER_URL}?section=${section}`);
+  if (!res.ok) return [];
+  const articles = await res.json();
+  if (!Array.isArray(articles)) return [];
+  sessionStorage.setItem(cacheKey, JSON.stringify(articles));
+  return articles;
 }
 
 async function prefetchAll() {
   const sections = ['news', 'sports', 'features', 'data', 'arts-culture', 'multimedia', 'opinion'];
   await Promise.all(sections.map(s => fetchArticles(s)));
-}
-
-// ── PARSE FRONTMATTER ──
-function parseFrontmatter(text, section, filename) {
-  const match = text.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return {};
-  const raw = match[1];
-  const data = {};
-  raw.split('\n').forEach(line => {
-    const [key, ...rest] = line.split(':');
-    if (key && rest.length) {
-      data[key.trim()] = rest.join(':').trim().replace(/^["']|["']$/g, '');
-    }
-  });
-  data.section = section;
-  data.slug = filename.replace('.md', '');
-  data.url = `/pages/article.html?section=${section}&slug=${data.slug}`;
-  return data;
 }
 
 // ── CURRENT DATE ──
@@ -329,16 +302,10 @@ async function renderArticlePage() {
   const slug = params.get('slug');
   if (!section || !slug) return;
 
-  const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${BRANCH}/_articles/${section}/${slug}.md`;
-  const res = await fetch(url);
+  const res = await fetch(`${WORKER_URL}?section=${section}&slug=${slug}`);
   if (!res.ok) return;
-  const text = await res.text();
-
-  const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return;
-
-  const data = parseFrontmatter(text, section, slug + '.md');
-  const body = match[2];
+  const data = await res.json();
+  const body = data.body;
 
   document.title = `${data.title} | Visions`;
 
