@@ -33,6 +33,122 @@ async function prefetchAll() {
   await Promise.all(sections.map(s => fetchArticles(s)));
 }
 
+// ── FETCH ALL ARTICLES (SITE-WIDE, FOR SEARCH) ──
+async function fetchAllArticlesFlat() {
+  const cacheKey = 'articles-all';
+  const cached = sessionStorage.getItem(cacheKey);
+  if (cached) return JSON.parse(cached);
+
+  const res = await fetch(`${WORKER_URL}?all=1`);
+  if (!res.ok) return [];
+  const articles = await res.json();
+  if (!Array.isArray(articles)) return [];
+  sessionStorage.setItem(cacheKey, JSON.stringify(articles));
+  return articles;
+}
+
+// ── SEARCH MATCHING/RANKING ──
+// Any query word matching scores higher when found in title/summary than
+// when only found in the body. Results with zero matches are excluded.
+function scoreArticleForSearch(article, queryWords) {
+  const title = (article.title || '').toLowerCase();
+  const summary = (article.summary || '').toLowerCase();
+  const body = (article.body || '').toLowerCase();
+  let score = 0;
+  for (const w of queryWords) {
+    if (title.includes(w)) score += 3;
+    if (summary.includes(w)) score += 2;
+    if (body.includes(w)) score += 1;
+  }
+  return score;
+}
+
+function searchArticles(articles, query) {
+  const queryWords = query.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 2);
+  if (!queryWords.length) return [];
+  return articles
+    .map(a => ({ article: a, score: scoreArticleForSearch(a, queryWords) }))
+    .filter(r => r.score > 0)
+    .sort((x, y) => y.score - x.score || new Date(y.article.date) - new Date(x.article.date))
+    .map(r => r.article);
+}
+
+// ── SEARCH BAR WIRING (every page) ──
+function initSearchBars() {
+  document.querySelectorAll('#search-bar').forEach(bar => {
+    const input = bar.querySelector('input');
+    const button = bar.querySelector('button');
+    if (!input || !button) return;
+
+    const go = () => {
+      const q = input.value.trim();
+      if (!q) return;
+      window.location.href = `/pages/search.html?q=${encodeURIComponent(q)}`;
+    };
+
+    button.addEventListener('click', go);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') go();
+    });
+  });
+}
+
+// ── RENDER SEARCH RESULTS PAGE ──
+async function renderSearchPage() {
+  const resultsEl = document.getElementById('search-results');
+  if (!resultsEl) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get('q') || '';
+
+  const headingEl = document.getElementById('search-query-display');
+  const emptyEl = document.getElementById('search-empty');
+  const input = document.querySelector('#search-bar input');
+  if (input) input.value = query;
+
+  if (headingEl) headingEl.textContent = query ? `Results for "${query}"` : 'Search';
+
+  if (!query) {
+    if (emptyEl) {
+      const textEl = document.getElementById('search-empty-text');
+      if (textEl) textEl.textContent = 'Type something in the search bar above to get started.';
+      emptyEl.style.display = 'flex';
+    }
+    document.body.classList.add('content-loaded');
+    return;
+  }
+
+  const all = await fetchAllArticlesFlat();
+  const results = searchArticles(all, query);
+
+  if (!results.length) {
+    if (emptyEl) {
+      const textEl = document.getElementById('search-empty-text');
+      if (textEl) textEl.textContent = `No results found for "${query}". Try a different search term.`;
+      emptyEl.style.display = 'flex';
+    }
+    resultsEl.innerHTML = '';
+    document.body.classList.add('content-loaded');
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  resultsEl.innerHTML = results.map(a => `
+    <div class="list-article">
+      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
+      <div class="list-article-text">
+        <span class="section-tag">${a.section.toUpperCase()}</span>
+        <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
+        <p class="section-article-excerpt">${a.summary}</p>
+        <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+      </div>
+    </div>
+  `).join('');
+
+  document.body.classList.add('content-loaded');
+}
+
 // ── CURRENT DATE ──
 function setDate() {
   const el = document.getElementById('current-date');
@@ -368,6 +484,7 @@ async function renderObituaryPage() {
 document.addEventListener('DOMContentLoaded', () => {
   setDate();
   setWeather();
+  initSearchBars();
 
   if (document.getElementById('hero-left')) {
     (async () => {
@@ -394,5 +511,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('article-container')) {
     renderArticlePage();
+  }
+
+  if (document.getElementById('search-results')) {
+    renderSearchPage();
   }
 });
