@@ -1278,3 +1278,264 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 #obituary-tributes:empty + #obituary-empty {
     display: flex;
 }
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE / MOBILE BREAKPOINTS
+   Desktop-first: rules above are the default (desktop).
+   Overrides below apply at narrower viewports, in cascade order.
+   ══════════════════════════════════════════════════ */
+
+/* ── TABLET (≤900px): collapse 3–5 column grids to 2 columns ── */
+@media (max-width: 900px) {
+
+  #hero {
+    grid-template-columns: 1fr;
+  }
+
+  #hero-middle {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 24px 0;
+  }
+
+  #hero-bottom {
+    flex-direction: column;
+  }
+
+  #recent-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .strip-inner {
+    grid-template-columns: 1fr;
+  }
+
+  #small-strips {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #footer-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #section-top {
+    grid-template-columns: 1fr;
+  }
+
+  #section-middle {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 24px 0;
+  }
+
+  #section-row2 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .staff-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #main-nav {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  #main-nav a {
+    margin-right: 16px;
+  }
+
+  #header-bottom {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+}
+
+/* ── PHONE (≤600px): single-column stack, tighter spacing, smaller type ── */
+@media (max-width: 600px) {
+
+  /* Shared container padding — reduce 40px side padding to 20px */
+  #header-top,
+  #header-bottom,
+  #hero,
+  #small-strips,
+  #article-main,
+  #section-main,
+  #about-main,
+  #staff-main,
+  #obituary-main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #header-main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #recent-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .large-strip {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #hero-bottom {
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 24px;
+  }
+
+  #footer-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 32px;
+  }
+
+  #footer-bottom {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Header */
+  #logo-img {
+    height: 90px;
+  }
+
+  #header-meta {
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+
+  #header-bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #main-nav {
+    justify-content: center;
+  }
+
+  #main-nav a {
+    font-size: 13px;
+    margin: 4px 8px;
+  }
+
+  #search-bar {
+    width: 100%;
+  }
+
+  #search-bar input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Hero */
+  #hero-headline {
+    font-size: 28px;
+  }
+
+  .bottom-headline {
+    font-size: 22px;
+  }
+
+  .strip-featured-headline {
+    font-size: 22px;
+  }
+
+  .strip-label {
+    font-size: 22px;
+  }
+
+  /* Recent grid — full single column, spans no longer needed */
+  #recent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span-2 {
+    grid-column: span 1;
+  }
+
+  .span-tall {
+    grid-row: auto;
+  }
+
+  /* Small strips, footer, section grids collapse fully */
+  #small-strips {
+    grid-template-columns: 1fr;
+  }
+
+  #footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  #section-row2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .staff-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* List-style articles: stack image above text instead of side-by-side */
+  .list-article {
+    grid-template-columns: 1fr;
+  }
+
+  .list-img {
+    width: 100%;
+  }
+
+  .tribute-card {
+    grid-template-columns: 1fr;
+  }
+
+  .tribute-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+  }
+
+  /* Article page */
+  #article-headline {
+    font-size: 26px;
+  }
+
+  #article-subheadline {
+    font-size: 16px;
+  }
+
+  #article-body p {
+    font-size: 16px;
+  }
+
+  /* Obituary */
+  #obituary-portrait-wrap,
+  #obituary-portrait {
+    width: 160px;
+    height: 160px;
+  }
+
+  #obituary-name {
+    font-size: 28px;
+  }
+
+  /* write-for-us.html Gauge table — inline-styled, so !important is needed
+     to override the inline font-size/padding at this breakpoint */
+  table {
+    font-size: 12px !important;
+  }
+
+  table th,
+  table td {
+    padding: 6px !important;
+  }
+}
