@@ -175,78 +175,49 @@ async function setWeather() {
 }
 
 // ── RENDER HOMEPAGE HERO ──
-async function renderHero() {
-  const el = document.getElementById('hero-left');
-  if (!el) return;
-  const articles = await fetchArticles('news');
-  const unused = getUnused(articles);
+// ── RENDER TOP STORIES ──
+// One featured story (all sections, most recent) plus a river of the next
+// most recent stories across every section, including Opinion and Obituary —
+// replaces the old news-only hero + features/news hero-bottom + 6-section
+// recent-grid, which excluded Opinion and Obituary entirely.
+async function renderTopStories() {
+  const heroEl = document.getElementById('hero-left');
+  const listEl = document.getElementById('top-stories-list');
+  if (!heroEl && !listEl) return;
+
+  const all = await fetchAllArticlesFlat();
+  const sorted = [...all].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const unused = getUnused(sorted);
   if (!unused.length) return;
-  const a = unused[0];
-  markUsed([a]);
-  el.innerHTML = `
-    <span class="section-tag">${a.section.toUpperCase()}</span>
-    <a href="${a.url}"><h1 id="hero-headline">${a.title}</h1></a>
-    <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
-    <img src="${a.image}" alt="${a.title}" id="hero-img" />
-    <p id="hero-excerpt">${a.summary}</p>
-  `;
 
-  const mid = document.getElementById('hero-middle');
-  if (mid) {
-    const midUnused = getUnused(articles);
-    const mid1 = midUnused[0];
-    const mid2 = midUnused[1];
-    if (mid1 && mid2) {
-      markUsed([mid1, mid2]);
-      mid.innerHTML = `
-        <div class="mid-article">
-          <h2 class="mid-headline"><a href="${mid1.url}">${mid1.title}</a></h2>
-          <p class="author-meta">${mid1.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-          <p class="mid-excerpt">${mid1.summary}</p>
-        </div>
-        <hr class="article-divider">
-        <div class="mid-article">
-          <h2 class="mid-headline"><a href="${mid2.url}">${mid2.title}</a></h2>
-          <p class="author-meta">${mid2.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-          <p class="mid-excerpt">${mid2.summary}</p>
-        </div>
-      `;
-    }
-  }
-}
-
-// ── RENDER HERO BOTTOM ──
-async function renderHeroBottom() {
-  const left = document.querySelector('#hero-bottom .bottom-article:first-child');
-  const right = document.querySelector('#hero-bottom .bottom-article:last-child');
-  if (!left || !right) return;
-
-  const features = await fetchArticles('features');
-  const news = await fetchArticles('news');
-
-  const unusedFeatures = getUnused(features);
-  const unusedNews = getUnused(news);
-
-  if (unusedFeatures[0]) {
-    const a = unusedFeatures[0];
-    markUsed([a]);
-    left.innerHTML = `
-      <span class="section-tag">FEATURES</span>
-      <a href="pages/article.html?section=features&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">FEATURES</span></p>
-      <img src="${a.image}" alt="${a.title}" class="bottom-img" />
+  if (heroEl) {
+    const featured = unused[0];
+    markUsed([featured]);
+    heroEl.innerHTML = `
+      <span class="section-tag">${featured.section.toUpperCase()}</span>
+      <a href="${featured.url}"><h1 id="hero-headline">${featured.title}</h1></a>
+      <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${featured.section.toUpperCase()}</span></p>
+      ${featured.image ? `<img src="${featured.image}" alt="${featured.title}" id="hero-img" />` : ''}
+      <p id="hero-excerpt">${featured.summary}</p>
     `;
   }
 
-  if (unusedNews[0]) {
-    const a = unusedNews[0];
-    markUsed([a]);
-    right.innerHTML = `
-      <span class="section-tag">NEWS</span>
-      <a href="pages/article.html?section=news&slug=${a.slug}"><h2 class="bottom-headline">${a.title}</h2></a>
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">NEWS</span></p>
-      <img src="${a.image}" alt="${a.title}" class="bottom-img" />
-    `;
+  if (listEl) {
+    const remaining = getUnused(sorted).slice(0, 6);
+    if (!remaining.length) return;
+    markUsed(remaining);
+    listEl.innerHTML = remaining.map(a => `
+      <div class="list-article">
+        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
+        <div class="list-article-text">
+          <span class="section-tag">${a.section.toUpperCase()}</span>
+          <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
+          <p class="section-article-excerpt">${a.summary}</p>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+        </div>
+      </div>
+    `).join('');
   }
 }
 
@@ -266,27 +237,6 @@ async function renderOpinionSidebar() {
     </div>
   `).join('');
   el.innerHTML = `<h3 id="opinion-label">Opinion</h3>${items}`;
-}
-
-// ── RENDER RECENT GRID ──
-async function renderRecentGrid() {
-  const el = document.getElementById('recent-grid');
-  if (!el) return;
-  const sections = ['news', 'sports', 'features', 'data', 'arts-culture', 'multimedia'];
-  const all = (await Promise.all(sections.map(s => fetchArticles(s)))).flat();
-  all.sort((a, b) => new Date(b.date) - new Date(a.date));
-  const unused = getUnused(all);
-  const recent = unused.slice(0, 6);
-  if (!recent.length) return;
-  markUsed(recent);
-  el.innerHTML = recent.map((a, i) => `
-    <div class="recent-article ${i === 0 ? 'span-2' : ''}">
-      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="recent-img" />` : ''}
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
-      <a href="${a.url}"><h3 class="recent-headline">${a.title}</h3></a>
-      <p class="recent-excerpt">${a.summary}</p>
-    </div>
-  `).join('');
 }
 
 // ── RENDER LARGE STRIP ──
@@ -491,10 +441,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('hero-left')) {
     (async () => {
       await prefetchAll();
-      await renderHero();
-      await renderHeroBottom();
       await renderOpinionSidebar();
-      await renderRecentGrid();
+      await renderTopStories();
       await renderLargeStrip('news', 'news-strip');
       await renderLargeStrip('opinion', 'opinion-strip');
       await renderSmallStrip('sports', 'sports-strip');
