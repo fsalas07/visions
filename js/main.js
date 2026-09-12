@@ -186,7 +186,10 @@ async function renderTopStories() {
   if (!heroEl && !riverEl) return;
 
   const all = await fetchAllArticlesFlat();
-  const sorted = [...all].sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Obituary/Memorial content is kept off the general homepage mix by convention —
+  // it stays on its own dedicated page. Still fully searchable elsewhere.
+  const eligible = all.filter(a => a.section !== 'memorial');
+  const sorted = [...eligible].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   if (heroEl) {
     const featured = getUnused(sorted).slice(0, 3);
