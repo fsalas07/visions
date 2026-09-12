@@ -182,32 +182,33 @@ async function setWeather() {
 // recent-grid, which excluded Opinion and Obituary entirely.
 async function renderTopStories() {
   const heroEl = document.getElementById('hero-left');
-  const listEl = document.getElementById('top-stories-list');
-  if (!heroEl && !listEl) return;
+  const riverEl = document.getElementById('hero-river');
+  if (!heroEl && !riverEl) return;
 
   const all = await fetchAllArticlesFlat();
   const sorted = [...all].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const unused = getUnused(sorted);
-  if (!unused.length) return;
-
   if (heroEl) {
-    const featured = unused[0];
-    markUsed([featured]);
-    heroEl.innerHTML = `
-      <span class="section-tag">${featured.section.toUpperCase()}</span>
-      <a href="${featured.url}"><h1 id="hero-headline">${featured.title}</h1></a>
-      <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${featured.section.toUpperCase()}</span></p>
-      ${featured.image ? `<img src="${featured.image}" alt="${featured.title}" id="hero-img" />` : ''}
-      <p id="hero-excerpt">${featured.summary}</p>
-    `;
+    const featured = getUnused(sorted).slice(0, 3);
+    if (featured.length) {
+      markUsed(featured);
+      heroEl.innerHTML = featured.map(a => `
+        <div class="hero-card">
+          <span class="section-tag">${a.section.toUpperCase()}</span>
+          <a href="${a.url}"><h1 class="hero-card-headline">${a.title}</h1></a>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
+          ${a.image ? `<img src="${a.image}" alt="${a.title}" class="hero-card-img" />` : ''}
+          <p class="hero-card-excerpt">${a.summary}</p>
+        </div>
+      `).join('');
+    }
   }
 
-  if (listEl) {
+  if (riverEl) {
     const remaining = getUnused(sorted).slice(0, 6);
     if (!remaining.length) return;
     markUsed(remaining);
-    listEl.innerHTML = remaining.map(a => `
+    riverEl.innerHTML = remaining.map(a => `
       <div class="list-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
         <div class="list-article-text">
@@ -255,7 +256,7 @@ async function renderLargeStrip(section, containerId) {
     <img src="${featured.image}" alt="${featured.title}" class="strip-img" />
     <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span></p>
     <a href="${featured.url}"><h3 class="strip-featured-headline">${featured.title}</h3></a>
-    <p class="recent-excerpt">${featured.summary}</p>
+    <p class="strip-featured-excerpt">${featured.summary}</p>
   `;
   inner.querySelector('.strip-list').innerHTML = rest.map(a => `
     <div class="strip-list-article">
