@@ -12,6 +12,4 @@ The Panther Visions in the past has never reported on the decisions of the Board
 
 `<div class="flourish-embed flourish-slope" data-src="visualisation/30238715"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/30238715/thumbnail" width="100%" alt="slope visualization" /></noscript></div>`
 
-`nndndnd`
-
-jjjdjdjdjd
+nfnfnfnfn
