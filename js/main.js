@@ -204,7 +204,7 @@ async function renderTopStories() {
   });
 
   if (heroEl) {
-    const featured = getUnused(sorted).slice(0, 3);
+    const featured = getUnused(sorted).slice(0, 1);
     if (featured.length) {
       markUsed(featured);
       heroEl.innerHTML = featured.map(a => `
@@ -220,7 +220,7 @@ async function renderTopStories() {
   }
 
   if (riverEl) {
-    const remaining = getUnused(sorted).slice(0, 6);
+    const remaining = getUnused(sorted).slice(0, 8);
     if (!remaining.length) return;
     markUsed(remaining);
     riverEl.innerHTML = remaining.map(a => `

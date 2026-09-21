@@ -119,10 +119,41 @@ a {
     margin: 40px auto 0;
     padding: 0 40px;
     display: grid;
-    grid-template-columns: 45% 30% 25%;
+    grid-template-columns: 66% 34%;
     gap: 48px;
     border-bottom: 1px solid #e0e0e0;
     padding-bottom: 32px;
+}
+
+/* ── TOP STORIES (full-width editorial list, below hero) ── */
+#top-stories {
+    max-width: 1400px;
+    margin: 0 auto 40px;
+    padding: 40px 40px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#top-stories-header {
+    border-left: 4px solid #800000;
+    padding-left: 12px;
+    margin-bottom: 8px;
+}
+
+#top-stories-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #1a1a1a;
+}
+
+#hero-river {
+    display: flex;
+    flex-direction: column;
+}
+
+#hero-river .list-article:last-child {
+    border-bottom: none;
 }
 
 #hero-left {
@@ -221,38 +252,6 @@ a {
 }
 
 /* ── TOP STORIES RIVER ── */
-#hero-river {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    border-left: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-    padding: 0 28px;
-}
-
-#hero-river .list-article {
-    grid-template-columns: 90px 1fr;
-    padding: 0 0 16px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-#hero-river .list-img {
-    width: 90px;
-}
-
-#hero-river .list-article:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-#hero-river .list-headline {
-    font-size: 15px;
-}
-
-#hero-river .section-article-excerpt {
-    display: none;
-}
-
 .text-only {
     background-color: #fafafa;
     padding: 16px;
@@ -928,7 +927,6 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     color: #555;
     margin-top: 6px;
     text-align: center;
-    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1032,7 +1030,7 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 #obituary-name {
     font-family: 'Times New Roman', Times, serif;
     font-size: 36px;
-    font-weight: bold;
+    font-weight: 400;
     color: #1a1a1a;
     letter-spacing: 0.02em;
     margin-top: 4px;
@@ -1208,14 +1206,6 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     grid-template-columns: 1fr;
   }
 
-  #hero-river {
-    border-left: none;
-    border-right: none;
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 24px 0;
-  }
-
   .strip-inner {
     grid-template-columns: 1fr;
   }
@@ -1285,7 +1275,7 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     padding-right: 20px;
   }
 
-  #hero-river {
+  #top-stories {
     padding-left: 20px;
     padding-right: 20px;
   }
