@@ -1,9 +1,11 @@
 ---
 title: Reflecting on Hispanic History Month
 author: Camila Rosales
+author_role: Staff Writer
 date: 2025-10-04T15:23:00.000-04:00
 summary: Reflecting on the depth of hispanic culture within the confines of society.
 image: /assets/images/55caa8_01a8174d16e1418b9ad45d723bad0cb4~mv2.avif
+homepage_priority: Lead
 ---
 On September 15th at 1 pm, the Wellness Center partnered with the Center for Student Engagement for a Hispanic Heritage Month event in the Paterson Room at our main campus. The space was filled with lively music, tasty food, and rich culture. One of the main things that caught my attention was the poster asking, *“What does it mean to be Hispanic?”* It was a question I pondered for a few minutes, not just me, but other attendees too. Some of us struggled to come up with an answer, unsure of what to say.
 
