@@ -189,7 +189,19 @@ async function renderTopStories() {
   // Obituary/Memorial content is kept off the general homepage mix by convention —
   // it stays on its own dedicated page. Still fully searchable elsewhere.
   const eligible = all.filter(a => a.section !== 'memorial');
-  const sorted = [...eligible].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // Editors can flag an article's homepage placement via CMS (Lead/Secondary/Normal).
+  // Sorting by priority tier first, then recency within each tier, means this is a
+  // pure extension of the old behavior: when everything is "Normal" (the default,
+  // and the only state any article had before this field existed), every tier rank
+  // is equal, so this sort is identical to sorting by date alone.
+  const PRIORITY_RANK = { Lead: 0, Secondary: 1, Normal: 2 };
+  const sorted = [...eligible].sort((a, b) => {
+    const rankA = PRIORITY_RANK[a.homepage_priority] ?? 2;
+    const rankB = PRIORITY_RANK[b.homepage_priority] ?? 2;
+    if (rankA !== rankB) return rankA - rankB;
+    return new Date(b.date) - new Date(a.date);
+  });
 
   if (heroEl) {
     const featured = getUnused(sorted).slice(0, 3);
@@ -402,14 +414,30 @@ async function renderArticlePage() {
   // tags. Browsers never execute <script> tags inserted via innerHTML as a
   // security measure, so those embeds silently do nothing unless we manually
   // re-create and re-insert each script tag to force real execution.
+  // Article bodies can contain embed snippets (Flourish, etc.) with <script>
+  // tags. Browsers never execute <script> tags inserted via innerHTML as a
+  // security measure, so those embeds silently do nothing unless we manually
+  // re-create and re-insert each script tag to force real execution.
+  //
+  // SECURITY: only re-execute scripts from an explicit allowlist of known,
+  // trusted embed providers. Everything else — inline scripts, scripts from
+  // any other origin — is dropped, not executed. Without this, the CMS's
+  // "article body" field would be an arbitrary-JavaScript-execution pipeline
+  // for anyone with publish access.
+  const ALLOWED_SCRIPT_ORIGINS = [
+    'https://public.flourish.studio/'
+  ];
+
   el.querySelectorAll('script').forEach(oldScript => {
-    const newScript = document.createElement('script');
-    if (oldScript.src) {
-      newScript.src = oldScript.src;
+    const src = oldScript.src || '';
+    const isAllowed = src && ALLOWED_SCRIPT_ORIGINS.some(origin => src.startsWith(origin));
+    if (isAllowed) {
+      const newScript = document.createElement('script');
+      newScript.src = src;
+      oldScript.replaceWith(newScript);
     } else {
-      newScript.textContent = oldScript.textContent;
+      oldScript.remove();
     }
-    oldScript.replaceWith(newScript);
   });
 
   document.body.classList.add('content-loaded');

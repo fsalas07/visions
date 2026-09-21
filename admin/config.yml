@@ -21,6 +21,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "sports"
@@ -35,6 +36,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "opinion"
@@ -49,6 +51,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "features"
@@ -63,6 +66,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "multimedia"
@@ -77,6 +81,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "data"
@@ -91,6 +96,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "arts-culture"
@@ -105,6 +111,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "memorial"
