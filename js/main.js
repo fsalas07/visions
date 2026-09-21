@@ -242,7 +242,12 @@ async function renderOpinionSidebar() {
   const el = document.getElementById('hero-right');
   if (!el) return;
   const articles = await fetchArticles('opinion');
-  const unused = getUnused(articles);
+  // Articles explicitly flagged Lead/Secondary are reserved for renderTopStories —
+  // otherwise a Lead-flagged Opinion article would get silently claimed here first
+  // (by pure recency, with no priority awareness) before the priority logic ever
+  // gets a turn to place it in the featured hero/river.
+  const unflagged = articles.filter(a => (a.homepage_priority || 'Normal') === 'Normal');
+  const unused = getUnused(unflagged);
   if (!unused.length) return;
   const picked = unused.slice(0, 5);
   markUsed(picked);
