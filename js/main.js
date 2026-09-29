@@ -12,6 +12,12 @@ function markUsed(articles) {
   articles.forEach(a => usedArticles.add(`${a.section}-${a.slug}`));
 }
 
+// Display label for a section slug — "arts-culture" renders as "ARTS & CULTURE"
+// (matching the nav) instead of the raw slug uppercased ("ARTS-CULTURE").
+function sectionLabel(section) {
+  return section === 'arts-culture' ? 'ARTS &amp; CULTURE' : section.toUpperCase();
+}
+
 // ── FETCH ARTICLES FROM WORKER ──
 // The Worker fetches from GitHub and parses frontmatter server-side, so this
 // just consumes clean, pre-parsed article JSON. No raw YAML reaches the client.
@@ -140,7 +146,7 @@ async function renderSearchPage() {
     <div class="list-article">
       ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
       <div class="list-article-text">
-        <span class="section-tag">${a.section.toUpperCase()}</span>
+        <span class="section-tag">${sectionLabel(a.section)}</span>
         <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
         <p class="section-article-excerpt">${a.summary}</p>
         <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
@@ -209,9 +215,9 @@ async function renderTopStories() {
       markUsed(featured);
       heroEl.innerHTML = featured.map(a => `
         <div class="hero-card">
-          <span class="section-tag">${a.section.toUpperCase()}</span>
+          <span class="section-tag">${sectionLabel(a.section)}</span>
           <a href="${a.url}"><h1 class="hero-card-headline">${a.title}</h1></a>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${a.section.toUpperCase()}</span></p>
+          <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(a.section)}</span></p>
           ${a.image ? `<img src="${a.image}" alt="${a.title}" class="hero-card-img" />` : ''}
           <p class="hero-card-excerpt">${a.summary}</p>
         </div>
@@ -227,7 +233,7 @@ async function renderTopStories() {
       <div class="list-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
         <div class="list-article-text">
-          <span class="section-tag">${a.section.toUpperCase()}</span>
+          <span class="section-tag">${sectionLabel(a.section)}</span>
           <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
           <p class="section-article-excerpt">${a.summary}</p>
           <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
@@ -274,13 +280,13 @@ async function renderLargeStrip(section, containerId) {
   if (!inner) return;
   inner.querySelector('.strip-featured').innerHTML = `
     <img src="${featured.image}" alt="${featured.title}" class="strip-img" />
-    <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span></p>
+    <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
     <a href="${featured.url}"><h3 class="strip-featured-headline">${featured.title}</h3></a>
     <p class="strip-featured-excerpt">${featured.summary}</p>
   `;
   inner.querySelector('.strip-list').innerHTML = rest.map(a => `
     <div class="strip-list-article">
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span></p>
+      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
       <a href="${a.url}"><h4 class="strip-list-headline">${a.title}</h4></a>
     </div>
   `).join('');
@@ -300,7 +306,7 @@ async function renderSmallStrip(section, containerId) {
   grid.innerHTML = picked.map(a => `
     <div class="small-article">
       ${a.image ? `<img src="${a.image}" alt="${a.title}" class="small-img" />` : ''}
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span></p>
+      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
       <a href="${a.url}"><h4 class="small-headline">${a.title}</h4></a>
     </div>
   `).join('');
@@ -320,7 +326,7 @@ async function renderSectionPage() {
   if (top && articles[0]) {
     top.querySelector('#section-featured').innerHTML = `
       <img src="${articles[0].image}" alt="${articles[0].title}" class="section-featured-img" />
-      <span class="section-tag">${section.toUpperCase()}</span>
+      <span class="section-tag">${sectionLabel(section)}</span>
       <a href="article.html?section=${section}&slug=${articles[0].slug}"><h2 class="section-featured-headline">${articles[0].title}</h2></a>
       <p class="section-article-excerpt">${articles[0].summary}</p>
       <p class="author-meta">${articles[0].author} <span class="meta-divider">|</span> ${new Date(articles[0].date).toLocaleDateString()}</p>
@@ -331,7 +337,7 @@ async function renderSectionPage() {
       middle.innerHTML = articles.slice(1, 3).map(a => `
         <div class="section-mid-article">
           ${a.image ? `<img src="${a.image}" alt="${a.title}" class="section-mid-img" />` : ''}
-          <span class="section-tag">${section.toUpperCase()}</span>
+          <span class="section-tag">${sectionLabel(section)}</span>
           <a href="article.html?section=${section}&slug=${a.slug}"><h3 class="section-mid-headline">${a.title}</h3></a>
           <p class="section-article-excerpt">${a.summary}</p>
           <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
@@ -343,7 +349,7 @@ async function renderSectionPage() {
     if (right) {
       right.innerHTML = articles.slice(3, 7).map(a => `
         <div class="section-text-article">
-          <span class="section-tag">${section.toUpperCase()}</span>
+          <span class="section-tag">${sectionLabel(section)}</span>
           <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="section-text-headline">${a.title}</h4></a>
           <p class="section-article-excerpt">${a.summary}</p>
           <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
@@ -357,7 +363,7 @@ async function renderSectionPage() {
     row2.innerHTML = articles.slice(7, 12).map(a => `
       <div class="row2-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="row2-img" />` : ''}
-        <span class="section-tag">${section.toUpperCase()}</span>
+        <span class="section-tag">${sectionLabel(section)}</span>
         <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="row2-headline">${a.title}</h4></a>
         <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
       </div>
@@ -370,7 +376,7 @@ async function renderSectionPage() {
       <div class="list-article">
         ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
         <div class="list-article-text">
-          <span class="section-tag">${section.toUpperCase()}</span>
+          <span class="section-tag">${sectionLabel(section)}</span>
           <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="list-headline">${a.title}</h4></a>
           <p class="section-article-excerpt">${a.summary}</p>
           <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
@@ -399,10 +405,10 @@ async function renderArticlePage() {
   document.title = `${data.title} | Visions`;
 
   el.innerHTML = `
-    <span class="section-tag">${section.toUpperCase()}</span>
+    <span class="section-tag">${sectionLabel(section)}</span>
     <h1 id="article-headline">${data.title}</h1>
     <p id="article-subheadline">${data.summary}</p>
-    <p class="author-meta">By ${data.author} <span class="meta-divider">|</span> <span class="section-tag">${section.toUpperCase()}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
+    <p class="author-meta">By ${data.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
     <div id="article-hero-img">
       <img src="${data.image}" alt="${data.title}" />
     </div>
