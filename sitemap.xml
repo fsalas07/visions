@@ -96,6 +96,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://visionsnewspaper.com/pages/article.html?section=news&amp;slug=board-of-trustees-meeting-recap</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://visionsnewspaper.com/pages/article.html?section=news&amp;slug=new-jersey-transit-hikes-prices-students-forgo-lunch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -117,11 +122,6 @@
   </url>
   <url>
     <loc>https://visionsnewspaper.com/pages/article.html?section=news&amp;slug=wait-is-almost-over-library-renovation-almost-complete</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://visionsnewspaper.com/pages/article.html?section=sports&amp;slug=pccc-wins-gold</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
