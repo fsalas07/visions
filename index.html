@@ -10,63 +10,64 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <link rel="stylesheet" href="css/style.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     </head>
     <body>
         <header id="site-header">
-            <div id="header-top">
-                <div id="header-socials">
-                    <a href="https://www.instagram.com/visions_pccc/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://linkedin.com/company/thepanthervision" target="_blank"><i class="fab fa-linkedin"></i></a>
-                </div>
-                <nav id="utility-nav">
-                    <a href="pages/about.html">About</a>
-                    <a href="pages/staff.html">Staff</a>
-                    <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank">Submit a Tip</a>
-                </nav>
+      <div id="header-top">
+        <nav id="utility-nav">
+          <a href="pages/about.html">About</a>
+          <a href="pages/staff.html">Staff</a>
+          <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank">Submit a Tip</a>
+        </nav>
+        <div id="header-main">
+          <a href="index.html" id="site-logo">
+            <img src="assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
+          </a>
+          <div id="header-meta">
+            <span id="current-date"></span>
+            <span class="meta-divider">|</span>
+            <span id="header-location">Paterson, NJ</span>
+            <span class="meta-divider">|</span>
+            <span id="header-weather">Loading...</span>
+          </div>
+        </div>
+        <div id="header-socials">
+          <a href="https://www.instagram.com/visions_pccc/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/thepanthervision/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div id="header-bottom">
+        <div id="nav-inner">
+          <button id="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-panel">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+          </button>
+          <div id="nav-panel">
+            <nav id="main-nav">
+              <a href="pages/news.html">News</a>
+              <a href="pages/sports.html">Sports</a>
+              <a href="pages/opinion.html">Opinion</a>
+              <a href="pages/features.html">Features</a>
+              <a href="pages/multimedia.html">Multimedia</a>
+              <a href="pages/data.html">Data</a>
+              <a href="pages/arts-culture.html">Arts & Culture</a>
+              <a href="pages/obituary.html">Obituary</a>
+            </nav>
+            <div id="search-bar">
+              <input type="text" placeholder="Search..." />
+              <button>Search</button>
             </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-            <div id="header-main">
-                <a href="index.html" id="site-logo">
-                    <img src="assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
-                </a>
-                <div id="header-meta">
-                    <span id="current-date"></span>
-                    <span class="meta-divider">|</span>
-                    <span id="header-location">Paterson, NJ</span>
-                    <span class="meta-divider">|</span>
-                    <span id="header-weather">Loading...</span>
-                </div>
-            </div>
-
-            <div id="header-bottom">
-                <nav id="main-nav">
-                    <a href="pages/news.html">News</a>
-                    <a href="pages/sports.html">Sports</a>
-                    <a href="pages/opinion.html">Opinion</a>
-                    <a href="pages/features.html">Features</a>
-                    <a href="pages/multimedia.html">Multimedia</a>
-                    <a href="pages/data.html">Data</a>
-                    <a href="pages/arts-culture.html">Arts & Culture</a>
-                    <a href="pages/obituary.html">Obituary</a>
-                </nav>
-                <div id="search-bar">
-                    <input type="text" placeholder="Search..." />
-                    <button>Search</button>
-                </div>
-            </div>
-        </header>
-
+        <!-- TOP ZONE: 7 top stories (renderTopStories) | Opinion sidebar (renderOpinionSidebar) -->
         <section id="hero">
             <div id="hero-left"></div>
             <div id="hero-right"></div>
-        </section>
-
-        <section id="top-stories">
-            <div id="top-stories-header">
-                <h2 id="top-stories-label">More Top Stories</h2>
-            </div>
-            <div id="hero-river"></div>
         </section>
 
         <main id="content">
@@ -128,52 +129,53 @@
         </main>
 
         <footer id="site-footer">
-            <div id="footer-inner">
-                <div id="footer-logo-col">
-                    <a href="index.html" id="footer-logo">
-                        <img src="assets/images/The Daily Vision (BLACK).png" alt="Visions" id="footer-logo-img" />
-                    </a>
-                    <p id="footer-tagline">The Student Publication of Passaic County Community College</p>
-                    <div id="footer-socials">
-                        <a href="https://www.instagram.com/visions_pccc/" target="_blank">Instagram</a>
-                        <a href="https://linkedin.com/company/thepanthervision" target="_blank">LinkedIn</a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4 class="footer-col-label">Sections</h4>
-                    <a href="pages/news.html">News</a>
-                    <a href="pages/sports.html">Sports</a>
-                    <a href="pages/opinion.html">Opinion</a>
-                    <a href="pages/features.html">Features</a>
-                    <a href="pages/multimedia.html">Multimedia</a>
-                    <a href="pages/data.html">Data</a>
-                    <a href="pages/arts-culture.html">Arts & Culture</a>
-                </div>
-
-                <div class="footer-col">
-    <h4 class="footer-col-label">About</h4>
-    <a href="pages/about.html">About</a>
-    <a href="pages/staff.html">Staff</a>
-    <a href="pages/masthead.html">Masthead</a>
-    <a href="pages/contact.html">Contact</a>
-    <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank">Submit a Tip</a>
-    <a href="mailto:visions@pccc.edu">visions@pccc.edu</a>
-    <a href="pages/write-for-us.html">Write for Us</a>
-</div>
-
-                <div class="footer-col">
-                    <h4 class="footer-col-label">More</h4>
-                    <a href="pages/advertise.html">Advertise</a>
-                    <a href="pages/privacy.html">Privacy Policy</a>
-                    <a href="pages/terms.html">Terms & Conditions</a>
-                </div>
+      <div id="footer-inner">
+        <div id="footer-logo-col">
+          <a href="index.html" id="footer-logo">
+            <img src="assets/images/The Daily Vision (BLACK).png" alt="Visions" id="footer-logo-img" />
+          </a>
+          <p id="footer-tagline">The Student Publication of Passaic County Community College</p>
+          <div id="footer-socials">
+            <a href="https://www.instagram.com/visions_pccc/" target="_blank">Instagram</a>
+            <a href="https://www.linkedin.com/company/thepanthervision/" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+        <div id="footer-links">
+          <div id="footer-cols">
+            <div class="footer-col">
+              <h4 class="footer-col-label">Sections</h4>
+              <a href="pages/news.html">News</a>
+              <a href="pages/sports.html">Sports</a>
+              <a href="pages/opinion.html">Opinion</a>
+              <a href="pages/features.html">Features</a>
+              <a href="pages/multimedia.html">Multimedia</a>
+              <a href="pages/data.html">Data</a>
+              <a href="pages/arts-culture.html">Arts & Culture</a>
+              <a href="pages/obituary.html">Obituary</a>
             </div>
-
-            <div id="footer-bottom">
-                <p>© 2026 Visions. All rights reserved. Published by students of Passaic County Community College.</p>
+            <div class="footer-col">
+              <h4 class="footer-col-label">About</h4>
+              <a href="pages/about.html">About</a>
+              <a href="pages/staff.html">Staff</a>
+              <a href="pages/masthead.html">Masthead</a>
+              <a href="pages/contact.html">Contact</a>
+              <a href="pages/write-for-us.html">Write for Us</a>
+              <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank">Submit a Tip</a>
+              <a href="mailto:visions@pccc.edu">visions@pccc.edu</a>
             </div>
-        </footer>
+            <div class="footer-col">
+              <h4 class="footer-col-label">More</h4>
+              <a href="pages/advertise.html">Advertise</a>
+              <a href="pages/privacy.html">Privacy Policy</a>
+              <a href="pages/terms.html">Terms & Conditions</a>
+            </div>
+          </div>
+          <div id="footer-bottom">
+            <p>© 2026 Visions. All rights reserved. Published by students of Passaic County Community College.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
 
         <script src="js/main.js"></script>
     </body>

@@ -101,6 +101,34 @@ function initSearchBars() {
   });
 }
 
+// ── NAV: MOBILE MENU TOGGLE + CURRENT-PAGE HIGHLIGHT (every page) ──
+// The header markup is identical on every page, so the active link is set
+// here instead of in the HTML. Below 992px the CSS collapses the links behind
+// the menu button only after 'nav-ready' is added, so the nav stays usable if
+// this script never runs.
+function initNav() {
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  if (header && toggle) {
+    header.classList.add('nav-ready');
+    toggle.addEventListener('click', () => {
+      const open = header.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Compare page names without ".html" (Cloudflare Pages serves clean URLs).
+  const pageName = path => (path.split('/').pop() || 'index').replace(/\.html$/, '');
+  let current = pageName(window.location.pathname);
+  if (current === 'article') {
+    const section = new URLSearchParams(window.location.search).get('section');
+    if (section) current = section === 'memorial' ? 'obituary' : section;
+  }
+  document.querySelectorAll('#main-nav a').forEach(a => {
+    if (pageName(a.getAttribute('href')) === current) a.setAttribute('aria-current', 'page');
+  });
+}
+
 // ── RENDER SEARCH RESULTS PAGE ──
 async function renderSearchPage() {
   const resultsEl = document.getElementById('search-results');
@@ -142,19 +170,27 @@ async function renderSearchPage() {
 
   if (emptyEl) emptyEl.style.display = 'none';
 
-  resultsEl.innerHTML = results.map(a => `
-    <div class="list-article">
-      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
-      <div class="list-article-text">
-        <span class="section-tag">${sectionLabel(a.section)}</span>
-        <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
-        <p class="section-article-excerpt">${a.summary}</p>
-        <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-      </div>
-    </div>
-  `).join('');
+  resultsEl.innerHTML = results.map(a => storyRow(a, a.url, a.section)).join('');
 
   document.body.classList.add('content-loaded');
+}
+
+// ── RELATIVE TIME ──
+// "5 minutes ago", "19 hours ago", "2 days ago"; after 7 days the date
+// ("September 23", plus the year when it isn't the current year).
+function timeAgo(dateStr) {
+  const date = new Date(dateStr);
+  if (isNaN(date)) return '';
+  const seconds = (Date.now() - date.getTime()) / 1000;
+  if (seconds >= 0 && seconds < 7 * 86400) {
+    const ago = (n, unit) => `${n} ${unit}${n === 1 ? '' : 's'} ago`;
+    if (seconds < 3600) return ago(Math.max(1, Math.floor(seconds / 60)), 'minute');
+    if (seconds < 86400) return ago(Math.floor(seconds / 3600), 'hour');
+    return ago(Math.floor(seconds / 86400), 'day');
+  }
+  const options = { month: 'long', day: 'numeric' };
+  if (date.getFullYear() !== new Date().getFullYear()) options.year = 'numeric';
+  return date.toLocaleDateString('en-US', options);
 }
 
 // ── CURRENT DATE ──
@@ -182,14 +218,13 @@ async function setWeather() {
 
 // ── RENDER HOMEPAGE HERO ──
 // ── RENDER TOP STORIES ──
-// One featured story (all sections, most recent) plus a river of the next
-// most recent stories across every section, including Opinion and Obituary —
-// replaces the old news-only hero + features/news hero-bottom + 6-section
-// recent-grid, which excluded Opinion and Obituary entirely.
+// Seven top stories across every section in the Princetonian top-zone grid:
+// row 1 = featured (7/12) | two text-only stories (5/12); row 2 = two stories
+// with images (5/12) | two stories with images (7/12). The Lead-flagged
+// article always takes the featured slot.
 async function renderTopStories() {
   const heroEl = document.getElementById('hero-left');
-  const riverEl = document.getElementById('hero-river');
-  if (!heroEl && !riverEl) return;
+  if (!heroEl) return;
 
   const all = await fetchAllArticlesFlat();
   // Obituary/Memorial content is kept off the general homepage mix by convention —
@@ -209,38 +244,26 @@ async function renderTopStories() {
     return new Date(b.date) - new Date(a.date);
   });
 
-  if (heroEl) {
-    const featured = getUnused(sorted).slice(0, 1);
-    if (featured.length) {
-      markUsed(featured);
-      heroEl.innerHTML = featured.map(a => `
-        <div class="hero-card">
-          <span class="section-tag">${sectionLabel(a.section)}</span>
-          <a href="${a.url}"><h1 class="hero-card-headline">${a.title}</h1></a>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(a.section)}</span></p>
-          ${a.image ? `<img src="${a.image}" alt="${a.title}" class="hero-card-img" />` : ''}
-          <p class="hero-card-excerpt">${a.summary}</p>
-        </div>
-      `).join('');
-    }
-  }
+  const picked = getUnused(sorted).slice(0, 7);
+  if (!picked.length) return;
+  markUsed(picked);
 
-  if (riverEl) {
-    const remaining = getUnused(sorted).slice(0, 8);
-    if (!remaining.length) return;
-    markUsed(remaining);
-    riverEl.innerHTML = remaining.map(a => `
-      <div class="list-article">
-        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
-        <div class="list-article-text">
-          <span class="section-tag">${sectionLabel(a.section)}</span>
-          <a href="${a.url}"><h4 class="list-headline">${a.title}</h4></a>
-          <p class="section-article-excerpt">${a.summary}</p>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-        </div>
-      </div>
-    `).join('');
-  }
+  const [lead, ...rest] = picked;
+  const side = rest.slice(0, 2);
+  const left = rest.slice(2, 4);
+  const right = rest.slice(4, 6);
+  const column = (cls, stories) => stories.length ? `<div class="top-col ${cls}">${stories.join('')}</div>` : '';
+
+  heroEl.innerHTML = `
+    <div class="top-row top-row-1">
+      ${column('top-col-lead', [aboveStory(lead, { size: 'lg', image: true, abstract: true, kicker: true })])}
+      ${column('top-col-side', side.map(a => aboveStory(a, { size: 'md', image: false, abstract: true, kicker: true })))}
+    </div>
+    ${left.length || right.length ? `
+    <div class="top-row top-row-2">
+      ${column('top-col-left', left.map(a => aboveStory(a, { size: 'md', image: true, abstract: true, kicker: true })))}
+      ${column('top-col-right', right.map(a => aboveStory(a, { size: 'md', image: true, abstract: false, kicker: true })))}
+    </div>` : ''}`;
 }
 
 // ── RENDER OPINION SIDEBAR ──
@@ -278,18 +301,10 @@ async function renderLargeStrip(section, containerId) {
   markUsed([featured, ...rest]);
   const inner = el.querySelector('.strip-inner');
   if (!inner) return;
-  inner.querySelector('.strip-featured').innerHTML = `
-    <img src="${featured.image}" alt="${featured.title}" class="strip-img" />
-    <p class="author-meta">${featured.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
-    <a href="${featured.url}"><h3 class="strip-featured-headline">${featured.title}</h3></a>
-    <p class="strip-featured-excerpt">${featured.summary}</p>
-  `;
-  inner.querySelector('.strip-list').innerHTML = rest.map(a => `
-    <div class="strip-list-article">
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
-      <a href="${a.url}"><h4 class="strip-list-headline">${a.title}</h4></a>
-    </div>
-  `).join('');
+  inner.querySelector('.strip-featured').innerHTML =
+    aboveStory(featured, { size: 'lg', image: true, imageFirst: true, abstract: true, kicker: false });
+  inner.querySelector('.strip-list').innerHTML =
+    rest.map(a => aboveStory(a, { size: 'md', image: false, abstract: false, kicker: false })).join('');
 }
 
 // ── RENDER SMALL STRIP ──
@@ -303,16 +318,73 @@ async function renderSmallStrip(section, containerId) {
   markUsed(picked);
   const grid = el.querySelector('.small-strip-grid');
   if (!grid) return;
-  grid.innerHTML = picked.map(a => `
-    <div class="small-article">
-      ${a.image ? `<img src="${a.image}" alt="${a.title}" class="small-img" />` : ''}
-      <p class="author-meta">${a.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span></p>
-      <a href="${a.url}"><h4 class="small-headline">${a.title}</h4></a>
-    </div>
-  `).join('');
+  grid.innerHTML =
+    picked.map(a => aboveStory(a, { size: 'sm', image: true, imageFirst: true, abstract: false, kicker: false })).join('');
+}
+
+// ── LISTING TEMPLATES (Princetonian section-page treatment) ──
+// Shared markup pieces for story listings. Articles without an image render
+// as text-only items (no empty image box).
+function storyImage(a, url) {
+  return a.image
+    ? `<a href="${url}" class="story-thumb"><img src="${a.image}" alt="${a.title}" class="story-img" /></a>`
+    : '';
+}
+
+function storyByline(a, withTime) {
+  const time = withTime ? ` <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span>` : '';
+  return `<div class="story-byline">${a.author}${time}</div>`;
+}
+
+// Main-list item: 4:3 thumb | headline, byline, abstract, then KICKER | time.
+function storyRow(a, url, section) {
+  return `
+    <article class="story story-row${a.image ? '' : ' no-image'}">
+      ${storyImage(a, url)}
+      <div class="story-text">
+        <h2 class="story-headline"><a href="${url}">${a.title}</a></h2>
+        ${storyByline(a, false)}
+        <p class="story-abstract">${a.summary}</p>
+        <div class="story-meta"><span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span></div>
+      </div>
+    </article>`;
+}
+
+// Homepage card (Princetonian "art-above"): headline, byline row
+// (author | KICKER | time), optional image, optional abstract. size sets the
+// headline scale: lg 32/34, md 22/24, sm 18/20. The kicker keeps Opinion
+// visibly labeled wherever sections are mixed (top zone).
+function aboveStory(a, { size, image, imageFirst = false, abstract, kicker }) {
+  const kick = kicker ? ` <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(a.section)}</span>` : '';
+  const img = image ? storyImage(a, a.url) : '';
+  return `
+    <article class="story story-above story-${size}${imageFirst ? ' image-first' : ''}">
+      <h3 class="story-headline"><a href="${a.url}">${a.title}</a></h3>
+      <div class="story-byline">${a.author}${kick} <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span></div>
+      ${img}
+      ${abstract && a.summary ? `<p class="story-abstract">${a.summary}</p>` : ''}
+    </article>`;
+}
+
+// "Latest": headline + byline only. There is no popularity data, so this is
+// labeled honestly instead of "Most Popular".
+function latestBlock(articles) {
+  return `
+    <h3 class="sidebar-subheader">Latest</h3>
+    <div class="sidebar-items">${articles.map(a => `
+      <article class="story story-hed">
+        <h3 class="story-headline"><a href="${a.url}">${a.title}</a></h3>
+        ${storyByline(a, false)}
+      </article>`).join('')}
+    </div>`;
 }
 
 // ── RENDER SECTION PAGE ──
+// Zone A: top story (7/12) + up to 5 compact items (5/12).
+// Zone B: main list + 330px "Latest" sidebar (5 newest stories from other sections).
+// Small sections never leave an empty column: with only one story, "Latest"
+// fills Zone A's right column; with nothing left for the main list, "Latest"
+// runs full width under Zone A. 20 stories per page; pagination only past 20.
 async function renderSectionPage() {
   const el = document.getElementById('section-main');
   if (!el) return;
@@ -322,67 +394,72 @@ async function renderSectionPage() {
   const articles = await fetchArticles(section);
   if (!articles.length) return;
 
+  const linkTo = a => `article.html?section=${section}&slug=${a.slug}`;
+
+  const PER_PAGE = 20;
+  const pageCount = Math.ceil(articles.length / PER_PAGE);
+  const requested = parseInt(new URLSearchParams(window.location.search).get('page'), 10) || 1;
+  const page = Math.min(Math.max(requested, 1), pageCount);
+  const onPage = articles.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const featured = page === 1 ? onPage[0] : null;
+  const compact = page === 1 ? onPage.slice(1, 6) : [];
+  const mainList = page === 1 ? onPage.slice(6) : onPage;
+
+  // Memorial stays out of "Latest", as it stays off the homepage.
+  const latest = (await fetchAllArticlesFlat())
+    .filter(a => a.section !== section && a.section !== 'memorial')
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5);
+  const latestInZoneA = featured && !compact.length && latest.length > 0;
+
   const top = document.getElementById('section-top');
-  if (top && articles[0]) {
-    top.querySelector('#section-featured').innerHTML = `
-      <img src="${articles[0].image}" alt="${articles[0].title}" class="section-featured-img" />
-      <span class="section-tag">${sectionLabel(section)}</span>
-      <a href="article.html?section=${section}&slug=${articles[0].slug}"><h2 class="section-featured-headline">${articles[0].title}</h2></a>
-      <p class="section-article-excerpt">${articles[0].summary}</p>
-      <p class="author-meta">${articles[0].author} <span class="meta-divider">|</span> ${new Date(articles[0].date).toLocaleDateString()}</p>
-    `;
+  if (top) {
+    if (featured) {
+      const url = linkTo(featured);
+      top.querySelector('#section-featured').innerHTML = `
+        <article class="story story-top">
+          <h2 class="story-headline"><a href="${url}">${featured.title}</a></h2>
+          ${storyByline(featured, true)}
+          ${storyImage(featured, url)}
+          <p class="story-abstract">${featured.summary}</p>
+        </article>`;
 
-    const middle = top.querySelector('#section-middle');
-    if (middle) {
-      middle.innerHTML = articles.slice(1, 3).map(a => `
-        <div class="section-mid-article">
-          ${a.image ? `<img src="${a.image}" alt="${a.title}" class="section-mid-img" />` : ''}
-          <span class="section-tag">${sectionLabel(section)}</span>
-          <a href="article.html?section=${section}&slug=${a.slug}"><h3 class="section-mid-headline">${a.title}</h3></a>
-          <p class="section-article-excerpt">${a.summary}</p>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-        </div>
-      `).join('');
-    }
-
-    const right = top.querySelector('#section-right');
-    if (right) {
-      right.innerHTML = articles.slice(3, 7).map(a => `
-        <div class="section-text-article">
-          <span class="section-tag">${sectionLabel(section)}</span>
-          <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="section-text-headline">${a.title}</h4></a>
-          <p class="section-article-excerpt">${a.summary}</p>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-        </div>
-      `).join('');
+      const middle = top.querySelector('#section-middle');
+      if (middle) {
+        middle.innerHTML = latestInZoneA ? latestBlock(latest) : compact.map(a => `
+          <article class="story story-compact${a.image ? '' : ' no-image'}">
+            ${storyImage(a, linkTo(a))}
+            <div class="story-text">
+              <h3 class="story-headline"><a href="${linkTo(a)}">${a.title}</a></h3>
+              ${storyByline(a, true)}
+            </div>
+          </article>`).join('');
+        middle.hidden = !middle.innerHTML.trim();
+      }
+    } else {
+      top.hidden = true;
     }
   }
 
   const row2 = document.getElementById('section-row2');
-  if (row2) {
-    row2.innerHTML = articles.slice(7, 12).map(a => `
-      <div class="row2-article">
-        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="row2-img" />` : ''}
-        <span class="section-tag">${sectionLabel(section)}</span>
-        <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="row2-headline">${a.title}</h4></a>
-        <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-      </div>
-    `).join('');
-  }
-
   const list = document.getElementById('section-list');
-  if (list) {
-    list.innerHTML = articles.slice(12).map(a => `
-      <div class="list-article">
-        ${a.image ? `<img src="${a.image}" alt="${a.title}" class="list-img" />` : ''}
-        <div class="list-article-text">
-          <span class="section-tag">${sectionLabel(section)}</span>
-          <a href="article.html?section=${section}&slug=${a.slug}"><h4 class="list-headline">${a.title}</h4></a>
-          <p class="section-article-excerpt">${a.summary}</p>
-          <p class="author-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
-        </div>
-      </div>
-    `).join('');
+  const right = document.getElementById('section-right');
+  if (row2 && list && right) {
+    const showLatest = !latestInZoneA && latest.length > 0;
+    list.innerHTML = mainList.map(a => storyRow(a, linkTo(a), section)).join('');
+    if (pageCount > 1) {
+      list.innerHTML += `
+        <nav class="section-pagination">
+          ${page > 1 ? `<a href="?page=${page - 1}">‹ Previous</a>` : ''}
+          ${page < pageCount ? `<a href="?page=${page + 1}">Next ›</a>` : ''}
+        </nav>`;
+    }
+    right.innerHTML = showLatest ? latestBlock(latest) : '';
+    list.hidden = !mainList.length;
+    right.hidden = !showLatest;
+    row2.classList.toggle('latest-only', !mainList.length && showLatest);
+    row2.hidden = list.hidden && right.hidden;
   }
 
   document.body.classList.add('content-loaded');
@@ -408,7 +485,7 @@ async function renderArticlePage() {
     <span class="section-tag">${sectionLabel(section)}</span>
     <h1 id="article-headline">${data.title}</h1>
     <p id="article-subheadline">${data.summary}</p>
-    <p class="author-meta">By ${data.author} <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
+    <p class="author-meta">By <span class="article-author">${data.author}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
     <div id="article-hero-img">
       <img src="${data.image}" alt="${data.title}" />
     </div>
@@ -495,6 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setDate();
   setWeather();
   initSearchBars();
+  initNav();
 
   if (document.getElementById('hero-left')) {
     (async () => {
