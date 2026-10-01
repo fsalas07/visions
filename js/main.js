@@ -380,11 +380,10 @@ function latestBlock(articles) {
 }
 
 // ── RENDER SECTION PAGE ──
-// Zone A: top story (7/12) + up to 5 compact items (5/12).
-// Zone B: main list + 330px "Latest" sidebar (5 newest stories from other sections).
-// Small sections never leave an empty column: with only one story, "Latest"
-// fills Zone A's right column; with nothing left for the main list, "Latest"
-// runs full width under Zone A. 20 stories per page; pagination only past 20.
+// Princetonian section list: the newest story as a large top story, then every
+// other story as a picture-left row, with a 330px "Latest" sidebar (5 newest
+// stories from other sections) alongside. A section with no stories yet shows
+// only "Latest", full width. 20 stories per page; pagination only past 20.
 async function renderSectionPage() {
   const el = document.getElementById('section-main');
   if (!el) return;
@@ -392,26 +391,23 @@ async function renderSectionPage() {
   if (!titleEl) return;
   const section = titleEl.textContent.toLowerCase().replace(' & ', '-').replace(' ', '-');
   const articles = await fetchArticles(section);
-  if (!articles.length) return;
 
   const linkTo = a => `article.html?section=${section}&slug=${a.slug}`;
 
   const PER_PAGE = 20;
-  const pageCount = Math.ceil(articles.length / PER_PAGE);
+  const pageCount = Math.max(1, Math.ceil(articles.length / PER_PAGE));
   const requested = parseInt(new URLSearchParams(window.location.search).get('page'), 10) || 1;
   const page = Math.min(Math.max(requested, 1), pageCount);
   const onPage = articles.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   const featured = page === 1 ? onPage[0] : null;
-  const compact = page === 1 ? onPage.slice(1, 6) : [];
-  const mainList = page === 1 ? onPage.slice(6) : onPage;
+  const mainList = page === 1 ? onPage.slice(1) : onPage;
 
   // Memorial stays out of "Latest", as it stays off the homepage.
   const latest = (await fetchAllArticlesFlat())
     .filter(a => a.section !== section && a.section !== 'memorial')
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
-  const latestInZoneA = featured && !compact.length && latest.length > 0;
 
   const top = document.getElementById('section-top');
   if (top) {
@@ -424,29 +420,14 @@ async function renderSectionPage() {
           ${storyImage(featured, url)}
           <p class="story-abstract">${featured.summary}</p>
         </article>`;
-
-      const middle = top.querySelector('#section-middle');
-      if (middle) {
-        middle.innerHTML = latestInZoneA ? latestBlock(latest) : compact.map(a => `
-          <article class="story story-compact${a.image ? '' : ' no-image'}">
-            ${storyImage(a, linkTo(a))}
-            <div class="story-text">
-              <h3 class="story-headline"><a href="${linkTo(a)}">${a.title}</a></h3>
-              ${storyByline(a, true)}
-            </div>
-          </article>`).join('');
-        middle.hidden = !middle.innerHTML.trim();
-      }
-    } else {
-      top.hidden = true;
     }
+    top.hidden = !featured;
   }
 
   const row2 = document.getElementById('section-row2');
   const list = document.getElementById('section-list');
   const right = document.getElementById('section-right');
   if (row2 && list && right) {
-    const showLatest = !latestInZoneA && latest.length > 0;
     list.innerHTML = mainList.map(a => storyRow(a, linkTo(a), section)).join('');
     if (pageCount > 1) {
       list.innerHTML += `
@@ -455,11 +436,11 @@ async function renderSectionPage() {
           ${page < pageCount ? `<a href="?page=${page + 1}">Next ›</a>` : ''}
         </nav>`;
     }
-    right.innerHTML = showLatest ? latestBlock(latest) : '';
+    right.innerHTML = latest.length ? latestBlock(latest) : '';
     list.hidden = !mainList.length;
-    right.hidden = !showLatest;
-    row2.classList.toggle('latest-only', !mainList.length && showLatest);
-    row2.hidden = list.hidden && right.hidden;
+    right.hidden = !latest.length;
+    row2.classList.toggle('latest-only', !articles.length);
+    row2.hidden = !featured && list.hidden && right.hidden;
   }
 
   document.body.classList.add('content-loaded');

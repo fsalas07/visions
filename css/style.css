@@ -13,6 +13,8 @@
     --color-text: #020100;
     --color-headline-hover: #5c5b5b;
     --color-accent: #800000;
+    --color-off-campus: #db2777;        /* pink: sets Off-Campus apart from the maroon */
+    --color-off-campus-hover: #9d174d;
     --color-rule-dark: #303030;
     --color-deck: #767575;
     --color-border-dark: #343a40;
@@ -244,6 +246,20 @@ a:hover {
 
 #main-nav a[aria-current="page"] {
     color: var(--color-accent);
+}
+
+/* Off-Campus is always pink; on its own page it is also underlined */
+#main-nav a.nav-off-campus {
+    color: var(--color-off-campus);
+}
+
+#main-nav a.nav-off-campus:hover {
+    color: var(--color-off-campus-hover);
+}
+
+#main-nav a.nav-off-campus[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 /* Search: the existing working input, restyled to sit in the nav row */
@@ -1126,8 +1142,7 @@ a:hover {
     margin-bottom: 20px;
 }
 
-/* Compact + main-list items: thumb in 4/12, text in 8/12 */
-.story-compact,
+/* Main-list items: picture on the left (4/12), text on the right (8/12) */
 .story-row {
     display: grid;
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
@@ -1135,22 +1150,15 @@ a:hover {
     align-items: start;
 }
 
-.story-compact.no-image,
 .story-row.no-image {
     grid-template-columns: minmax(0, 1fr);
 }
 
-.story-compact .story-img {
-    aspect-ratio: 16 / 9;
-}
-
-.story-compact .story-headline,
 .story-hed .story-headline {
     font-size: var(--fs-side-headline);
     line-height: var(--lh-side-headline);
 }
 
-.story-compact + .story-compact,
 .story-hed + .story-hed {
     margin-top: var(--space-3);
     padding-top: var(--space-3);
@@ -1176,27 +1184,28 @@ a:hover {
     margin-top: var(--space-2);
 }
 
-/* Zone A: 7/12 top story + 5/12 list */
-#section-top {
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    column-gap: var(--gutter);
-    align-items: start;
-}
-
-/* Zone B: main list + 330px sidebar, 25.5px below Zone A */
+/* Main column (top story + list) | 330px "Latest" sidebar */
 #section-row2 {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
     column-gap: var(--gutter);
     align-items: start;
-    margin-top: var(--space-4);
 }
 
-/* Empty subheader = 2px #303030 rule, 16px padding, 25.5px gap */
+#section-top {
+    margin-bottom: var(--space-4);
+}
+
+/* Under the top story: 2px #303030 rule, 16px padding, 25.5px gap */
 #section-list {
     border-top: 2px solid var(--color-rule-dark);
     padding-top: calc(16px + var(--space-4));
+}
+
+/* Page 2+ has no top story, so the list starts right under the title rule */
+#section-top[hidden] + #section-list {
+    border-top: none;
+    padding-top: 0;
 }
 
 .sidebar-subheader {
@@ -1210,7 +1219,7 @@ a:hover {
     margin-bottom: var(--space-4);
 }
 
-/* Nothing left for the main list: "Latest" runs full width in columns */
+/* Section with no stories yet: "Latest" runs full width in columns */
 #section-row2.latest-only {
     grid-template-columns: minmax(0, 1fr);
 }
@@ -1258,18 +1267,8 @@ a:hover {
     }
 }
 
-/* Below 768px columns stack; the top story shows its image first */
+/* Below 768px rows stack; the top story shows its image first */
 @media (max-width: 767.98px) {
-    #section-top {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    #section-featured {
-        padding-bottom: var(--space-3);
-        margin-bottom: var(--space-3);
-        border-bottom: 1px solid var(--color-hr);
-    }
-
     .story-top .story-thumb {
         order: -1;
         margin-bottom: var(--space-2);
@@ -1279,12 +1278,10 @@ a:hover {
         margin-bottom: 0;
     }
 
-    .story-compact,
     .story-row {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .story-compact .story-thumb,
     .story-row .story-thumb {
         margin-bottom: var(--space-2);
     }
