@@ -422,7 +422,9 @@ a:hover {
     margin-bottom: var(--space-2);
 }
 
-/* Same 50px height as before; object-fit trims the PNG's wide side margins */
+/* Same 50px height as before; object-fit trims the PNG's wide side margins.
+   The PNG has an opaque white background: multiply blends it into the
+   footer's gray so no white box shows, while the black wordmark stays black. */
 #footer-logo-img {
     display: block;
     width: 100%;
@@ -430,6 +432,7 @@ a:hover {
     height: 50px;
     margin: 0 auto;
     object-fit: cover;
+    mix-blend-mode: multiply;
 }
 
 #footer-tagline {
