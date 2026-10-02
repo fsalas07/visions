@@ -12,10 +12,16 @@ function markUsed(articles) {
   articles.forEach(a => usedArticles.add(`${a.section}-${a.slug}`));
 }
 
-// Display label for a section slug — "arts-culture" renders as "ARTS & CULTURE"
-// (matching the nav) instead of the raw slug uppercased ("ARTS-CULTURE").
+// Display label for a section slug, matching the nav: "arts-culture" renders as
+// "ARTS & CULTURE" and "campus-announcements" as "CAMPUS ANNOUNCEMENTS" instead
+// of the raw slug uppercased. Other slugs (including "off-campus") uppercase as-is.
+const SECTION_LABELS = {
+  'arts-culture': 'ARTS &amp; CULTURE',
+  'campus-announcements': 'CAMPUS ANNOUNCEMENTS'
+};
+
 function sectionLabel(section) {
-  return section === 'arts-culture' ? 'ARTS &amp; CULTURE' : section.toUpperCase();
+  return SECTION_LABELS[section] || section.toUpperCase();
 }
 
 // ── FETCH ARTICLES FROM WORKER ──
