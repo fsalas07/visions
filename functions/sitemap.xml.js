@@ -24,13 +24,26 @@ const STATIC_PAGES = [
   '/pages/terms'
 ];
 
-export async function onRequest() {
-  let articles = [];
+// Article folders from admin/config.yml. Fetched one by one because the API's
+// ?all=1 list leaves out newer sections (e.g. campus-announcements).
+const SECTIONS = [
+  'news', 'sports', 'opinion', 'features', 'multimedia', 'data',
+  'arts-culture', 'off-campus', 'campus-announcements', 'memorial'
+];
+
+async function fetchSection(section) {
   try {
-    const res = await fetch(`${API_URL}?all=1`);
-    if (res.ok) articles = await res.json();
-  } catch {}
-  if (!Array.isArray(articles)) articles = [];
+    const res = await fetch(`${API_URL}?section=${section}`);
+    if (!res.ok) return [];
+    const articles = await res.json();
+    return Array.isArray(articles) ? articles.map(a => ({ ...a, section: a.section || section })) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function onRequest() {
+  const articles = (await Promise.all(SECTIONS.map(fetchSection))).flat();
 
   const urls = [
     ...STATIC_PAGES.map(path => `  <url><loc>${SITE_URL}${path}</loc></url>`),
