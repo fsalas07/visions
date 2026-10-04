@@ -466,7 +466,7 @@ async function renderArticlePage() {
   const data = await res.json();
   const body = data.body;
 
-  document.title = `${data.title} | Visions`;
+  document.title = `${data.title} | The Panther Vision`;
 
   el.innerHTML = `
     <span class="section-tag">${sectionLabel(section)}</span>
