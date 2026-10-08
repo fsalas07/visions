@@ -262,6 +262,16 @@ a:hover {
     text-underline-offset: 3px;
 }
 
+/* Off-Campus section page: pink in place of maroon, matching its nav link */
+.page-off-campus #section-main {
+    --color-accent: var(--color-off-campus);
+}
+
+.page-off-campus #section-title {
+    color: var(--color-off-campus);
+    border-bottom-color: var(--color-off-campus);
+}
+
 /* Search: the existing working input, restyled to sit in the nav row */
 #search-bar {
     display: flex;
