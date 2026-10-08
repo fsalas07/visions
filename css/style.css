@@ -1785,3 +1785,236 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     padding: 6px !important;
   }
 }
+/* ══════════════════════════════════════════════════
+   PHONE LAYOUT (<768px) — the Princetonian's mobile site
+   One column; every story reads headline, picture, byline, abstract, with a
+   light rule between stories. Header is logo + date over a hamburger band;
+   the utility links and socials live inside the menu. Placed last so it
+   wins over the narrower-viewport rules above.
+   ══════════════════════════════════════════════════ */
+.nav-extras {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    :root {
+        --headline-weight: 700;
+    }
+
+    /* Header: logo and date only (location + weather hidden) */
+    #site-header {
+        margin-top: var(--space-3);
+    }
+
+    #site-header.nav-ready #utility-nav,
+    #site-header.nav-ready #header-socials,
+    #header-meta .meta-divider,
+    #header-location,
+    #header-weather {
+        display: none;
+    }
+
+    #header-meta {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    /* Menu: centered stack of section links, then search, then extras */
+    #main-nav {
+        align-items: center;
+    }
+
+    #main-nav a {
+        padding: 12px 0;
+        font-size: 17px;
+        line-height: 20px;
+    }
+
+    #search-bar {
+        margin: var(--space-3) 0 0;
+    }
+
+    .nav-extras {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+        margin-top: var(--space-3);
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--color-border-light);
+    }
+
+    .nav-extras-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-2) var(--space-4);
+        font-size: 15px;
+    }
+
+    .nav-extras-header-socials a {
+        font-size: 22px;
+        line-height: 1;
+    }
+
+    /* Section labels: LABEL ——— rule ——— More X → on one line */
+    .strip-label,
+    #opinion-label {
+        font-size: 26px;
+        line-height: 30px;
+    }
+
+    .strip-header,
+    .small-strip .strip-header {
+        flex-wrap: nowrap;
+        margin-bottom: var(--space-3);
+    }
+
+    .small-strip .strip-more {
+        order: 2;
+        flex-basis: auto;
+        margin: 0 0 0 var(--space-2);
+    }
+
+    .small-strip + .small-strip {
+        margin-top: var(--space-4);
+    }
+
+    /* Story cards: headline, picture, byline, abstract; rule after each */
+    #hero .story-above,
+    #content .story-above {
+        margin: 0 0 var(--space-3);
+        padding: 0 0 var(--space-3);
+        border-top: none;
+        border-bottom: 1px solid var(--color-hr);
+    }
+
+    .story-above .story-thumb,
+    .story-above.image-first .story-thumb,
+    .story-top .story-thumb {
+        order: 1;
+        margin-bottom: var(--space-2);
+    }
+
+    .story-above .story-img,
+    .story-above.image-first .story-img,
+    .story-top .story-img {
+        margin-bottom: 0;
+    }
+
+    .story-above .story-byline,
+    .story-top .story-byline {
+        order: 2;
+        margin-bottom: 0;
+    }
+
+    .story-above .story-abstract,
+    .story-top .story-abstract {
+        order: 3;
+        margin-top: var(--space-1);
+    }
+
+    .story-lg .story-headline,
+    .story-top .story-headline,
+    .small-strip-grid .story-above:first-child .story-headline {
+        font-size: 26px;
+        line-height: 30px;
+    }
+
+    .story-md .story-headline,
+    .story-sm .story-headline,
+    .story-row .story-headline,
+    .story-hed .story-headline,
+    .opinion-headline {
+        font-size: 19px;
+        line-height: 23px;
+    }
+
+    .story-abstract {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    /* Sports/Data/Multimedia/Features: only the first story keeps its picture */
+    .small-strip-grid .story-above ~ .story-above .story-thumb {
+        display: none;
+    }
+
+    /* Section pages: page title, then the same headline-first stories */
+    #section-title,
+    #search-query-display,
+    #staff-title,
+    #about-title {
+        font-size: 40px;
+        line-height: 44px;
+        padding-bottom: var(--space-2);
+        margin-bottom: var(--space-4);
+    }
+
+    #section-top {
+        margin-bottom: var(--space-3);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--color-hr);
+    }
+
+    #section-list {
+        border-top: none;
+        padding-top: 0;
+    }
+
+    .story-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--space-3);
+        padding-bottom: var(--space-3);
+    }
+
+    .story-row .story-text {
+        display: contents;
+    }
+
+    .story-row .story-thumb {
+        order: 1;
+    }
+
+    .story-row .story-byline {
+        order: 2;
+        margin-bottom: 0;
+    }
+
+    .story-row .story-abstract {
+        order: 3;
+        margin-top: var(--space-1);
+    }
+
+    .story-row .story-meta {
+        order: 4;
+    }
+
+    /* Article page */
+    #article-container {
+        gap: 12px;
+    }
+
+    #article-container > .section-tag:first-child {
+        font-size: 15px;
+        line-height: 18px;
+        margin-bottom: 0;
+    }
+
+    #article-headline {
+        font-size: 30px;
+        line-height: 34px;
+    }
+
+    #article-subheadline {
+        font-size: 19px;
+        line-height: 25px;
+    }
+
+    #article-body p {
+        font-size: 18px;
+        line-height: 29px;
+    }
+}

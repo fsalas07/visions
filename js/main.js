@@ -121,6 +121,23 @@ function initNav() {
       const open = header.classList.toggle('nav-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+
+    // Phones hide the utility links and social icons from the header, so copy
+    // them into the menu panel (.nav-extras only displays on phones).
+    const panel = document.getElementById('nav-panel');
+    if (panel) {
+      const extras = document.createElement('div');
+      extras.className = 'nav-extras';
+      ['utility-nav', 'header-socials'].forEach(id => {
+        const source = document.getElementById(id);
+        if (!source) return;
+        const row = document.createElement('div');
+        row.className = `nav-extras-row nav-extras-${id}`;
+        source.querySelectorAll('a').forEach(a => row.appendChild(a.cloneNode(true)));
+        extras.appendChild(row);
+      });
+      panel.appendChild(extras);
+    }
   }
 
   // Compare page names without ".html" (Cloudflare Pages serves clean URLs).
@@ -301,7 +318,11 @@ async function renderLargeStrip(section, containerId) {
   if (!el) return;
   const articles = await fetchArticles(section);
   const unused = getUnused(articles);
-  if (!unused.length) return;
+  // Every story already shown higher up: hide the block instead of an empty heading.
+  if (!unused.length) {
+    el.hidden = true;
+    return;
+  }
   const featured = unused[0];
   const rest = getUnused(articles).slice(1, 5);
   markUsed([featured, ...rest]);
