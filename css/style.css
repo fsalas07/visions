@@ -1796,6 +1796,10 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     display: none;
 }
 
+.promo-row {
+    display: none;
+}
+
 @media (max-width: 767.98px) {
     :root {
         --headline-weight: 700;
@@ -1856,6 +1860,36 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     .nav-extras-header-socials a {
         font-size: 22px;
         line-height: 1;
+    }
+
+    /* Instagram row under the header (built by initInstagramRow) */
+    .promo-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: 12px var(--container-pad);
+        border-bottom: 1px solid var(--color-border-dark);
+        font-family: var(--font-sans);
+        font-size: 17px;
+        line-height: 20px;
+        font-weight: 700;
+        color: var(--color-text);
+    }
+
+    .promo-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        font-size: 30px;
+        color: #fff;
+    }
+
+    .promo-icon-instagram {
+        background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5);
     }
 
     /* Section labels: LABEL ——— rule ——— More X → on one line */

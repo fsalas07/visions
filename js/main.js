@@ -152,6 +152,24 @@ function initNav() {
   });
 }
 
+// ── INSTAGRAM ROW (every page) ──
+// "Follow us on Instagram" row under the header, built from the header's own
+// Instagram link. style.css only displays it on phones.
+function initInstagramRow() {
+  const header = document.getElementById('site-header');
+  const link = document.querySelector('#header-socials a[href*="instagram.com"]');
+  if (!header || !link) return;
+  const row = document.createElement('a');
+  row.className = 'promo-row';
+  row.href = link.href;
+  row.target = '_blank';
+  row.rel = 'noopener';
+  row.innerHTML = `
+    <span class="promo-icon promo-icon-instagram"><i class="fab fa-instagram"></i></span>
+    <span class="promo-text">Follow us on Instagram</span>`;
+  header.after(row);
+}
+
 // ── RENDER SEARCH RESULTS PAGE ──
 async function renderSearchPage() {
   const resultsEl = document.getElementById('search-results');
@@ -581,6 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setWeather();
   initSearchBars();
   initNav();
+  initInstagramRow();
 
   if (document.getElementById('hero-left')) {
     (async () => {
