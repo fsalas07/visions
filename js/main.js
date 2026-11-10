@@ -512,9 +512,9 @@ async function renderArticlePage() {
     <h1 id="article-headline">${data.title}</h1>
     <p id="article-subheadline">${data.summary}</p>
     <p class="author-meta">By <span class="article-author">${data.author}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
-    <div id="article-hero-img">
+    ${data.image ? `<div id="article-hero-img">
       <img src="${data.image}" alt="${data.title}" />
-    </div>
+    </div>` : ''}
     <div id="article-body">
       ${marked.parse(body)}
     </div>
