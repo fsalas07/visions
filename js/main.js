@@ -46,16 +46,20 @@ async function prefetchAll() {
 }
 
 // ── FETCH ALL ARTICLES (SITE-WIDE, FOR SEARCH) ──
+// Loads each section on its own instead of using the Worker's ?all=1, which fetches
+// every article in a single Worker call and fails (error 1101) once the site passes
+// Cloudflare's per-request subrequest limit.
+const ALL_SECTIONS = ['news', 'sports', 'opinion', 'features', 'multimedia', 'data',
+  'arts-culture', 'off-campus', 'campus-announcements', 'memorial'];
+
 async function fetchAllArticlesFlat() {
   const cacheKey = 'articles-all';
   const cached = sessionStorage.getItem(cacheKey);
   if (cached) return JSON.parse(cached);
 
-  const res = await fetch(`${WORKER_URL}?all=1`);
-  if (!res.ok) return [];
-  const articles = await res.json();
-  if (!Array.isArray(articles)) return [];
-  sessionStorage.setItem(cacheKey, JSON.stringify(articles));
+  const lists = await Promise.all(ALL_SECTIONS.map(s => fetchArticles(s)));
+  const articles = lists.flat();
+  if (articles.length) sessionStorage.setItem(cacheKey, JSON.stringify(articles));
   return articles;
 }
 
