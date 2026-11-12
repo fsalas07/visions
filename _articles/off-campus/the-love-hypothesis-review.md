@@ -4,6 +4,7 @@ author: Camila Rosales
 author_role: "Off-Campus Editor"
 date: 2026-10-18T12:00:00.000-04:00
 summary: "The BookTok favorite hits streaming, and our Off-Campus Editor asks what its romcom formula says about adaptations, fanfiction and dating in the age of the DM."
+image: /assets/images/the-love-hypothesis-review.jpg
 ---
 On September 23<sup>rd</sup> Movie adaptation of bestselling book and “BookTok” sensation The love hypothesis Dropped on Streaming. The premise? We follow the life of grad student Olive Smith, who navigates her life as woman in a STEM research field while she's pretending to be in a fake relationship with a well (hated) known professor at the school at the convenience of both of them who have their respective agendas but end up falling in love in the process. That's my semi spoiler free summary; a classic enemies to lover fake dating trope set in Stanford graduate school. Sounds like something fresh, right? Well, not really.
 
