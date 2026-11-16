@@ -222,13 +222,6 @@ async function cached(key, load) {
 
 const RAW_BASE = 'https://raw.githubusercontent.com/fsalas07/visions/main/_articles';
 
-// Fetches and parses every article in one section. Returns { articles, status }.
-// status is null on success; otherwise the HTTP status to return.
-//
-// Uses one GitHub GraphQL request that returns every file's text, instead of a
-// directory listing plus one fetch per article: Cloudflare caps subrequests per
-// request (50 on the free plan), so the old way broke once a section reached
-// about 50 articles.
 // Looks up `main:<path>` in the repo with one GraphQL request.
 // Returns { object, status }: object is null when the path doesn't exist.
 async function fetchRepoObject(path, fields, env) {
@@ -254,6 +247,13 @@ async function fetchRepoObject(path, fields, env) {
   return { object: json.data.repository.object, status: null };
 }
 
+// Fetches and parses every article in one section. Returns { articles, status }.
+// status is null on success; otherwise the HTTP status to return.
+//
+// Uses one GitHub GraphQL request that returns every file's text, instead of a
+// directory listing plus one fetch per article: Cloudflare caps subrequests per
+// request (50 on the free plan), so the old way broke once a section reached
+// about 50 articles.
 async function fetchSectionArticles(section, env) {
   const { object: tree, status } = await fetchRepoObject(`_articles/${section}`,
     '... on Tree { entries { name type object { ... on Blob { text isTruncated } } } }', env);
