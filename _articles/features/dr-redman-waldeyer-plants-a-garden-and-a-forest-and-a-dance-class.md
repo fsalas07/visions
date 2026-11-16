@@ -5,9 +5,8 @@ author_role: Staff Writer
 date: 2026-11-16T14:40:00.000-05:00
 summary: "The new director of Paterson's Poetry Center on altar-girl rejections, runaway pumpkin vines, ballet and why writers need a garden where anything can grow."
 image: /assets/images/dr-redman-waldeyer-plants-a-garden-and-a-forest-and-a-dance-class.jpg
+image_caption: "Passaic County Community College Poetry Center Director Dr. Christine Redman-Waldeyer stands beside an 18th-century marble statue of Calliope, the Greek Muse of epic poetry, in the gardens of Sanssouci Park in Potsdam, Germany. Sculpted around 1752, Calliope is depicted holding an open book crowned with floral garlands at the park's historic Musenrondell. (Photo courtesy of Dr. Christine Redman-Waldeyer)"
 ---
-*Passaic County Community College Poetry Center Director Dr. Christine Redman-Waldeyer stands beside an 18th-century marble statue of Calliope, the Greek Muse of epic poetry, in the gardens of Sanssouci Park in Potsdam, Germany. Sculpted around 1752, Calliope is depicted holding an open book crowned with floral garlands at the park's historic Musenrondell. (Photo courtesy of Dr. Christine Redman-Waldeyer)*
-
 As Dr. Christine Redman-Waldeyer settles into her new role as Director of Paterson’s Poetry Center, at Passaic County Community College’s Hamilton Club, she reflects on what she envisions for the Center, and how she has arrived here. At the time of the interview, she was 10 weeks into the position that began at the end of February 2026.
 
 She has already judged a few book contests and made Poetry Center history by electing the first child winner of one such contest.

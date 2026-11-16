@@ -5,9 +5,8 @@ author_role: "Opinions Editor"
 date: 2026-11-13T10:00:00.000-05:00
 summary: "Each AI breakthrough arrives faster than the last. If the countdown keeps shrinking, what does being alive look like when the problems are solved?"
 image: /assets/images/the-countdown-is-getting-shorter.jpg
+image_caption: "Illustration: AI-assisted image of a swarm of solar collectors orbiting the Sun, with Earth in the foreground."
 ---
-*Illustration: AI-assisted image of a swarm of solar collectors orbiting the Sun, with Earth in the foreground.*
-
 Every problem AI solves makes the next one come faster. That's the part of this story nobody is ready for.
 
 Look at the dates. In April 2018, the FDA authorized IDx-DR, software that checks photos of the eye for diabetic eye disease with no doctor reading the image first. According to the FDA, it was tested on 900 patients at 10 sites before it was cleared. It was the first fully autonomous AI diagnostic. For the first time, a machine was trusted to make a medical call on its own.

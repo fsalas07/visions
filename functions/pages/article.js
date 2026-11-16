@@ -86,7 +86,10 @@ export async function onRequestGet({ request, next }) {
     <p id="article-subheadline">${escapeHtml(a.summary)}</p>
     <p class="author-meta">By <span class="article-author">${escapeHtml(a.author)}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date}</p>
     ${a.image ? `<div id="article-hero-img">
-      <img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" />
+      <figure>
+        <img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" />
+        ${a.image_caption ? `<figcaption>${escapeHtml(a.image_caption)}</figcaption>` : ''}
+      </figure>
     </div>` : ''}
     <div id="article-body">
       ${bodyHtml}

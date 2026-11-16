@@ -21,6 +21,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -36,6 +37,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -51,6 +53,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -66,6 +69,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -81,6 +85,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -96,6 +101,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -111,6 +117,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -126,6 +133,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -141,6 +149,7 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
@@ -156,4 +165,5 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }

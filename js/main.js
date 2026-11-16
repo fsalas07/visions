@@ -528,7 +528,10 @@ async function renderArticlePage() {
     <p id="article-subheadline">${data.summary}</p>
     <p class="author-meta">By <span class="article-author">${data.author}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
     ${data.image ? `<div id="article-hero-img">
-      <img src="${data.image}" alt="${data.title}" />
+      <figure>
+        <img src="${data.image}" alt="${data.title}" />
+        ${data.image_caption ? `<figcaption>${data.image_caption.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</figcaption>` : ''}
+      </figure>
     </div>` : ''}
     <div id="article-body">
       ${addCaptions(marked.parse(body))}

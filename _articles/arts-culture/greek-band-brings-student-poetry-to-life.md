@@ -5,9 +5,8 @@ author_role: Staff Writer
 date: 2026-11-16T15:30:00.000-05:00
 summary: "PCCC student poets paired their work with live music from the Greek sophisti-pop band StarWound at the Hamilton Club's 'Interiors' showcase."
 image: /assets/images/greek-band-brings-student-poetry-to-life.jpg
+image_caption: "StarWound performs alongside PCCC student poets at the \"Interiors\" showcase in the Hamilton Club on Oct. 28."
 ---
-*StarWound performs alongside PCCC student poets at the "Interiors" showcase in the Hamilton Club on Oct. 28.*
-
 The second floor of the Passaic County Community College Hamilton Club on Church Street in Paterson was full of music and poetry on Wednesday, Oct. 28, for a special one-day event.
 
 Finding the inspiration for their piece was the first step for Lux Wright, who began after Poetry Center Director Dr. Christine Redman-Waldeyer asked the students to imagine themselves parallel to a natural element during a discussion on the theme of "Interiors." That prompt inspired Wright to write the line, "I am the water in the bowl, taking shape around a mold that is not my own." After spending approximately a month preparing, workshopping their poems and holding practice rehearsals with Redman-Waldeyer, Wright performed the completed work, "One Day," aloud at the Oct. 28 showcase with live music accompaniment.
