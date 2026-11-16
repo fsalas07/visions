@@ -22,6 +22,13 @@ function endsWithUnescapedQuote(str, quoteChar) {
   return backslashes % 2 === 0;
 }
 
+// Single-character escapes allowed inside YAML double-quoted scalars.
+const YAML_ESCAPES = {
+  '0': '\0', a: '\x07', b: '\b', t: '\t', '\t': '\t', n: '\n', v: '\v', f: '\f', r: '\r',
+  e: '\x1b', ' ': ' ', '"': '"', '/': '/', '\\': '\\',
+  N: '\u0085', _: '\u00a0', L: '\u2028', P: '\u2029'
+};
+
 function parseFrontmatterBlock(rawBlock) {
   const lines = rawBlock.split('\n');
   const data = {};
@@ -86,9 +93,27 @@ function parseFrontmatterBlock(rawBlock) {
         }
       }
 
-      let value = valueLines.join(' ').trim();
-      if (quoteChar === '"') value = value.replace(/\\"/g, '"');
-      if (quoteChar === "'") value = value.replace(/''/g, "'");
+      let value;
+      if (quoteChar === '"') {
+        // A line ending in an odd number of backslashes is a YAML escaped
+        // line break: drop the backslash and join with no space. Then decode
+        // the standard double-quoted escapes.
+        value = '';
+        let glue = '';
+        for (const vl of valueLines) {
+          value += glue;
+          let bs = 0;
+          for (let j = vl.length - 1; j >= 0 && vl[j] === '\\'; j--) bs++;
+          if (bs % 2 === 1) { value += vl.slice(0, -1); glue = ''; }
+          else { value += vl; glue = ' '; }
+        }
+        value = value.trim().replace(/\\(x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|[\s\S])/g, (m, c) => {
+          if (c.length > 1) return String.fromCodePoint(parseInt(c.slice(1), 16));
+          return YAML_ESCAPES[c] ?? m;
+        });
+      } else {
+        value = valueLines.join(' ').trim().replace(/''/g, "'");
+      }
       data[key] = value;
       continue;
     }
