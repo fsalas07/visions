@@ -10,6 +10,11 @@ Settings that live only in Cloudflare (not in this repo):
 - `compatibility_date`: 2026-05-05, no compatibility flags
 - Observability logs enabled
 
-Known limit: `?all=1` makes 8 GitHub list calls plus one fetch per article, all in one request.
-The likely cause of the break past ~50 articles is the Workers per-request subrequest cap
-(50 on the free plan; not confirmed which plan this account is on).
+Endpoints: `?section=X` (every article in a section) and `?section=X&slug=Y` (one article).
+The old `?all=1` mode was removed: nothing used it, and it failed with error 1101 once
+the site passed the per-request subrequest cap (50 on the free plan).
+
+A section listing is one GitHub GraphQL request that returns every file's text, so it
+stays under the subrequest cap no matter how many articles a section has. Successful
+results are kept in memory for 60 seconds so repeat visits within a minute (on the same Worker instance) do not call GitHub again.
+The `GITHUB_TOKEN` secret must be able to read the repo's contents (GraphQL needs a token).

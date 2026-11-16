@@ -24,8 +24,8 @@ const STATIC_PAGES = [
   '/pages/terms'
 ];
 
-// Article folders from admin/config.yml. Fetched one by one because the API's
-// ?all=1 list leaves out newer sections (e.g. campus-announcements).
+// Article folders from admin/config.yml, fetched one by one (the API has no
+// all-sections mode).
 const SECTIONS = [
   'news', 'sports', 'opinion', 'features', 'multimedia', 'data',
   'arts-culture', 'off-campus', 'campus-announcements', 'memorial'

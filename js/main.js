@@ -21,7 +21,15 @@ const SECTION_LABELS = {
 };
 
 function sectionLabel(section) {
-  return SECTION_LABELS[section] || section.toUpperCase();
+  return SECTION_LABELS[section] || escapeHtml(section.toUpperCase());
+}
+
+// Article fields are plain text from the CMS; escape them before putting them
+// into HTML so a quote or < in a title can't break the markup.
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
 }
 
 // Photo captions: a markdown image on its own line with a title,
@@ -38,17 +46,43 @@ function addCaptions(html) {
 // ── FETCH ARTICLES FROM WORKER ──
 // The Worker fetches from GitHub and parses frontmatter server-side, so this
 // just consumes clean, pre-parsed article JSON. No raw YAML reaches the client.
-async function fetchArticles(section) {
-  const cacheKey = `articles-${section}`;
-  const cached = sessionStorage.getItem(cacheKey);
-  if (cached) return JSON.parse(cached);
+// sessionStorage can be unavailable or full; the site works without it.
+function readCache(key) {
+  try {
+    const value = sessionStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch {
+    return null;
+  }
+}
 
-  const res = await fetch(`${WORKER_URL}?section=${section}`);
-  if (!res.ok) return [];
-  const articles = await res.json();
-  if (!Array.isArray(articles)) return [];
-  sessionStorage.setItem(cacheKey, JSON.stringify(articles));
-  return articles;
+function writeCache(key, value) {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  } catch {}
+}
+
+// Returns null when the section could not be loaded (network error, Worker
+// error), so callers can tell a failure from an empty section.
+async function loadSection(section) {
+  const cacheKey = `articles-${section}`;
+  const cached = readCache(cacheKey);
+  if (cached) return cached;
+
+  try {
+    const res = await fetch(`${WORKER_URL}?section=${encodeURIComponent(section)}`);
+    if (!res.ok) return null;
+    const articles = await res.json();
+    if (!Array.isArray(articles)) return null;
+    writeCache(cacheKey, articles);
+    return articles;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchArticles(section) {
+  return (await loadSection(section)) || [];
 }
 
 async function prefetchAll() {
@@ -57,31 +91,37 @@ async function prefetchAll() {
 }
 
 // ── FETCH ALL ARTICLES (SITE-WIDE, FOR SEARCH) ──
-// Loads each section on its own instead of using the Worker's ?all=1, which fetches
-// every article in a single Worker call and fails (error 1101) once the site passes
-// Cloudflare's per-request subrequest limit.
+// Loads each section on its own (the Worker has no all-sections mode).
 const ALL_SECTIONS = ['news', 'sports', 'opinion', 'features', 'multimedia', 'data',
   'arts-culture', 'off-campus', 'campus-announcements', 'memorial'];
 
 async function fetchAllArticlesFlat() {
   const cacheKey = 'articles-all';
-  const cached = sessionStorage.getItem(cacheKey);
-  if (cached) return JSON.parse(cached);
+  const cached = readCache(cacheKey);
+  if (cached) return cached;
 
-  const lists = await Promise.all(ALL_SECTIONS.map(s => fetchArticles(s)));
-  const articles = lists.flat();
-  if (articles.length) sessionStorage.setItem(cacheKey, JSON.stringify(articles));
+  const lists = await Promise.all(ALL_SECTIONS.map(loadSection));
+  const articles = lists.flatMap(list => list || []);
+  // Only cache a complete set, so one failed section doesn't hide its
+  // articles for the rest of the visit.
+  if (lists.every(Boolean)) writeCache(cacheKey, articles);
   return articles;
 }
 
 // ── SEARCH MATCHING/RANKING ──
 // Any query word matching scores higher when found in title/summary than
 // when only found in the body. Results with zero matches are excluded.
+// Lowercase and drop accents, so "jose" matches "José" and vice versa.
+function foldForSearch(s) {
+  return (s || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+}
+
 function scoreArticleForSearch(article, queryWords) {
-  const title = (article.title || '').toLowerCase();
-  const author = (article.author || '').toLowerCase();
-  const summary = (article.summary || '').toLowerCase();
-  const body = (article.body || '').toLowerCase();
+  const title = foldForSearch(article.title);
+  const author = foldForSearch(article.author);
+  const summary = foldForSearch(article.summary);
+  // Match the body's text, not HTML tags or link/image URLs.
+  const body = foldForSearch((article.body || '').replace(/<[^>]*>/g, ' ').replace(/\]\([^)]*\)/g, '] '));
   let score = 0;
   for (const w of queryWords) {
     if (title.includes(w)) score += 3;
@@ -93,7 +133,7 @@ function scoreArticleForSearch(article, queryWords) {
 }
 
 function searchArticles(articles, query) {
-  const queryWords = query.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 2);
+  const queryWords = foldForSearch(query).split(/[^\p{L}\p{N}]+/u).filter(w => w.length >= 2);
   if (!queryWords.length) return [];
   return articles
     .map(a => ({ article: a, score: scoreArticleForSearch(a, queryWords) }))
@@ -338,8 +378,8 @@ async function renderOpinionSidebar() {
   markUsed(picked);
   const items = picked.map(a => `
     <div class="opinion-article">
-      <h4 class="opinion-headline"><a href="${a.url}">${a.title}</a></h4>
-      <p class="opinion-author">${a.author}</p>
+      <h4 class="opinion-headline"><a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a></h4>
+      <p class="opinion-author">${escapeHtml(a.author)}</p>
     </div>
   `).join('');
   el.innerHTML = `<h3 id="opinion-label">Opinion</h3>${items}`;
@@ -387,13 +427,13 @@ async function renderSmallStrip(section, containerId) {
 // as text-only items (no empty image box).
 function storyImage(a, url) {
   return a.image
-    ? `<a href="${url}" class="story-thumb"><img src="${a.image}" alt="${a.title}" class="story-img" /></a>`
+    ? `<a href="${escapeHtml(url)}" class="story-thumb"><img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" class="story-img" /></a>`
     : '';
 }
 
 function storyByline(a, withTime) {
   const time = withTime ? ` <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span>` : '';
-  return `<div class="story-byline">${a.author}${time}</div>`;
+  return `<div class="story-byline">${escapeHtml(a.author)}${time}</div>`;
 }
 
 // Main-list item: 4:3 thumb | headline, byline, abstract, then KICKER | time.
@@ -402,9 +442,9 @@ function storyRow(a, url, section) {
     <article class="story story-row${a.image ? '' : ' no-image'}">
       ${storyImage(a, url)}
       <div class="story-text">
-        <h2 class="story-headline"><a href="${url}">${a.title}</a></h2>
+        <h2 class="story-headline"><a href="${escapeHtml(url)}">${escapeHtml(a.title)}</a></h2>
         ${storyByline(a, false)}
-        <p class="story-abstract">${a.summary}</p>
+        <p class="story-abstract">${escapeHtml(a.summary)}</p>
         <div class="story-meta"><span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span></div>
       </div>
     </article>`;
@@ -419,10 +459,10 @@ function aboveStory(a, { size, image, imageFirst = false, abstract, kicker }) {
   const img = image ? storyImage(a, a.url) : '';
   return `
     <article class="story story-above story-${size}${imageFirst ? ' image-first' : ''}">
-      <h3 class="story-headline"><a href="${a.url}">${a.title}</a></h3>
-      <div class="story-byline">${a.author}${kick} <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span></div>
+      <h3 class="story-headline"><a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a></h3>
+      <div class="story-byline">${escapeHtml(a.author)}${kick} <span class="meta-divider">|</span> <span class="story-time">${timeAgo(a.date)}</span></div>
       ${img}
-      ${abstract && a.summary ? `<p class="story-abstract">${a.summary}</p>` : ''}
+      ${abstract && a.summary ? `<p class="story-abstract">${escapeHtml(a.summary)}</p>` : ''}
     </article>`;
 }
 
@@ -433,7 +473,7 @@ function latestBlock(articles) {
     <h3 class="sidebar-subheader">Latest</h3>
     <div class="sidebar-items">${articles.map(a => `
       <article class="story story-hed">
-        <h3 class="story-headline"><a href="${a.url}">${a.title}</a></h3>
+        <h3 class="story-headline"><a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a></h3>
         ${storyByline(a, false)}
       </article>`).join('')}
     </div>`;
@@ -452,7 +492,7 @@ async function renderSectionPage() {
   const section = titleEl.textContent.toLowerCase().replace(' & ', '-').replace(' ', '-');
   const articles = await fetchArticles(section);
 
-  const linkTo = a => `article.html?section=${section}&slug=${a.slug}`;
+  const linkTo = a => `article.html?section=${encodeURIComponent(section)}&slug=${encodeURIComponent(a.slug)}`;
 
   const PER_PAGE = 20;
   const pageCount = Math.max(1, Math.ceil(articles.length / PER_PAGE));
@@ -475,10 +515,10 @@ async function renderSectionPage() {
       const url = linkTo(featured);
       top.querySelector('#section-featured').innerHTML = `
         <article class="story story-top">
-          <h2 class="story-headline"><a href="${url}">${featured.title}</a></h2>
+          <h2 class="story-headline"><a href="${escapeHtml(url)}">${escapeHtml(featured.title)}</a></h2>
           ${storyByline(featured, true)}
           ${storyImage(featured, url)}
-          <p class="story-abstract">${featured.summary}</p>
+          <p class="story-abstract">${escapeHtml(featured.summary)}</p>
         </article>`;
     }
     top.hidden = !featured;
@@ -513,49 +553,54 @@ async function renderArticlePage() {
   const params = new URLSearchParams(window.location.search);
   const section = params.get('section');
   const slug = params.get('slug');
-  if (!section || !slug) return;
+  // The server (functions/pages/article.js) already put the article into the
+  // HTML. If anything below fails, keep that version and still reveal it.
+  try {
+    if (!section || !slug) return;
 
-  const res = await fetch(`${WORKER_URL}?section=${section}&slug=${slug}`);
-  if (!res.ok) return;
-  const data = await res.json();
-  const body = data.body;
+    const res = await fetch(`${WORKER_URL}?section=${encodeURIComponent(section)}&slug=${encodeURIComponent(slug)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data || !data.title || typeof marked === 'undefined') return;
 
-  document.title = `${data.title} | The Panther Vision`;
+    document.title = `${data.title} | The Panther Vision`;
 
-  el.innerHTML = `
+    // Same date format as the server render, so it doesn't change after load.
+    const date = new Date(data.date).toLocaleDateString('en-US', { timeZone: 'America/New_York' });
+    el.innerHTML = `
     <span class="section-tag">${sectionLabel(section)}</span>
-    <h1 id="article-headline">${data.title}</h1>
-    <p id="article-subheadline">${data.summary}</p>
-    <p class="author-meta">By <span class="article-author">${data.author}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${new Date(data.date).toLocaleDateString()}</p>
+    <h1 id="article-headline">${escapeHtml(data.title)}</h1>
+    <p id="article-subheadline">${escapeHtml(data.summary)}</p>
+    <p class="author-meta">By <span class="article-author">${escapeHtml(data.author)}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date}</p>
     ${data.image ? `<div id="article-hero-img">
       <figure>
-        <img src="${data.image}" alt="${data.title}" />
-        ${data.image_caption ? `<figcaption>${data.image_caption.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</figcaption>` : ''}
+        <img src="${escapeHtml(data.image)}" alt="${escapeHtml(data.title)}" />
+        ${data.image_caption ? `<figcaption>${escapeHtml(data.image_caption)}</figcaption>` : ''}
       </figure>
     </div>` : ''}
     <div id="article-body">
-      ${addCaptions(marked.parse(body))}
+      ${addCaptions(marked.parse(data.body || ''))}
     </div>
     <div id="author-bio">
-      <p id="author-name">${data.author.toUpperCase()}</p>
-<p id="author-description">${data.author_role || 'Staff Writer for Visions.'}</p>
-    </div>  `
-    ;
+      <p id="author-name">${escapeHtml(String(data.author || '').toUpperCase())}</p>
+      <p id="author-description">${escapeHtml(data.author_role || 'Staff Writer for Visions.')}</p>
+    </div>`;
 
-  // Article bodies can contain embed snippets (Flourish, etc.) with <script>
-  // tags. Browsers never execute <script> tags inserted via innerHTML as a
-  // security measure, so those embeds silently do nothing unless we manually
-  // re-create and re-insert each script tag to force real execution.
-  // Article bodies can contain embed snippets (Flourish, etc.) with <script>
-  // tags. Browsers never execute <script> tags inserted via innerHTML as a
-  // security measure, so those embeds silently do nothing unless we manually
-  // re-create and re-insert each script tag to force real execution.
-  //
-  // SECURITY: only re-execute scripts from an explicit allowlist of known,
-  // trusted embed providers. Everything else — inline scripts, scripts from
-  // any other origin — is dropped, not executed. Without this, the CMS's
-  // "article body" field would be an arbitrary-JavaScript-execution pipeline
-  // for anyone with publish access.
+    runAllowedScripts(el);
+  } finally {
+    document.body.classList.add('content-loaded');
+  }
+}
+
+// Article bodies can contain embed snippets (Flourish, etc.) with <script>
+// tags. Browsers never execute <script> tags inserted via innerHTML, so those
+// embeds do nothing unless each script tag is re-created.
+//
+// Only scripts from the allowlist below are re-created; inline scripts and
+// scripts from any other origin are removed. This is not a sanitizer: the body
+// is still rendered as HTML (embeds need iframes), so other HTML from the CMS,
+// such as event-handler attributes, is trusted as editor content.
+function runAllowedScripts(el) {
   const ALLOWED_SCRIPT_ORIGINS = [
     'https://public.flourish.studio/'
   ];
@@ -571,8 +616,6 @@ async function renderArticlePage() {
       oldScript.remove();
     }
   });
-
-  document.body.classList.add('content-loaded');
 }
 // ── RENDER OBITUARY PAGE ──
 async function renderObituaryPage() {
@@ -592,18 +635,18 @@ async function renderObituaryPage() {
   container.innerHTML = articles.map(a => `
     <div class="tribute-card">
       ${a.image
-        ? `<img src="${a.image}" alt="${a.title}" class="tribute-img" />`
+        ? `<img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" class="tribute-img" />`
         : `<div class="tribute-img" style="background:#f0f0f0;display:flex;align-items:center;justify-content:center;">
              <span style="font-size:11px;color:#aaa;font-family:Georgia,serif;">No Image</span>
            </div>`
       }
       <div class="tribute-text">
         <span class="tribute-tag">Tribute</span>
-        <a href="article.html?section=memorial&slug=${a.slug}">
-          <h3 class="tribute-headline">${a.title}</h3>
+        <a href="article.html?section=memorial&slug=${encodeURIComponent(a.slug)}">
+          <h3 class="tribute-headline">${escapeHtml(a.title)}</h3>
         </a>
-        <p class="tribute-excerpt">${a.summary}</p>
-        <p class="tribute-meta">${a.author} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
+        <p class="tribute-excerpt">${escapeHtml(a.summary)}</p>
+        <p class="tribute-meta">${escapeHtml(a.author)} <span class="meta-divider">|</span> ${new Date(a.date).toLocaleDateString()}</p>
       </div>
     </div>
   `).join('');
@@ -619,6 +662,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initInstagramRow();
 
+  // Each page reveals its content (opacity) via 'content-loaded'. Add it even
+  // if rendering fails, so a single error can't leave the page blank.
+  const reveal = () => document.body.classList.add('content-loaded');
+
   if (document.getElementById('hero-left')) {
     (async () => {
       await prefetchAll();
@@ -630,14 +677,13 @@ document.addEventListener('DOMContentLoaded', () => {
       await renderSmallStrip('features', 'features-strip');
       await renderSmallStrip('data', 'data-strip');
       await renderSmallStrip('multimedia', 'multimedia-strip');
-      document.body.classList.add('content-loaded');
-    })();
+    })().finally(reveal);
   }
   if (document.getElementById('obituary-tributes')) {
-    renderObituaryPage();
+    renderObituaryPage().finally(reveal);
   }
   if (document.getElementById('section-main')) {
-    renderSectionPage();
+    renderSectionPage().finally(reveal);
   }
 
   if (document.getElementById('article-container')) {
@@ -645,6 +691,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (document.getElementById('search-results')) {
-    renderSearchPage();
+    renderSearchPage().finally(reveal);
   }
 });
