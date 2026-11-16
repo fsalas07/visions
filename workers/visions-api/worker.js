@@ -1,4 +1,4 @@
-// ── visions-api Worker ──
+// -- visions-api Worker --
 // Fetches article data from the fsalas07/visions GitHub repo and returns
 // clean, pre-parsed JSON. Frontmatter parsing happens here (server-side)
 // instead of in the browser, so the client never touches raw YAML.
@@ -7,7 +7,7 @@
 //   ?section=X           every article in one section (full body)
 //   ?section=X&slug=Y    one article
 
-// ── FRONTMATTER PARSER ──
+// -- FRONTMATTER PARSER --
 // Dependency-free parser tailored to Decap CMS's YAML output. Handles:
 //   - single-line values, with or without a trailing `# comment`
 //   - quoted values wrapped across multiple lines ('' and \ escapes)
@@ -19,7 +19,7 @@
 const YAML_ESCAPES = {
   '0': '\0', a: '\x07', b: '\b', t: '\t', '\t': '\t', n: '\n', v: '\v', f: '\f', r: '\r',
   e: '\x1b', ' ': ' ', '"': '"', '/': '/', '\\': '\\',
-  N: '\u0085', _: ' ', L: ' ', P: ' '
+  N: '\u0085', _: '\u00a0', L: '\u2028', P: '\u2029'
 };
 
 // Index of the closing quote in `s`, or -1 if the value continues on the next line.
@@ -84,7 +84,7 @@ function readQuoted(lines, i, rest) {
   return { value: value.trim(), next: i };
 }
 
-// A plain (unquoted) value ends at " #" — YAML treats the rest as a comment.
+// A plain (unquoted) value ends at " #" - YAML treats the rest as a comment.
 function stripComment(s) {
   return s.replace(/(^|\s)#.*$/, '').trim();
 }
@@ -168,7 +168,7 @@ function articleLink(section, slug) {
 function parseArticleFile(text, section, slug) {
   // Tolerate a byte-order mark, Windows line endings, and a file that ends
   // right after the closing `---`.
-  const normalized = text.replace(/^﻿/, '').replace(/\r\n?/g, '\n');
+  const normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
   const match = normalized.match(/^---\n([\s\S]*?)\n---[ \t]*(?:\n([\s\S]*))?$/);
   if (!match) return null;
   const data = parseFrontmatterBlock(match[1]);
@@ -205,7 +205,7 @@ function jsonResponse(body, status, cacheSeconds) {
   return new Response(JSON.stringify(body), { status, headers });
 }
 
-// ── IN-MEMORY CACHE ──
+// -- IN-MEMORY CACHE --
 // workers.dev has no edge cache, so successful GitHub results are kept in the
 // isolate's memory for a minute. Without this every visitor costs one GitHub
 // API call per section, which runs into GitHub's hourly rate limit.
@@ -308,7 +308,7 @@ async function handle(request, env) {
     return jsonResponse({ error: 'Invalid section or slug' }, 400);
   }
 
-  // ── SINGLE ARTICLE MODE ──
+  // -- SINGLE ARTICLE MODE --
   if (slug) {
     const { article, status } = await cached(`article:${section}/${slug}`, () => fetchSingleArticle(section, slug, env));
     if (status === 500) return jsonResponse({ error: 'Malformed article file' }, 500);
@@ -316,7 +316,7 @@ async function handle(request, env) {
     return jsonResponse(article, 200, 60);
   }
 
-  // ── SECTION LISTING MODE ──
+  // -- SECTION LISTING MODE --
   const { articles, status } = await cached(`section:${section}`, () => fetchSectionArticles(section, env));
   if (status) return jsonResponse({ error: 'Upstream GitHub error' }, status);
   return jsonResponse(articles, 200, 60);
