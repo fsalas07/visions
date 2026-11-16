@@ -22,7 +22,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "sports"
     label: "Sports"
@@ -37,7 +37,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "opinion"
     label: "Opinion"
@@ -52,7 +52,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "features"
     label: "Features"
@@ -67,7 +67,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "multimedia"
     label: "Multimedia"
@@ -82,7 +82,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "data"
     label: "Data"
@@ -97,7 +97,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "arts-culture"
     label: "Arts & Culture"
@@ -112,7 +112,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "off-campus"
     label: "Off-Campus"
@@ -127,7 +127,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "campus-announcements"
     label: "Campus Announcements"
@@ -142,7 +142,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "memorial"
     label: "Memorial — Dr. Rose Tributes"
@@ -156,4 +156,4 @@ collections:
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }

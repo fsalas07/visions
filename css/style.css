@@ -1011,7 +1011,15 @@ a:hover {
     text-decoration: underline;
 }
 
+#article-body figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 #article-body figcaption {
+    color: var(--color-deck);
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     line-height: var(--lh-caption);

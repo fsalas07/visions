@@ -26,9 +26,7 @@ Here's why I think it keeps speeding up. Every tool AI builds becomes a tool for
 
 Now my bigger belief. Right now, AI runs on power plants here on Earth, which brings back every problem I wrote about in my last article: wars, blackouts, pipelines. I believe the next step is to automate AI's infrastructure and power it with solar energy collected in space, where there's no night and no clouds. In 2023, Caltech wirelessly transmitted power in orbit and beamed a detectable signal down to its campus in Pasadena. Scale that up, and AI never has to stop. It solves problems 24 hours a day, 7 days a week, while we sleep.
 
-![Diagram of rings of solar satellites around the Sun beaming power to a receiving station near Earth](/assets/images/the-countdown-is-getting-shorter-network.jpg)
-
-*Illustration: AI-assisted diagram of solar satellites beaming power to Earth.*
+![Diagram of rings of solar satellites around the Sun beaming power to a receiving station near Earth](/assets/images/the-countdown-is-getting-shorter-network.jpg "Illustration: AI-assisted diagram of solar satellites beaming power to Earth.")
 
 If the time between breakthroughs keeps shrinking, I believe we eventually reach a point where AI has solved every problem humanity can think of. Disease, hunger, energy, all of it.
 

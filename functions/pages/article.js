@@ -16,6 +16,15 @@ function sectionLabel(section) {
   return SECTION_LABELS[section] || escapeHtml(section.toUpperCase());
 }
 
+// Mirrors addCaptions in js/main.js: a titled image on its own line becomes
+// <figure> with a visible <figcaption>.
+function addCaptions(html) {
+  return html.replace(
+    /<p>\s*<img ([^>]*?)\s*title="([^"]*)"([^>]*?)\/?>\s*<\/p>/g,
+    (m, before, caption, after) => `<figure><img ${before}${after}><figcaption>${caption}</figcaption></figure>`
+  );
+}
+
 export async function onRequestGet({ request, next }) {
   const url = new URL(request.url);
   const section = url.searchParams.get('section');
@@ -69,7 +78,7 @@ export async function onRequestGet({ request, next }) {
 
   // Same structure as the template in renderArticlePage() (js/main.js).
   // Scripts are stripped: the browser render re-adds only allowlisted embeds.
-  const bodyHtml = marked.parse(a.body || '').replace(/<script\b[\s\S]*?<\/script>/gi, '');
+  const bodyHtml = addCaptions(marked.parse(a.body || '')).replace(/<script\b[\s\S]*?<\/script>/gi, '');
   const date = new Date(a.date).toLocaleDateString('en-US', { timeZone: 'America/New_York' });
   const article = `
     <span class="section-tag">${sectionLabel(section)}</span>

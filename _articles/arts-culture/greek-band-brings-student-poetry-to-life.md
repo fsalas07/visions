@@ -48,9 +48,7 @@ StarWound said they were honored by the students' ability and willingness to tru
 
 The poets found working with the band to be a pleasant experience, noting that the members were very friendly. They even went outside to get fresh air and take photos by the river.
 
-![The student poets and members of StarWound pose in front of the Paterson Great Falls](/assets/images/greek-band-brings-student-poetry-to-life-falls.jpg)
-
-*Taking a breather at the Paterson Great Falls with Greek sophisti-pop band StarWound! So grateful for the chance to turn our poetry into live music for the “Interiors” showcase at PCCC. Top (L to R): Litzi Gomez, Laura Rosa Urtarte, Taj'mere Hunter, Dr. Christine Redman-Waldeyer, Petros Bouras (Piano & composer), Dimitris Azorakos (Drums), Konstantina Stavropoulou (Vocals & synthesizers), and Nicholas Grossi. Bottom (L to R): Autumn Williams and Lux Wright.*
+![The student poets and members of StarWound pose in front of the Paterson Great Falls](/assets/images/greek-band-brings-student-poetry-to-life-falls.jpg "Taking a breather at the Paterson Great Falls with Greek sophisti-pop band StarWound! So grateful for the chance to turn our poetry into live music for the “Interiors” showcase at PCCC. Top (L to R): Litzi Gomez, Laura Rosa Urtarte, Taj'mere Hunter, Dr. Christine Redman-Waldeyer, Petros Bouras (Piano & composer), Dimitris Azorakos (Drums), Konstantina Stavropoulou (Vocals & synthesizers), and Nicholas Grossi. Bottom (L to R): Autumn Williams and Lux Wright.")
 
 "I loved how energetic they were and how welcoming they were," Gomez said.
 
@@ -88,6 +86,4 @@ The poets also gained a new perspective on poetry. Gomez said many people saw po
 
 Wright may only be at the start of their journey, but will continue to write poetry even if just for themselves.
 
-![Three people sit on a bench looking out at the Paterson Great Falls](/assets/images/greek-band-brings-student-poetry-to-life-bench.jpg)
-
-*Looking out at the Paterson Great Falls from a bench along the river.*
+![Three people sit on a bench looking out at the Paterson Great Falls](/assets/images/greek-band-brings-student-poetry-to-life-bench.jpg "Looking out at the Paterson Great Falls from a bench along the river.")

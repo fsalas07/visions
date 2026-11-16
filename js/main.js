@@ -24,6 +24,17 @@ function sectionLabel(section) {
   return SECTION_LABELS[section] || section.toUpperCase();
 }
 
+// Photo captions: a markdown image on its own line with a title,
+// ![alt](/path.jpg "Caption"), becomes <figure> with a visible <figcaption>.
+// marked already HTML-escapes the title, so it is inserted as-is.
+// Mirrored in functions/pages/article.js.
+function addCaptions(html) {
+  return html.replace(
+    /<p>\s*<img ([^>]*?)\s*title="([^"]*)"([^>]*?)\/?>\s*<\/p>/g,
+    (m, before, caption, after) => `<figure><img ${before}${after}><figcaption>${caption}</figcaption></figure>`
+  );
+}
+
 // ── FETCH ARTICLES FROM WORKER ──
 // The Worker fetches from GitHub and parses frontmatter server-side, so this
 // just consumes clean, pre-parsed article JSON. No raw YAML reaches the client.
@@ -520,7 +531,7 @@ async function renderArticlePage() {
       <img src="${data.image}" alt="${data.title}" />
     </div>` : ''}
     <div id="article-body">
-      ${marked.parse(body)}
+      ${addCaptions(marked.parse(body))}
     </div>
     <div id="author-bio">
       <p id="author-name">${data.author.toUpperCase()}</p>

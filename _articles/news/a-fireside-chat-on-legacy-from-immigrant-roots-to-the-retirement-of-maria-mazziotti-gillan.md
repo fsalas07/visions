@@ -17,9 +17,7 @@ I interviewed her a few days later. As I walk into Maria Mazziotti Gillan’s of
 
 Her dark hair frames lively eyes and she lets me know that the weather makes her very crabby.
 
-![](/assets/images/55caa8_4d8512872b634afb8f41c0155eff720f~mv2.avif "(Maria Mazziotti Gillan's office at the historic Hamilton Club, Paterson)")
-
-(Maria Mazziotti Gillan's office at the historic Hamilton Club, Paterson)
+![](/assets/images/55caa8_4d8512872b634afb8f41c0155eff720f~mv2.avif "Maria Mazziotti Gillan's office at the historic Hamilton Club, Paterson.")
 
 Despite the self-proclaimed crabbiness, Maria emanates the animation and warmth that causes hordes of people to call her mom, and many others to claim her as their grandma. It’s partially the familial way she signs texts, “Love, Maria,” and address you as “honey.” But it’s more than that.
 

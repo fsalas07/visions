@@ -47,6 +47,4 @@ Did we get it right, or where would you agree and disagree? We want to know what
 
 Name the ONE thing for each section on your Ins and Out list:
 
-![QR code to share your Ins and Out list](/assets/images/ins-and-out-qr-code.jpg)
-
-(Scan the QR code to share your list.)
+![QR code to share your Ins and Out list](/assets/images/ins-and-out-qr-code.jpg "Scan the QR code to share your list.")

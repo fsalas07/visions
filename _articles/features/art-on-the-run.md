@@ -18,9 +18,7 @@ The stairs are in the middle, security right of the cafeteria at their podium, t
 
 For most, this hallway is a transit zone, there is no knowledge of its existence, or nothing is there that requires many of us to take an adventure down that way. Most hurry through it with their eyes glued to their phones, laughing at whatever friends are saying, racing to class, or the music in our headphones is so loud and sweeping us away, we do not even see the environment around us. Yet the walls are quietly offering something entirely different; zero-cost mental decompression.
 
-![Paintings hanging in the hallway gallery](/assets/images/art-on-the-run-paintings.jpg)
-
-(Paintings in the hallway gallery.)
+![Paintings hanging in the hallway gallery](/assets/images/art-on-the-run-paintings.jpg "Paintings in the hallway gallery.")
 
 ## The Mental Decompression
 
@@ -32,18 +30,12 @@ One does not need to be an art critic or an expert to appreciate it. In fact, th
 
 Another depicts a man and woman made from and entwined in branches. Colorful flowers bloomed around them, and black words were woven between their branches. ‘Power of love,’ ‘thankful,’ ‘passion was bloomed together,’ ‘when my lips touched yours, magic was born.’ Reading these words, staring at the people who were created from branches, one cannot help but smile. These artworks are silent reminders that beneath the surface of tests and schedules, Passaic County Community College is full of creative talent.
 
-![Statue of Martin Luther King in the hallway gallery](/assets/images/art-on-the-run-mlk-statue.jpg)
+![Statue of Martin Luther King in the hallway gallery](/assets/images/art-on-the-run-mlk-statue.jpg "The Martin Luther King statue stands in the hallway gallery.")
 
-(The Martin Luther King statue stands in the hallway gallery.)
-
-![Paintings and artist statements on the gallery wall](/assets/images/art-on-the-run-colombian-wall.jpg)
-
-(More paintings and artist statements on the gallery wall.)
+![Paintings and artist statements on the gallery wall](/assets/images/art-on-the-run-colombian-wall.jpg "More paintings and artist statements on the gallery wall.")
 
 ## Look Up from the Screens and Look at the Walls
 
 The next time grabbing lunch or waiting for a friend by the cafeteria, challenge oneself to slow down. Leave the phones in pockets, purses, or backpacks for one minute and look at the walls in front. One could find that the best break in their day is not getting to finally stare at their phones, or sit solely in the cafeteria, but that quiet world hanging just outside its doors.
 
-![The gallery hallway beside the cafeteria](/assets/images/art-on-the-run-hallway.jpg)
-
-(The gallery hallway beside the cafeteria.)
+![The gallery hallway beside the cafeteria](/assets/images/art-on-the-run-hallway.jpg "The gallery hallway beside the cafeteria.")

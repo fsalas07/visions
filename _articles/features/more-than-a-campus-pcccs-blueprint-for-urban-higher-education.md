@@ -18,9 +18,7 @@ Instead, the campus heartbeat matches the rhythm of the city. Step outside PCCC 
 
 On any given morning, there is a sea of commuters carrying heavy backpacks, weighted down by full-time work schedules, streaming past historic brick structures and slipping through the doors of modern classrooms.
 
-![A bus parked along the curb in downtown Paterson](/assets/images/more-than-a-campus-jitney-bus.jpg)
-
-(A bus parked along the curb in downtown Paterson.)
+![A bus parked along the curb in downtown Paterson](/assets/images/more-than-a-campus-jitney-bus.jpg "A bus parked along the curb in downtown Paterson.")
 
 # Engine of Social Mobility
 
@@ -54,6 +52,4 @@ Passaic County Community College creates a culture that mirrors Paterson’s res
 
 The success of PCCC in downtown Paterson proves that higher education thrives when it refuses to hide behind gates. It offers financial accessibility, an easy commute for those without a car, and scheduling flexibility. The college does more than teach; it reshapes the economic future of the city and its residents, one student at a time.
 
-![A street corner in downtown Paterson](/assets/images/more-than-a-campus-downtown-paterson.jpg)
-
-(Downtown Paterson.)
+![A street corner in downtown Paterson](/assets/images/more-than-a-campus-downtown-paterson.jpg "Downtown Paterson.")
