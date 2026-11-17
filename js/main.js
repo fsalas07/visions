@@ -628,6 +628,15 @@ async function fillMoreFromSection() {
     others.map(a => storyRow(a, a.url, section)).join('');
 }
 
+// Tall photos would lose a big slice in the landscape thumbnails, so they are
+// shown whole, centered on a neutral background (.fit-whole in style.css).
+document.addEventListener('load', e => {
+  const img = e.target;
+  if (img.tagName === 'IMG' && img.matches('.story-img, .tribute-img') && img.naturalHeight > img.naturalWidth * 1.1) {
+    img.classList.add('fit-whole');
+  }
+}, true);
+
 // Copy-link buttons (article pages).
 document.addEventListener('click', e => {
   const btn = e.target.closest && e.target.closest('.copy-link');

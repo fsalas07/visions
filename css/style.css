@@ -1140,7 +1140,7 @@ a:hover {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 30%;
 }
 
 /* Top story: headline, byline, 4:3 image, abstract */
@@ -1433,6 +1433,7 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    object-position: center 20%;
     margin-bottom: 4px;
 }
 
@@ -1660,6 +1661,7 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     width: 160px;
     height: 110px;
     object-fit: cover;
+    object-position: center 25%;
 }
 
 .tribute-text {
@@ -2205,4 +2207,11 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
     content: " (" attr(href) ")";
     font-size: 0.8em;
   }
+}
+
+/* Tall photos in thumbnails: show the whole picture instead of cropping it. */
+.fit-whole {
+  object-fit: contain;
+  object-position: center;
+  background: #f0f0f0;
 }
