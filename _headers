@@ -1,0 +1,21 @@
+# Security headers for static files. Pages Functions do not get these, so the
+# article Function sets the same ones itself (SECURITY_HEADERS in
+# functions/_lib/site.js). Keep the two in sync.
+# The CSP is report-only for now: watch the browser console on every page type
+# and every article with an embed, then rename it to Content-Security-Policy.
+/*
+  Strict-Transport-Security: max-age=2592000
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: frame-ancestors 'self'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://public.flourish.studio https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://visions-api.fabiansalas1233.workers.dev https://wttr.in https://cloudflareinsights.com; frame-src https://www.canva.com https://flo.uri.sh https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'
+
+# The CMS needs its own looser rules (Decap uses inline styles, blob: images and
+# api.github.com), so it gets no site policy and may not be framed at all.
+/admin/*
+  ! X-Frame-Options
+  ! Content-Security-Policy
+  ! Content-Security-Policy-Report-Only
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Robots-Tag: noindex

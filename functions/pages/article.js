@@ -4,7 +4,7 @@
 // after load. js/main.js still renders the article in the browser exactly as
 // before; this only changes what the server sends.
 import { marked } from '../_lib/marked.esm.js';
-import { SITE_NAME, API_URL, escapeHtml, articleUrl, absoluteUrl } from '../_lib/site.js';
+import { SITE_NAME, API_URL, escapeHtml, articleUrl, absoluteUrl, SECURITY_HEADERS } from '../_lib/site.js';
 
 // Mirrors SECTION_LABELS in js/main.js.
 const SECTION_LABELS = {
@@ -16,6 +16,37 @@ function sectionLabel(section) {
   return SECTION_LABELS[section] || escapeHtml(section.toUpperCase());
 }
 
+// Mirrors readingMinutes in js/main.js.
+function readingMinutes(body) {
+  const words = String(body || '').replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+// Mirrors articleExtras in js/main.js: correction, tags, share links, and the
+// empty container the browser fills with "More from this section".
+function articleExtras(a, section, slug, canonical) {
+  const u = encodeURIComponent(canonical);
+  const t = encodeURIComponent(a.title);
+  const tags = Array.isArray(a.tags) ? a.tags : [];
+  return `
+    ${a.correction ? `<p class="article-correction"><strong>Correction:</strong> ${escapeHtml(a.correction)}</p>` : ''}
+    ${tags.length ? `<p class="article-tags">${tags.map(tag => `<a href="/pages/tag?tag=${encodeURIComponent(tag)}">${escapeHtml(tag)}</a>`).join('')}</p>` : ''}
+    <div class="article-share">
+      <span class="article-share-label">Share</span>
+      <a href="${escapeHtml(`https://www.facebook.com/sharer/sharer.php?u=${u}`)}" target="_blank" rel="noopener">Facebook</a>
+      <a href="${escapeHtml(`https://twitter.com/intent/tweet?url=${u}&text=${t}`)}" target="_blank" rel="noopener">X</a>
+      <a href="${escapeHtml(`mailto:?subject=${t}&body=${u}`)}">Email</a>
+      <button type="button" class="copy-link" data-url="${escapeHtml(canonical)}">Copy link</button>
+    </div>
+    <aside id="more-from-section" data-section="${escapeHtml(section)}" data-slug="${escapeHtml(slug)}"></aside>
+  `;
+}
+
+function withSecurityHeaders(response) {
+  Object.entries(SECURITY_HEADERS).forEach(([k, v]) => response.headers.set(k, v));
+  return response;
+}
+
 // Mirrors addCaptions in js/main.js: a titled image on its own line becomes
 // <figure> with a visible <figcaption>.
 function addCaptions(html) {
@@ -23,6 +54,25 @@ function addCaptions(html) {
     /<p>\s*<img ([^>]*?)\s*title="([^"]*)"([^>]*?)\/?>\s*<\/p>/g,
     (m, before, caption, after) => `<figure><img ${before}${after}><figcaption>${caption}</figcaption></figure>`
   );
+}
+
+// Mirrors showArticleNotFound in js/main.js. A real 404 status keeps search
+// engines from indexing bad links; a network error still falls back to the
+// plain page so the browser can retry.
+const NOT_FOUND_HTML = `
+    <h1 id="article-headline">Story not found</h1>
+    <p id="article-subheadline">That story may have moved or been removed. <a href="/">Back to the homepage</a>.</p>
+  `;
+
+function notFound(page) {
+  const out = new HTMLRewriter()
+    .on('title', { element(el) { el.setInnerContent(`Story not found | ${SITE_NAME}`); } })
+    .on('head', { element(el) { el.append('<meta name="robots" content="noindex" />', { html: true }); } })
+    .on('#article-container', { element(el) { el.setInnerContent(NOT_FOUND_HTML, { html: true }); } })
+    .transform(page);
+  const response = new Response(out.body, { status: 404, headers: out.headers });
+  response.headers.delete('ETag');
+  return withSecurityHeaders(response);
 }
 
 export async function onRequestGet({ request, next }) {
@@ -36,11 +86,12 @@ export async function onRequestGet({ request, next }) {
   headers.delete('If-None-Match');
   headers.delete('If-Modified-Since');
   const page = await next(new Request(request.url, { headers }));
-  if (!section || !slug) return page;
+  if (!section || !slug) return notFound(page);
 
   let a;
   try {
     const res = await fetch(`${API_URL}?section=${encodeURIComponent(section)}&slug=${encodeURIComponent(slug)}`);
+    if (res.status === 404) return notFound(page);
     if (!res.ok) return page;
     a = await res.json();
   } catch {
@@ -84,7 +135,7 @@ export async function onRequestGet({ request, next }) {
     <span class="section-tag">${sectionLabel(section)}</span>
     <h1 id="article-headline">${escapeHtml(a.title)}</h1>
     <p id="article-subheadline">${escapeHtml(a.summary)}</p>
-    <p class="author-meta">By <span class="article-author">${escapeHtml(a.author)}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date}</p>
+    <p class="author-meta">By <span class="article-author"><a href="/pages/author?name=${encodeURIComponent(a.author)}">${escapeHtml(a.author)}</a></span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date} <span class="meta-divider">|</span> ${readingMinutes(a.body)} min read</p>
     ${a.image ? `<div id="article-hero-img">
       <figure>
         <img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" />
@@ -94,6 +145,7 @@ export async function onRequestGet({ request, next }) {
     <div id="article-body">
       ${bodyHtml}
     </div>
+    ${articleExtras(a, section, slug, canonical)}
     <div id="author-bio">
       <p id="author-name">${escapeHtml(String(a.author || '').toUpperCase())}</p>
       <p id="author-description">${escapeHtml(a.author_role || 'Staff Writer for Visions.')}</p>
@@ -108,5 +160,5 @@ export async function onRequestGet({ request, next }) {
 
   const response = new Response(out.body, out);
   response.headers.delete('ETag');
-  return response;
+  return withSecurityHeaders(response);
 }

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stories by author | The Panther Vision</title>
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Panther Vision" />
+    <meta property="og:title" content="Stories by author | The Panther Vision" />
+    <meta property="og:description" content="Search articles from The Panther Vision." />
+    <meta property="og:url" content="https://thepanthervision.com/pages/author" />
+    <meta property="og:image" content="https://thepanthervision.com/favicon.png" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="alternate" type="application/rss+xml" title="The Panther Vision" href="/feed.xml" />
+    <meta name="description" content="Search articles from The Panther Vision." />
+    <link rel="icon" href="../favicon.ico" sizes="48x48" />
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/marked@18.0.14/lib/marked.umd.js" integrity="sha384-2vpGtuKqJvFlwJqYnf/wUMuzUfhUnYBt9oay0e2yaFcq0Dh6/aEbQ8YAOeKGzlYo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/style.css?v=5" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- HEADER -->
+    <header id="site-header">
+      <div id="header-top">
+        <nav id="utility-nav">
+          <a href="about.html">About</a>
+          <a href="staff.html">Staff</a>
+          <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank" rel="noopener">Submit a Tip</a>
+        </nav>
+        <div id="header-main">
+          <a href="../index.html" id="site-logo">
+            <img src="../assets/images/The Daily Vision (WHITE).png" alt="Visions" id="logo-img" />
+          </a>
+          <div id="header-meta">
+            <span id="current-date"></span>
+            <span class="meta-divider">|</span>
+            <span id="header-location">Paterson, NJ</span>
+            <span class="meta-divider">|</span>
+            <span id="header-weather">Loading...</span>
+          </div>
+        </div>
+        <div id="header-socials">
+          <a href="https://www.instagram.com/visions_pccc/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/thepanthervision/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div id="header-bottom">
+        <div id="nav-inner">
+          <button id="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-panel">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+          </button>
+          <div id="nav-panel">
+            <nav id="main-nav">
+              <a href="news.html">News</a>
+              <a href="sports.html">Sports</a>
+              <a href="opinion.html">Opinion</a>
+              <a href="features.html">Features</a>
+              <a href="multimedia.html">Multimedia</a>
+              <a href="data.html">Data</a>
+              <a href="arts-culture.html">Arts & Culture</a>
+              <a href="off-campus.html" class="nav-off-campus">Off-Campus</a>
+              <a href="campus-announcements.html">Campus Announcements</a>
+              <a href="obituary.html">Obituary</a>
+            </nav>
+            <div id="search-bar">
+              <input type="text" placeholder="Search..." aria-label="Search" />
+              <button>Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SEARCH RESULTS PAGE -->
+    <a id="main-content"></a>
+    <main id="section-main">
+
+      <div id="section-header">
+        <h1 id="filter-heading">Stories by author</h1>
+      </div>
+
+      <div id="filter-results" data-filter="author"></div>
+
+      <div id="filter-empty" style="display:none; flex-direction:column; align-items:center; text-align:center; padding:60px 20px;">
+        <p id="filter-empty-text" style="font-family:var(--font-serif); font-size:var(--fs-abstract); color:#555;">No stories found.</p>
+      </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="site-footer">
+      <div id="footer-inner">
+        <div id="footer-logo-col">
+          <a href="../index.html" id="footer-logo">
+            <img src="../assets/images/The Daily Vision (WHITE).png" alt="Visions" id="footer-logo-img" />
+          </a>
+          <p id="footer-tagline">The Student Publication of Passaic County Community College</p>
+          <div id="footer-socials">
+            <a href="https://www.instagram.com/visions_pccc/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.linkedin.com/company/thepanthervision/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+        <div id="footer-links">
+          <div id="footer-cols">
+            <div class="footer-col">
+              <h4 class="footer-col-label">Sections</h4>
+              <a href="news.html">News</a>
+              <a href="sports.html">Sports</a>
+              <a href="opinion.html">Opinion</a>
+              <a href="features.html">Features</a>
+              <a href="multimedia.html">Multimedia</a>
+              <a href="data.html">Data</a>
+              <a href="arts-culture.html">Arts & Culture</a>
+              <a href="off-campus.html">Off-Campus</a>
+              <a href="campus-announcements.html">Campus Announcements</a>
+              <a href="obituary.html">Obituary</a>
+            </div>
+            <div class="footer-col">
+              <h4 class="footer-col-label">About</h4>
+              <a href="about.html">About</a>
+              <a href="staff.html">Staff</a>
+              <a href="masthead.html">Masthead</a>
+              <a href="contact.html">Contact</a>
+              <a href="write-for-us.html">Write for Us</a>
+              <a href="https://forms.cloud.microsoft/r/QqnHuUS5uD" target="_blank" rel="noopener">Submit a Tip</a>
+              <a href="mailto:visions@pccc.edu">visions@pccc.edu</a>
+            </div>
+            <div class="footer-col">
+              <h4 class="footer-col-label">More</h4>
+              <a href="advertise.html">Advertise</a>
+              <a href="privacy.html">Privacy Policy</a>
+              <a href="terms.html">Terms & Conditions</a>
+            </div>
+          </div>
+          <div id="footer-bottom">
+            <p>© 2026 Visions. All rights reserved. Published by students of Passaic County Community College.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js?v=7"></script>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 // ── CONFIG ──
 const WORKER_URL = 'https://visions-api.fabiansalas1233.workers.dev/';
+const SITE_URL = 'https://thepanthervision.com';
 
 // ── ARTICLE TRACKER ──
 const usedArticles = new Set();
@@ -47,10 +48,18 @@ function addCaptions(html) {
 // The Worker fetches from GitHub and parses frontmatter server-side, so this
 // just consumes clean, pre-parsed article JSON. No raw YAML reaches the client.
 // sessionStorage can be unavailable or full; the site works without it.
+// Entries older than 5 minutes are ignored, so a newly published story shows up
+// without closing the tab. Entries saved before this rule have no timestamp and
+// count as stale.
+const CACHE_MAX_AGE_MS = 5 * 60 * 1000;
+
 function readCache(key) {
   try {
-    const value = sessionStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+    const entry = JSON.parse(raw);
+    if (!entry || typeof entry.t !== 'number' || Date.now() - entry.t > CACHE_MAX_AGE_MS) return null;
+    return entry.v;
   } catch {
     return null;
   }
@@ -58,7 +67,7 @@ function readCache(key) {
 
 function writeCache(key, value) {
   try {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v: value }));
   } catch {}
 }
 
@@ -271,6 +280,31 @@ async function renderSearchPage() {
   document.body.classList.add('content-loaded');
 }
 
+// ── AUTHOR AND TAG PAGES ──
+// pages/author.html (?name=) and pages/tag.html (?tag=) list every story that
+// matches, from the same data as search.
+async function renderFilterPage() {
+  const resultsEl = document.getElementById('filter-results');
+  if (!resultsEl) return;
+  const kind = resultsEl.dataset.filter;
+  const value = (new URLSearchParams(window.location.search).get(kind === 'author' ? 'name' : 'tag') || '').trim();
+  const headingEl = document.getElementById('filter-heading');
+  const emptyEl = document.getElementById('filter-empty');
+  const label = kind === 'author' ? 'Stories by' : 'Stories tagged';
+  headingEl.textContent = value ? `${label} ${value}` : label.replace(/ by$| tagged$/, '');
+  document.title = `${headingEl.textContent} | The Panther Vision`;
+
+  const same = (x, y) => foldForSearch(x) === foldForSearch(y);
+  const matches = value ? (await fetchAllArticlesFlat()).filter(a => a.section !== 'memorial' && (kind === 'author'
+    ? same(a.author, value)
+    : (a.tags || []).some(tag => same(tag, value)))) : [];
+  matches.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  resultsEl.innerHTML = matches.map(a => storyRow(a, a.url, a.section)).join('');
+  emptyEl.style.display = matches.length ? 'none' : 'flex';
+  document.body.classList.add('content-loaded');
+}
+
 // ── RELATIVE TIME ──
 // "5 minutes ago", "19 hours ago", "2 days ago"; after 7 days the date
 // ("September 23", plus the year when it isn't the current year).
@@ -425,9 +459,10 @@ async function renderSmallStrip(section, containerId) {
 // ── LISTING TEMPLATES (Princetonian section-page treatment) ──
 // Shared markup pieces for story listings. Articles without an image render
 // as text-only items (no empty image box).
-function storyImage(a, url) {
+// lazy: list images below the fold load on demand. Lead images stay eager.
+function storyImage(a, url, lazy) {
   return a.image
-    ? `<a href="${escapeHtml(url)}" class="story-thumb"><img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" class="story-img" /></a>`
+    ? `<a href="${escapeHtml(url)}" class="story-thumb"><img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title)}" class="story-img"${lazy ? ' loading="lazy" decoding="async"' : ''} /></a>`
     : '';
 }
 
@@ -440,7 +475,7 @@ function storyByline(a, withTime) {
 function storyRow(a, url, section) {
   return `
     <article class="story story-row${a.image ? '' : ' no-image'}">
-      ${storyImage(a, url)}
+      ${storyImage(a, url, true)}
       <div class="story-text">
         <h2 class="story-headline"><a href="${escapeHtml(url)}">${escapeHtml(a.title)}</a></h2>
         ${storyByline(a, false)}
@@ -547,18 +582,75 @@ async function renderSectionPage() {
 }
 
 // ── RENDER ARTICLE PAGE ──
+// Mirrors NOT_FOUND_HTML in functions/pages/article.js.
+function showArticleNotFound(el) {
+  document.title = 'Story not found | The Panther Vision';
+  el.innerHTML = '<h1 id="article-headline">Story not found</h1>' +
+    '<p id="article-subheadline">That story may have moved or been removed. <a href="/">Back to the homepage</a>.</p>';
+}
+
+// Mirrors readingMinutes in functions/pages/article.js.
+function readingMinutes(body) {
+  const words = String(body || '').replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+// Mirrors articleExtras in functions/pages/article.js: correction, tags, share
+// links, and the empty container fillMoreFromSection() fills.
+function articleExtras(a, section, slug) {
+  const canonical = `${SITE_URL}/pages/article?section=${encodeURIComponent(section)}&slug=${encodeURIComponent(slug)}`;
+  const u = encodeURIComponent(canonical);
+  const t = encodeURIComponent(a.title);
+  const tags = Array.isArray(a.tags) ? a.tags : [];
+  return `
+    ${a.correction ? `<p class="article-correction"><strong>Correction:</strong> ${escapeHtml(a.correction)}</p>` : ''}
+    ${tags.length ? `<p class="article-tags">${tags.map(tag => `<a href="/pages/tag?tag=${encodeURIComponent(tag)}">${escapeHtml(tag)}</a>`).join('')}</p>` : ''}
+    <div class="article-share">
+      <span class="article-share-label">Share</span>
+      <a href="${escapeHtml(`https://www.facebook.com/sharer/sharer.php?u=${u}`)}" target="_blank" rel="noopener">Facebook</a>
+      <a href="${escapeHtml(`https://twitter.com/intent/tweet?url=${u}&text=${t}`)}" target="_blank" rel="noopener">X</a>
+      <a href="${escapeHtml(`mailto:?subject=${t}&body=${u}`)}">Email</a>
+      <button type="button" class="copy-link" data-url="${escapeHtml(canonical)}">Copy link</button>
+    </div>
+    <aside id="more-from-section" data-section="${escapeHtml(section)}" data-slug="${escapeHtml(slug)}"></aside>
+  `;
+}
+
+// "More from this section": the three newest other stories in the same
+// section. Runs on every article page, server-rendered or not.
+async function fillMoreFromSection() {
+  const el = document.getElementById('more-from-section');
+  if (!el || el.children.length) return;
+  const { section, slug } = el.dataset;
+  const others = ((await loadSection(section)) || []).filter(a => a.slug !== slug).slice(0, 3);
+  if (!others.length) return;
+  el.innerHTML = `<h2 class="more-heading">More from ${sectionLabel(section)}</h2>` +
+    others.map(a => storyRow(a, a.url, section)).join('');
+}
+
+// Copy-link buttons (article pages).
+document.addEventListener('click', e => {
+  const btn = e.target.closest && e.target.closest('.copy-link');
+  if (!btn) return;
+  const done = () => { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = 'Copy link'; }, 2000); };
+  if (navigator.clipboard) navigator.clipboard.writeText(btn.dataset.url).then(done, () => {});
+});
+
 async function renderArticlePage() {
   const el = document.getElementById('article-container');
   if (!el) return;
+  // 404.html reuses this layout with fixed text.
+  if (el.hasAttribute('data-static')) { document.body.classList.add('content-loaded'); return; }
   const params = new URLSearchParams(window.location.search);
   const section = params.get('section');
   const slug = params.get('slug');
   // The server (functions/pages/article.js) already put the article into the
   // HTML. If anything below fails, keep that version and still reveal it.
   try {
-    if (!section || !slug) return;
+    if (!section || !slug) { showArticleNotFound(el); return; }
 
     const res = await fetch(`${WORKER_URL}?section=${encodeURIComponent(section)}&slug=${encodeURIComponent(slug)}`);
+    if (res.status === 404) { showArticleNotFound(el); return; }
     if (!res.ok) return;
     const data = await res.json();
     if (!data || !data.title || typeof marked === 'undefined') return;
@@ -571,7 +663,7 @@ async function renderArticlePage() {
     <span class="section-tag">${sectionLabel(section)}</span>
     <h1 id="article-headline">${escapeHtml(data.title)}</h1>
     <p id="article-subheadline">${escapeHtml(data.summary)}</p>
-    <p class="author-meta">By <span class="article-author">${escapeHtml(data.author)}</span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date}</p>
+    <p class="author-meta">By <span class="article-author"><a href="/pages/author?name=${encodeURIComponent(data.author)}">${escapeHtml(data.author)}</a></span> <span class="meta-divider">|</span> <span class="section-tag">${sectionLabel(section)}</span> <span class="meta-divider">|</span> ${date} <span class="meta-divider">|</span> ${readingMinutes(data.body)} min read</p>
     ${data.image ? `<div id="article-hero-img">
       <figure>
         <img src="${escapeHtml(data.image)}" alt="${escapeHtml(data.title)}" />
@@ -581,6 +673,7 @@ async function renderArticlePage() {
     <div id="article-body">
       ${addCaptions(marked.parse(data.body || ''))}
     </div>
+    ${articleExtras(data, section, slug)}
     <div id="author-bio">
       <p id="author-name">${escapeHtml(String(data.author || '').toUpperCase())}</p>
       <p id="author-description">${escapeHtml(data.author_role || 'Staff Writer for Visions.')}</p>
@@ -589,6 +682,7 @@ async function renderArticlePage() {
     runAllowedScripts(el);
   } finally {
     document.body.classList.add('content-loaded');
+    fillMoreFromSection();
   }
 }
 
@@ -692,5 +786,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('search-results')) {
     renderSearchPage().finally(reveal);
+  }
+
+  if (document.getElementById('filter-results')) {
+    renderFilterPage().finally(reveal);
   }
 });

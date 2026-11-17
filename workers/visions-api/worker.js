@@ -181,6 +181,8 @@ function parseArticleFile(text, section, slug) {
     image: data.image || '',
     image_caption: data.image_caption || '',
     homepage_priority: data.homepage_priority || 'Normal',
+    correction: data.correction || '',
+    tags: (data.tags || '').split(',').map(t => t.trim()).filter(Boolean),
     section,
     slug,
     url: articleLink(section, slug),
@@ -212,13 +214,28 @@ function jsonResponse(body, status, cacheSeconds) {
 const CACHE_TTL_MS = 60 * 1000;
 const memoryCache = new Map();
 
+const CACHE_MAX_ENTRIES = 500;
+
+// Successes and 404s are cached, so repeated bad requests do not each cost a
+// GitHub call. Other errors (rate limit, outage) are retried next time.
 async function cached(key, load) {
   const hit = memoryCache.get(key);
   if (hit && hit.expires > Date.now()) return hit.value;
   const value = await load();
-  if (value.status === null) memoryCache.set(key, { value, expires: Date.now() + CACHE_TTL_MS });
+  if (value.status === null || value.status === 404) {
+    // Map keeps insertion order, so the first key is the oldest.
+    if (memoryCache.size >= CACHE_MAX_ENTRIES) memoryCache.delete(memoryCache.keys().next().value);
+    memoryCache.set(key, { value, expires: Date.now() + CACHE_TTL_MS });
+  }
   return value;
 }
+
+// Article folders in the repo (admin/config.yml). Any other section name is a
+// 404 without calling GitHub.
+const SECTIONS = new Set([
+  'news', 'sports', 'opinion', 'features', 'multimedia', 'data',
+  'arts-culture', 'off-campus', 'campus-announcements', 'memorial'
+]);
 
 const RAW_BASE = 'https://raw.githubusercontent.com/fsalas07/visions/main/_articles';
 
@@ -296,6 +313,12 @@ async function fetchSingleArticle(section, slug, env) {
 }
 
 async function handle(request, env) {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: { ...CORS_HEADERS, 'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS' } });
+  }
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
   const url = new URL(request.url);
   const section = url.searchParams.get('section');
   const slug = url.searchParams.get('slug');
@@ -304,12 +327,20 @@ async function handle(request, env) {
 
   // Section folders are lowercase slugs; slugs are file names. Rejecting
   // anything else keeps requests inside _articles/.
-  if (!/^[a-z0-9-]+$/.test(section) || (slug !== null && (!slug || /[\/\\]|^\.+$/.test(slug)))) {
+  if (!/^[a-z0-9-]+$/.test(section) || (slug !== null && (!slug || slug.length > 200 || /[\/\\]|^\.+$/.test(slug)))) {
     return jsonResponse({ error: 'Invalid section or slug' }, 400);
   }
+  if (!SECTIONS.has(section)) return jsonResponse({ error: 'Article not found' }, 404);
 
   // -- SINGLE ARTICLE MODE --
   if (slug) {
+    // If the section listing is already cached, answer from it: a loop of
+    // random slugs then costs no GitHub calls at all.
+    const listing = memoryCache.get(`section:${section}`);
+    if (listing && listing.expires > Date.now() && listing.value.status === null) {
+      const found = listing.value.articles.find(a => a.slug === slug);
+      return found ? jsonResponse(found, 200, 60) : jsonResponse({ error: 'Article not found' }, 404);
+    }
     const { article, status } = await cached(`article:${section}/${slug}`, () => fetchSingleArticle(section, slug, env));
     if (status === 500) return jsonResponse({ error: 'Malformed article file' }, 500);
     if (status) return jsonResponse({ error: 'Article not found' }, status);
@@ -329,7 +360,8 @@ export default {
     try {
       return await handle(request, env);
     } catch (err) {
-      return jsonResponse({ error: 'Worker error', detail: String(err && err.message || err) }, 502);
+      console.error('visions-api error', err);
+      return jsonResponse({ error: 'Worker error' }, 502);
     }
   }
 };

@@ -23,6 +23,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "sports"
@@ -39,6 +41,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "opinion"
@@ -55,6 +59,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "features"
@@ -71,6 +77,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "multimedia"
@@ -87,6 +95,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "data"
@@ -103,6 +113,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "arts-culture"
@@ -119,6 +131,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "off-campus"
@@ -135,6 +149,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "campus-announcements"
@@ -151,6 +167,8 @@ collections:
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
       - { label: "Homepage Priority", name: "homepage_priority", widget: "select", options: ["Lead", "Secondary", "Normal"], default: "Normal", required: false, hint: "Lead = homepage's top featured slot, regardless of date. Secondary = homepage's river/list area. Normal = no manual override, placement is based on recency only." }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
 
   - name: "memorial"
@@ -166,4 +184,6 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Featured Image", name: "image", widget: "image" }
       - { label: "Featured Image Caption", name: "image_caption", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "string", required: false, hint: "Optional. Topics separated by commas, for example: campus life, budget. Each tag gets its own page." }
+      - { label: "Correction", name: "correction", widget: "text", required: false, hint: "Optional. If the story was corrected, write the correction here. It is shown at the bottom of the story." }
       - { label: "Body", name: "body", widget: "markdown", hint: "Photo captions: when you insert an image, whatever you type in its Title box shows as the caption under the photo. Do not type the caption as a separate line of text." }
