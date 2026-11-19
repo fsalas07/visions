@@ -12,7 +12,7 @@
     /* Colors */
     --color-text: #020100;
     --color-headline-hover: #5c5b5b;
-    --color-accent: #800000;
+    --color-accent: #bb1119;
     --color-off-campus: #db2777;        /* pink: sets Off-Campus apart from the maroon */
     --color-off-campus-hover: #9d174d;
     --color-rule-dark: #303030;
@@ -311,8 +311,8 @@ a:hover {
 }
 
 #search-bar button:hover {
-    background-color: #5c0000;
-    border-color: #5c0000;
+    background-color: #8f0d13;
+    border-color: #8f0d13;
 }
 
 @media (min-width: 992px) {
@@ -1610,7 +1610,7 @@ a:hover h1, a:hover h2, a:hover h3, a:hover h4 {
 }
 
 #obituary-form-btn:hover {
-    background-color: #5a0000;
+    background-color: #8f0d13;
     color: #fff;
 }
 
