@@ -4,7 +4,7 @@ author: Xavier Santiago
 author_role: "Opinions Editor"
 date: 2026-11-06T10:00:00.000-05:00
 summary: "PCCC raised in-county tuition by $7 a credit after a legal notice posted in the middle of summer and a public hearing where no one spoke. Students should have been the first to know."
-homepage_priority: Lead
+homepage_priority: Normal
 ---
 A $7-per-credit tuition raise, which the college calls 4%, without meaningfully communicating it to the people responsible for paying it is completely unacceptable, especially when working students are already straining to cover basic living expenses in a time of economic instability. On June 16, PCCC's Board of Trustees raised in-county tuition from $198 to $205 a credit. When the public hearing opened, the minutes record the chairman "hearing no one." That silence wasn't agreement. The only notice was a legal posting on the college website and campus bulletin boards on June 3, in the middle of summer. Nothing about it was illegal, but it wasn't real communication either.
 

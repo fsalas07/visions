@@ -5,6 +5,7 @@ author_role: "News Editor"
 date: 2026-11-22T12:00:00.000-05:00
 summary: "The New Jersey native brings more than four decades of experience in higher education, including 11 years leading the Community College of Philadelphia, as he prepares to return to the institution where his professional career began."
 image: /assets/images/donald-guy-generals-next-pccc-president.jpg
+homepage_priority: "Lead"
 ---
 PATERSON, NEW JERSEY — Passaic County Community College (PCCC) has appointed Dr. Donald Guy Generals as its sixth president, bringing back an administrator whose professional career in higher education began at the same institution more than four decades ago.
 
